@@ -105,21 +105,3 @@ a,
 h1 {
   color: white;
 }
-
-.game__grid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(140px, 1fr));
-  gap: 10px;
-}
-
-.item:hover {
-  scale: 1.1;
-  transition: scale ease-out 0.1s;
-}
-
-.item img {
-  width: 100%; /* Makes image fully responsive within the container */
-  aspect-ratio: 1/1; /* Maintain aspect ratio */
-  object-fit: fill;
-  display: block; /* Remove extra space below the image */
-}
