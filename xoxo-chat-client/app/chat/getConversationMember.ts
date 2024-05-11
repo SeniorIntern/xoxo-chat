@@ -1,6 +1,9 @@
-import { Member } from '@/services/conversationService';
+import { Member } from '../types';
 
-function getConversationMember(membersArray: Member[], idToExclude: string): Member {
+function getConversationMember(
+  membersArray: Member[],
+  idToExclude: string
+): Member {
   return membersArray.find((obj) => obj._id !== idToExclude)!;
 }
 

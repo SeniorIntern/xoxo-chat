@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { LoginData } from './app/login/page';
 import { RegisterData } from './app/register/page';
 import apiClient from './services/apiClient';
-import { strict } from 'assert';
+import { MessageRequest, Session } from './app/types';
 
 const secretKey = 'cat123';
 const key = new TextEncoder().encode(secretKey);
@@ -98,15 +98,6 @@ export async function logout() {
   cookies().set('session', '', { expires: new Date(0) });
 }
 
-type Session = {
-  payload: {
-    _id: string;
-    email: string;
-    token: string;
-  };
-  expires: number;
-};
-
 export async function getSession(): Promise<Session | null> {
   const session = cookies().get('session')?.value;
   if (!session) return null;
@@ -131,15 +122,7 @@ export async function updateSession(request: NextRequest) {
   return res;
 }
 
-type MessageRequest = {
-  text: string;
-  sender: string;
-  conversationId: string;
-};
-
 export async function sendMessage(payload: MessageRequest) {
-  console.log('sa payload=', payload);
-
   try {
     const res = await apiClient.post('/messages', payload);
     return {

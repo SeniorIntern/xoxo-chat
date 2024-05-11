@@ -1,7 +1,6 @@
+import { Conversation } from '@/app/types';
 import { CACHE_KEY_CONVERSATIONS } from '@/constants';
-import conversationService, {
-  Conversation
-} from '@/services/conversationService';
+import conversationService from '@/services/conversationService';
 import { useQuery } from '@tanstack/react-query';
 
 const useConversations = (id: string) => {

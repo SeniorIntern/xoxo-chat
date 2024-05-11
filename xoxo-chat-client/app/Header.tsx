@@ -6,7 +6,7 @@ import UserNav from '@/app/UserNav';
 const Header = () => {
   return (
     <nav className="flex h-[var(--bar-height)] items-center justify-between border-b border-[var(--secondary-gray)] px-4 py-2">
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-12">
         <Link href="/">
           <div className="relative h-10 w-10">
             <Image

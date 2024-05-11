@@ -79,8 +79,20 @@
 :root {
   --primary-gray: hsl(210, 3%, 15%);
   --secondary-gray: hsl(210, 2%, 23%);
-  --accent: hsl(300, 100%, 65%);
+  --secondary-gray-hover: hsl(210, 2%, 23%, 0.8);
+  --prime: hsl(220, 100%, 59%);
+  --prime-hover: hsl(220, 100%, 59%, 0.8);
+  --second: hsl(209, 100%, 50%);
+
+  /* measurement*/
   --bar-height: 56px;
+
+  /* user list item */
+  --conversation-active: hsl(214, 24%, 19%);
+
+  /* game */
+  --game-background: hsl(216, 48%, 23%);
+  --game-card: hsl(203, 39%, 44%);
 }
 
 body {
@@ -92,4 +104,22 @@ span,
 a,
 h1 {
   color: white;
+}
+
+.game__grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.item:hover {
+  scale: 1.1;
+  transition: scale ease-out 0.1s;
+}
+
+.item img {
+  width: 100%; /* Makes image fully responsive within the container */
+  aspect-ratio: 1/1; /* Maintain aspect ratio */
+  object-fit: fill;
+  display: block; /* Remove extra space below the image */
 }

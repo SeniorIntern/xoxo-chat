@@ -1,6 +1,7 @@
 'use client';
 
 import { sendMessage } from '@/action';
+import useSocket from '@/app/store/socketStore';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import Image from 'next/image';
@@ -14,18 +15,12 @@ type Props = {
 };
 
 const MessageForm = ({ conversationId, sender }: Props) => {
+  const { socket } = useSocket();
   const router = useRouter();
   const messageRef = useRef<HTMLInputElement>(null);
 
-  console.log({
-    conversationId,
-    sender,
-    text: messageRef.current?.value
-  });
-
   async function clientAction() {
     if (!messageRef.current?.value.trim()) {
-      console.log('input field is empty');
       return;
     }
 
@@ -35,15 +30,18 @@ const MessageForm = ({ conversationId, sender }: Props) => {
       return;
     }
 
-    const result = await sendMessage({
+    const payload = {
       conversationId,
       sender,
       text: messageRef.current?.value
-    });
+    };
+
+    const result = await sendMessage(payload);
 
     if (result?.status) {
-      console.log('message sent');
       messageRef.current.value = '';
+
+      socket.emit('send', { ...payload, updatedAt: Date.now() });
     } else {
       toast({ title: result?.data, key: 'message' });
     }

@@ -1,5 +1,6 @@
+import { Player } from '@/app/types';
 import { CACHE_KEY_PLAYERS } from '@/constants';
-import playerService, { Player } from '@/services/playerService';
+import playerService from '@/services/playerService';
 import { useQuery } from '@tanstack/react-query';
 
 const usePlayers = () => {

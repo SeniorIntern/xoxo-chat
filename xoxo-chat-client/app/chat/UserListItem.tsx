@@ -1,27 +1,17 @@
-import { Conversation } from '@/services/conversationService';
-import { Player } from '@/services/playerService';
 import Image from 'next/image';
+import { ReactNode } from 'react';
+import { ConversationData, PlayerData } from '../types';
 import getConversationMember from './getConversationMember';
-
-type PlayerData = {
-  type: 'player';
-  data: Player;
-};
-
-type ConversationData = {
-  type: 'conversation';
-  data: Conversation;
-  userId: string;
-};
 
 type Props = {
   userData: PlayerData | ConversationData;
+  children?: ReactNode;
 };
 
-const UserListItem = ({ userData }: Props) => {
+const UserListItem = ({ userData, children }: Props) => {
   return (
     <div className="flex items-center space-x-4">
-      <div className="relative h-10 w-10">
+      <div className="relative h-14 w-14">
         <Image
           src={'https://picsum.photos/id/40/4106/2806'}
           alt="profile image"
@@ -40,6 +30,7 @@ const UserListItem = ({ userData }: Props) => {
           </p>
         )}
         {userData.type === 'player' && <p>{userData.data.username}</p>}
+        {children}
       </div>
     </div>
   );
