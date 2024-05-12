@@ -1,6 +1,6 @@
 import QueryProvider from '@/QueryProvider';
-import { Toaster } from '@/components/ui/toaster';
 import type { Metadata } from 'next';
+import { Toaster } from 'react-hot-toast';
 import Header from './Header';
 import './globals.css';
 
@@ -17,13 +17,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 2000,
+            style: {
+              background: '#363636',
+              color: '#fff'
+            }
+          }}
+        />
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex grow flex-col">
             <QueryProvider>{children}</QueryProvider>
           </main>
         </div>
-        <Toaster />
       </body>
     </html>
   );

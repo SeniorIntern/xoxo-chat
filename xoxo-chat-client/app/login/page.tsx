@@ -1,9 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,8 +10,10 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
-
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { z } from 'zod';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -38,12 +36,10 @@ export default function Page() {
   async function clientAction(formData: LoginData) {
     const result = await login(formData);
     if (result?.status) {
-      toast({
-        title: 'Login Sucessful!'
-      });
+      toast.success('Login Sucessful', { id: 'auth' });
       router.push('/profile');
     } else {
-      toast({ title: result?.data });
+      toast.error(result?.data, { id: 'auth' });
     }
   }
 

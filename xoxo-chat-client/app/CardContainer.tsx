@@ -1,6 +1,6 @@
 'use client';
 
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'react-hot-toast';
 import { useWindowSize } from '@uidotdev/usehooks';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
@@ -25,9 +25,6 @@ const CardContainer = ({ gifs }: Props) => {
   const { pairs, setPairs } = useGameStore();
   const [selections, setSelections] = useState<CardSelection[]>([]);
 
-  console.log('selections= ', selections, selections?.length);
-  console.log('widht=', width + 'height=', height);
-
   useEffect(() => {
     if (selections.length === 2) {
       if (selections[0].gifId === selections[1].gifId) {
@@ -48,9 +45,8 @@ const CardContainer = ({ gifs }: Props) => {
   };
 
   if (pairs.length === totalUniqueCards)
-    toast({
-      title: 'Congratulations! You have won the game',
-      key: 'announcement'
+    toast.success('Congratulations! You have won the game', {
+      id: 'announcement'
     });
 
   return (
@@ -61,7 +57,7 @@ const CardContainer = ({ gifs }: Props) => {
       <div className="scale-up-center grid grid-cols-6 gap-10">
         {gifs.map((gif, index) => (
           <div
-            className="relative h-32 w-32 overflow-hidden rounded-2xl border-2 border-black"
+            className="relative h-32 w-32 transform overflow-hidden rounded-2xl border-2 border-black transition-transform duration-300 hover:scale-110 hover:border-white"
             onClick={() =>
               setSelections([...selections, { gifId: gif.id, mapId: index }])
             }
