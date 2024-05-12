@@ -66,7 +66,7 @@ type Gif = {
   };
 };
 
-type Categories = {
+type GifFetchResponse = {
   data: Gif[];
   meta: {
     msg: string;
@@ -86,5 +86,5 @@ export {
   PlayerData,
   ConversationData,
   Gif,
-  Categories
+  GifFetchResponse
 };

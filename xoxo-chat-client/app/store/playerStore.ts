@@ -11,17 +11,4 @@ export const usePlayerStore = create<Store>((set) => ({
   setPlayer: (player: Player) => set({ player: player })
 }));
 
-/*
-export const usePlayerStore = create(
-  persist<Store>(
-    (set, get) => ({
-      player: null,
-      setPlayer: (player: Player) => set({ player: player })
-    }),
-    {
-      name: 'player-store' // name of the item in the storage
-    }
-  )
-);
-*/
 export default usePlayerStore;
