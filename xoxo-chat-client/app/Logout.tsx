@@ -10,7 +10,7 @@ const Logout = async () => {
         redirect('/login');
       }}
     >
-      <button className="">Logout</button>
+      <button>Logout</button>
     </form>
   );
 };

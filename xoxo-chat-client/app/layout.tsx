@@ -1,8 +1,8 @@
 import QueryProvider from '@/QueryProvider';
 import type { Metadata } from 'next';
-import { Toaster } from 'react-hot-toast';
 import Header from './Header';
 import './globals.css';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'XoXo Chat',
@@ -17,16 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 2000,
-            style: {
-              background: '#363636',
-              color: '#fff'
-            }
-          }}
-        />
+        <Toaster position="top-right" richColors />
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex grow flex-col">

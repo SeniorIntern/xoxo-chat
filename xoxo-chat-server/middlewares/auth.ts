@@ -1,14 +1,17 @@
-import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import { serverConfig } from "../config";
+import { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 
-export default function(req: Request, res: Response, next: NextFunction) {
+import { serverConfig } from '../config';
+
+export default function (req: Request, res: Response, next: NextFunction) {
   let rawToken = req.headers.cookie;
+
+  console.log('rawToken', rawToken);
 
   // filter prefix(cookie name)
   if (!rawToken)
-    return res.status(401).send("Access denied. No token provided.");
-  rawToken = rawToken.substring("session=".length);
+    return res.status(401).send('Access denied. No token provided.');
+  rawToken = rawToken.substring('session='.length);
 
   // extract server's token from client's token
   const decodeToken = jwt.decode(rawToken);
@@ -25,6 +28,6 @@ export default function(req: Request, res: Response, next: NextFunction) {
 
     next();
   } catch (ex) {
-    res.status(400).send("Invalid token.");
+    res.status(400).send('Invalid token.');
   }
 }

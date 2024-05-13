@@ -3,44 +3,54 @@
 import UserListItem from '@/app/chat/UserListItem';
 import { Button } from '@/components/ui/button';
 import usePlayers from '@/hooks/usePlayers';
-import classNames from 'classnames';
+import apiClient from '@/services/apiClient';
+import { AxiosError } from 'axios';
 import Link from 'next/link';
-import usePlayerStore from '../store/playerStore';
+import { toast } from 'sonner';
 
 const PlayerList = () => {
   const { data: players, isLoading, error } = usePlayers();
-  const { player, setPlayer } = usePlayerStore();
 
   if (isLoading) return <p>Loading...</p>;
 
   if (error) return <p>{error.message}</p>;
 
+  async function patchUser(friendId: string) {
+    try {
+      const res = await apiClient.patch('/users', { friendId });
+      console.log('res=', res.data);
+      toast.success('Friend Added', { id: 'announcement' });
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data, { id: 'announcement' });
+      }
+    }
+  }
+
   return (
     <div className="space-y-4">
       {players?.map((p) => (
-        <Link
-          href={`/players/${p._id}`}
-          onClick={() => setPlayer(p)}
-          className={classNames(
-            'block',
-            {
-              'bg-[var(--conversation-active)]': player?._id === p._id
-            },
-            'cursor-pointer rounded-md p-2 hover:bg-[var(--secondary-gray)]'
-          )}
+        <div
+          className="block cursor-pointer rounded-md p-2 hover:bg-[var(--secondary-gray)]"
           key={p._id}
         >
           <UserListItem userData={{ type: 'player', data: p }}>
-            <div className="space-x-2">
-              <Button className="bg-[var(--prime)] px-6 hover:bg-[var(--prime-hover)]">
+            <div className="flex space-x-2">
+              <Button
+                onClick={async () => await patchUser(p._id)}
+                className="z-50 bg-[var(--prime)] px-6 hover:bg-[var(--prime-hover)]"
+              >
                 Add Friend
               </Button>
-              <Button className="bg-[var(--secondary-gray)] px-6 hover:bg-[var(--secondary-gray-hover)]">
-                Remove
+              <Button
+                className="bg-[var(--secondary-gray)] px-6 hover:bg-[var(--secondary-gray-hover)]"
+                asChild
+              >
+                <Link href={`/players/${p._id}`}>Visit Profile</Link>
               </Button>
             </div>
           </UserListItem>
-        </Link>
+        </div>
       ))}
     </div>
   );

@@ -3,10 +3,11 @@
 import { sendMessage } from '@/action';
 import useSocket from '@/app/store/socketStore';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
+import { toast } from 'sonner';
+
 import SendSvg from './send.svg';
 
 type Props = {
@@ -24,7 +25,7 @@ const MessageForm = ({ conversationId, sender }: Props) => {
       return;
     }
 
-    // if token is expired(due to very long idle time), senderId will be undefined
+    // TODO
     if (!sender) {
       router.push('/login');
       return;
@@ -40,10 +41,9 @@ const MessageForm = ({ conversationId, sender }: Props) => {
 
     if (result?.status) {
       messageRef.current.value = '';
-
       socket.emit('send', { ...payload, updatedAt: Date.now() });
     } else {
-      toast({ title: result?.data, key: 'message' });
+      toast.error(result?.data, { id: 'announcement' });
     }
   }
 

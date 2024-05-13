@@ -4,10 +4,11 @@ import { AxiosError } from 'axios';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+
 import { LoginData } from './app/login/page';
 import { RegisterData } from './app/register/page';
-import apiClient from './services/apiClient';
 import { MessageRequest, Session } from './app/types';
+import apiClient from './services/apiClient';
 
 const secretKey = 'cat123';
 const key = new TextEncoder().encode(secretKey);

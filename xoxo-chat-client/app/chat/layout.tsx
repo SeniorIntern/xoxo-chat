@@ -16,7 +16,7 @@ export default async function ChatLayout({
           <p className="text-xl font-bold">Chats</p>
           <input
             className="w-full rounded-3xl border-none bg-[var(--secondary-gray)] px-4 py-2 text-white focus:outline-none"
-            placeholder="Search Messages"
+            placeholder="Search friend"
           />
         </div>
         <div className="mt-2">

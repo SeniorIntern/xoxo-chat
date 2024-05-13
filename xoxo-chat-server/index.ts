@@ -1,19 +1,19 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import { createServer } from 'http';
 import mongoose from 'mongoose';
+import { Server } from 'socket.io';
+
 import { serverConfig } from './config';
 import v1Routes from './routers/v1Routes';
 
 dotenv.config();
 const app = express();
 
-import { createServer } from 'http';
-import { Server } from 'socket.io';
-
 const corsOption = {
-  origin: 'http://localhost:3000', // Your client's origin
-  credentials: true // This line allows credentials
+  origin: 'http://localhost:3000', // client's origin
+  credentials: true // allow credentials
 };
 
 const httpServer = createServer(app);
@@ -34,7 +34,7 @@ type SocketPaylod = {
   conversationId: string;
   sender: string;
   text: string;
-  date: Date
+  date: Date;
 };
 
 io.on('connection', (socket) => {

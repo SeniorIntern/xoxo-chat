@@ -1,9 +1,10 @@
 'use client';
 
-import { toast } from 'react-hot-toast';
 import { useWindowSize } from '@uidotdev/usehooks';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
+import { toast } from 'sonner';
+
 import Card from './Card';
 import QuestionMark from './QuestionMark.png';
 import useGameStore from './store/gameStore';
