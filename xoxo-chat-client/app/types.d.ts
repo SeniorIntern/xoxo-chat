@@ -42,6 +42,8 @@ export type Conversation = {
 export type Player = {
   _id: string;
   username: string;
+  profileImage?: string;
+  coverImage?: string;
 };
 
 type PlayerData = {

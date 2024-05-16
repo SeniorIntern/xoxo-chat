@@ -14,7 +14,7 @@ export default function Page() {
           />
         </div>
         <p className="text-xl font-bold text-gray-400">
-          Select people's names to preview their profile.
+          Select people&aps;s names to preview their profile.
         </p>
       </div>
     </section>

@@ -38,12 +38,12 @@ const PlayerList = () => {
             <div className="flex space-x-2">
               <Button
                 onClick={async () => await patchUser(p._id)}
-                className="z-50 bg-[var(--prime)] px-6 hover:bg-[var(--prime-hover)]"
+                className="bg-[var(--prime)] px-6 hover:bg-[var(--prime-hover)]"
               >
                 Add Friend
               </Button>
               <Button
-                className="bg-[var(--secondary-gray)] px-6 hover:bg-[var(--secondary-gray-hover)]"
+                className="bg-[var(--secondary-gray)] px-6 hover:bg-[var(---gray-hover)]"
                 asChild
               >
                 <Link href={`/players/${p._id}`}>Visit Profile</Link>

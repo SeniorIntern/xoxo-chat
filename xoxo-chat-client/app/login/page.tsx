@@ -46,8 +46,8 @@ export default function Page() {
   const form = useForm<LoginData>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: '',
-      password: ''
+      email: 'nik@gmail.com',
+      password: 'nikhil123'
     }
   });
 

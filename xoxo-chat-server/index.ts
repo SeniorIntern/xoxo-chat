@@ -1,6 +1,7 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import fileUpload from 'express-fileupload';
 import { createServer } from 'http';
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
@@ -24,6 +25,12 @@ const io = new Server(httpServer, {
 app.use(cors(corsOption));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+  })
+);
 
 app.get('/status', (req, res) => {
   res.status(200).json('API is live');

@@ -1,14 +1,21 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const ConversationSchema = new mongoose.Schema(
+interface Conversation {
+  members: [mongoose.Schema.Types.ObjectId];
+}
+
+const ConversationSchema = new mongoose.Schema<Conversation>(
   {
     members: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "User",
-    },
+      ref: 'User'
+    }
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-const Conversation = mongoose.model("Conversation", ConversationSchema);
+const Conversation = mongoose.model<Conversation>(
+  'Conversation',
+  ConversationSchema
+);
 export default Conversation;

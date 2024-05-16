@@ -6,8 +6,6 @@ import { serverConfig } from '../config';
 export default function (req: Request, res: Response, next: NextFunction) {
   let rawToken = req.headers.cookie;
 
-  console.log('rawToken', rawToken);
-
   // filter prefix(cookie name)
   if (!rawToken)
     return res.status(401).send('Access denied. No token provided.');
