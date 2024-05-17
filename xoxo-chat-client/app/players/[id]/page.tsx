@@ -1,5 +1,5 @@
-import ProfileComponent from '@/app/ProfileComponent';
-import ProfileInformation from '@/app/ProfileInformation';
+import ProfileComponent from '@/app/profile/ProfileComponent';
+import ProfileInformation from '@/app/profile/ProfileInformation';
 
 export default async function Page({ params }: { params: { id: string } }) {
   return (

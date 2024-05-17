@@ -1,10 +1,13 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
+import useMe from '@/hooks/useMe';
 import { UserPlus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import PeopleSuggestionItem from './PeopleSuggestionItem';
-import ProfileEditDialog from './profile/ProfileEditDialog';
+import PeopleSuggestionItem from '../PeopleSuggestionItem';
+import ProfileEditDialog from './ProfileEditDialog';
 
 type Props = {
   userId?: string;
@@ -12,14 +15,22 @@ type Props = {
 };
 
 const ProfileComponent = ({ userId, paramId }: Props) => {
+  const { data: user, isLoading, error } = useMe();
+  console.log('user=', user);
+
   return (
     <section className="grow">
       <div className="relative h-96 w-full">
         <Image
-          src={'https://picsum.photos/id/40/4106/2806'}
-          alt="cover image"
+          src={
+            user?.coverImage
+              ? user.coverImage
+              : 'https://picsum.photos/id/40/4106/2806'
+          }
+          alt="cover photo"
           sizes="300px"
           fill
+          className="rounded-b-md"
           style={{
             objectFit: 'cover'
           }}
@@ -30,22 +41,26 @@ const ProfileComponent = ({ userId, paramId }: Props) => {
         <div className="flex items-center gap-4">
           <div className="relative h-44 w-44 self-end">
             <Image
-              src={'https://picsum.photos/id/40/4106/2806'}
+              src={
+                user?.profileImage
+                  ? user.profileImage
+                  : 'https://picsum.photos/id/40/4106/2806'
+              }
               alt="profile image"
               fill
               style={{ objectFit: 'cover' }}
-              className="rounded-full border-4 border-[var(--primary-gray)]"
+              className="rounded-full border-4 border-background"
             />
           </div>
           <div className="self-center">
-            <p className="text-3xl font-semibold">John Wick</p>
-            <p className="text-gray-400">20 friends</p>
+            <p className="text-3xl font-semibold">{user?.username}</p>
+            <p className="text-gray-400">{user?.friends.length} friends</p>
           </div>
         </div>
 
         <div className="self-center">
           {paramId ? (
-            <Button className="inline-flex space-x-2 rounded-md bg-[var(--prime)] px-4 hover:bg-[var(--prime-hover)]">
+            <Button className="inline-flex space-x-2 rounded-md px-4">
               <UserPlus />
               <span>Add Friend</span>
             </Button>
@@ -55,7 +70,7 @@ const ProfileComponent = ({ userId, paramId }: Props) => {
         </div>
       </div>
 
-      <article>
+      <article className="rounded-md border border-gray-700 p-4">
         <div className="flex justify-between py-2">
           <p>People You May know</p>
           <Link href="/players" className="text-blue-600">

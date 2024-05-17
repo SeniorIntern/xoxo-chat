@@ -2,6 +2,7 @@
 
 import useConversationStore from '@/app/store/conversationStore';
 import Image from 'next/image';
+
 import getConversationMember from '../getConversationMember';
 
 const ConversationHeader = ({ userId }: { userId: string }) => {

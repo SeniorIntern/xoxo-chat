@@ -7,7 +7,7 @@ const usePlayers = () => {
   return useQuery<Player[], Error>({
     queryKey: CACHE_KEY_PLAYERS,
     queryFn: playerService.getAll,
-    staleTime: 10 * 1000
+    staleTime: 1 * 60 * 1000
   });
 };
 

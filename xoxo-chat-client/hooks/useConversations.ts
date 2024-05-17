@@ -7,7 +7,7 @@ const useConversations = (id: string) => {
   return useQuery<Conversation[], Error>({
     queryKey: [CACHE_KEY_CONVERSATIONS, id],
     queryFn: () => conversationService.getAllWithId(id),
-    staleTime: 10 * 1000
+    staleTime: 1 * 60 * 1000
   });
 };
 

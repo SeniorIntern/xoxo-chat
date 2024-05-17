@@ -1,5 +1,6 @@
 'use client';
 
+import { login } from '@/action';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -18,7 +19,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { login } from '@/action';
 import bannerImage from './banner.avif';
 
 const FormSchema = z.object({
@@ -61,7 +61,7 @@ export default function Page() {
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Login</h1>
-            <p className="text-balance">
+            <p className="text-balance text-sm text-stone-400">
               Enter your email below to login to your account
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function Page() {
               />
               <Button
                 type="submit"
-                className="bg-white text-black hover:bg-white hover:text-black"
+                className="w-full bg-white text-black hover:bg-white hover:text-black"
               >
                 Submit
               </Button>

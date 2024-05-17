@@ -1,8 +1,9 @@
 import QueryProvider from '@/QueryProvider';
-import type { Metadata } from 'next';
-import Header from './Header';
-import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
+import type { Metadata } from 'next';
+
+import Header from '@/app/Header';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'XoXo Chat',

@@ -1,12 +1,13 @@
-import { Button } from '@/components/ui/button';
 import { GraduationCap, Home } from 'lucide-react';
 
-const ProfileBio = () => {
+import ProfileBioEditDialog from './ProfileBioEditDialog';
+
+const ProfileIntro = () => {
   return (
-    <div className="grow space-y-2 rounded-md bg-[var(--secondary-gray)] p-2">
+    <div className="grow space-y-4 bg-secondary rounded-md p-4">
       <p className="text-xl font-bold">Intro</p>
       <p className="text-center">I like ice-cream</p>
-      <Button className="w-full bg-[var(--third-gray)]">Edit bio</Button>
+      <ProfileBioEditDialog />
       <div className="flex flex-col space-y-4">
         <p className="inline-flex space-x-2">
           <GraduationCap />
@@ -21,4 +22,4 @@ const ProfileBio = () => {
   );
 };
 
-export default ProfileBio;
+export default ProfileIntro;

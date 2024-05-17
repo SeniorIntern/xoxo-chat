@@ -7,7 +7,7 @@ const useChats = (id:string) => {
   return useQuery<Message[], Error>({
     queryKey: [CACHE_KEY_CHATS, id],
     queryFn: () => chatService.getAllWithId(id),
-    staleTime: 10 * 1000
+    staleTime: 1 * 60 * 1000
   });
 };
 

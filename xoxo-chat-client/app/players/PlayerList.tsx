@@ -30,22 +30,16 @@ const PlayerList = () => {
   return (
     <div className="space-y-4">
       {players?.map((p) => (
-        <div
-          className="block cursor-pointer rounded-md p-2 hover:bg-[var(--secondary-gray)]"
-          key={p._id}
-        >
+        <div className="block cursor-pointer rounded-md p-2" key={p._id}>
           <UserListItem userData={{ type: 'player', data: p }}>
             <div className="flex space-x-2">
               <Button
                 onClick={async () => await patchUser(p._id)}
-                className="bg-[var(--prime)] px-6 hover:bg-[var(--prime-hover)]"
+                className="px-6"
               >
                 Add Friend
               </Button>
-              <Button
-                className="bg-[var(--secondary-gray)] px-6 hover:bg-[var(---gray-hover)]"
-                asChild
-              >
+              <Button className="px-6" asChild>
                 <Link href={`/players/${p._id}`}>Visit Profile</Link>
               </Button>
             </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { Player } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -10,8 +11,10 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
+import { CACHE_KEY_ME } from '@/constants';
 import apiClient from '@/services/apiClient';
-import { FormEvent, useCallback } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FormEvent, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 
@@ -21,6 +24,28 @@ type Props = {
 };
 
 const ImageUploadDialog = ({ title, type }: Props) => {
+  const resourceName = type === 'profile' ? 'profileImage' : 'coverImage';
+  const endpoint = 'http://localhost:3001/api/v1/users/' + resourceName;
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+  const queryClient = useQueryClient();
+
+  const patchUser = useMutation({
+    //@ts-ignore
+    mutationFn: (formData: FormData) => {
+      apiClient.patch<Player>(endpoint, formData).then((res) => res.data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: CACHE_KEY_ME
+      });
+
+      // queryClient.setQueryData<Player>(CACHE_KEY_ME, (user) => user);
+    }
+  });
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     console.dir(acceptedFiles);
 
@@ -34,29 +59,36 @@ const ImageUploadDialog = ({ title, type }: Props) => {
     useDropzone({ onDrop });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setIsSubmitting(true);
     e.preventDefault();
 
     if (typeof acceptedFiles[0] === 'undefined') return;
 
     const formData = new FormData();
-
-    formData.append('profileImage', acceptedFiles[0]);
+    formData.append(resourceName, acceptedFiles[0]);
 
     try {
-      const results = await apiClient.patch(
-        'http://localhost:3001/api/v1/users/profileImage',
-        formData
-      );
-      console.log('results', results);
-    } catch (err) {
-      console.log('error', err);
+      patchUser.mutate(formData);
+      // await apiClient.patch(endpoint, formData);
+      setIsSubmitting(false);
+      setIsDialogOpen(false);
+      toast.success('Image is updated', { id: 'announcement' });
+    } catch (err: unknown) {
+      setIsSubmitting(false);
+      setIsDialogOpen(false);
+      if (err instanceof Error)
+        toast.error(err.message, { id: 'announcement' });
     }
   };
 
   return (
-    <Dialog>
-      <DialogTrigger className="text-blue-600">Edit</DialogTrigger>
-      <DialogContent className="border-none bg-[var(--primary-gray)]">
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger
+        className="text-blue-600"
+      >
+        Edit
+      </DialogTrigger>
+      <DialogContent className="border-none">
         <DialogHeader>
           <DialogTitle className="text-white">{title}</DialogTitle>
         </DialogHeader>
@@ -72,11 +104,11 @@ const ImageUploadDialog = ({ title, type }: Props) => {
           </div>
 
           <DialogFooter className="sm:justify-end">
-            <Button type="submit" variant="secondary">
-              Save
+            <Button disabled={isSubmitting} type="submit" variant="secondary">
+              {isSubmitting ? 'Submitting' : 'Save'}
             </Button>
             <DialogClose asChild>
-              <Button type="button" variant="secondary">
+              <Button disabled={isSubmitting} type="button" variant="secondary">
                 Cancel
               </Button>
             </DialogClose>

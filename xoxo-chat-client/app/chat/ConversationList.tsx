@@ -1,9 +1,10 @@
 'use client';
 
+import useConversationStore from '@/app/store/conversationStore';
+import useConversations from '@/hooks/useConversations';
 import classNames from 'classnames';
 import Link from 'next/link';
-import useConversations from '../../hooks/useConversations';
-import useConversationStore from '../store/conversationStore';
+
 import UserListItem from './UserListItem';
 
 const ConversationList = ({ userId }: { userId: string }) => {
@@ -23,9 +24,9 @@ const ConversationList = ({ userId }: { userId: string }) => {
           className={classNames(
             'block',
             {
-              'bg-[var(--conversation-active)]': conversation?._id === c._id
+              'bg-secondary': conversation?._id === c._id
             },
-            'cursor-pointer rounded-md p-2 hover:bg-[var(--secondary-gray)]'
+            'cursor-pointer rounded-md p-2'
           )}
           key={c._id}
         >

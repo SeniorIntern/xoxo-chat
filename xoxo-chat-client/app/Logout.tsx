@@ -9,8 +9,9 @@ const Logout = async () => {
         await logout();
         redirect('/login');
       }}
+      className='w-full p-0'
     >
-      <button>Logout</button>
+      <button className='w-full text-left'>Logout</button>
     </form>
   );
 };

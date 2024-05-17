@@ -8,6 +8,14 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'res.cloudinary.com'
+      },
+      {
+        protocol: 'http',
+        hostname: 'res.cloudinary.com'
+      },
+      {
+        protocol: 'https',
         hostname: 'media0.giphy.com'
       },
       {
@@ -25,13 +33,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'media4.giphy.com'
-      }
-,
+      },
       {
         protocol: 'https',
         hostname: 'media5.giphy.com'
       }
-
     ]
   }
 };

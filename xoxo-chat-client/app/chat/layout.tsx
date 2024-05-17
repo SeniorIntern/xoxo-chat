@@ -1,5 +1,6 @@
 import { getSession } from '@/action';
 import ConversationList from './ConversationList';
+import { Input } from '@/components/ui/input';
 
 export default async function ChatLayout({
   children
@@ -10,12 +11,12 @@ export default async function ChatLayout({
   const userId = profileObject?.payload._id!;
 
   return (
-    <div className="flex grow divide-x divide-[var(--secondary-gray)]">
+    <div className="flex grow divide-x bg-secondary">
       <section className="w-[28%]">
         <div className="space-y-4 p-4">
           <p className="text-xl font-bold">Chats</p>
-          <input
-            className="w-full rounded-3xl border-none bg-[var(--secondary-gray)] px-4 py-2 text-white focus:outline-none"
+          <Input
+            className="w-full rounded-full border-none bg-muted px-4 py-2 text-white"
             placeholder="Search friend"
           />
         </div>

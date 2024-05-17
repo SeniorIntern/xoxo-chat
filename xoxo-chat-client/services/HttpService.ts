@@ -7,16 +7,24 @@ class HttpService<T> {
     this.endpoint = endpoint;
   }
 
+  getMe = () => {
+    return apiClient.get<T>(this.endpoint + '/me').then((res) => res.data);
+  };
+
   getAll = () => {
     return apiClient.get<T[]>(this.endpoint).then((res) => res.data);
   };
 
   getAllWithId = (id: string) => {
-    return apiClient.get<T[]>(this.endpoint +'/'+ id).then((res) => res.data);
+    return apiClient.get<T[]>(this.endpoint + '/' + id).then((res) => res.data);
   };
 
   post = (data: T) => {
     return apiClient.post<T>(this.endpoint, data).then((res) => res.data);
+  };
+
+  patch = (data: FormData) => {
+    apiClient.patch(this.endpoint, data).then((res) => res.data);
   };
 }
 

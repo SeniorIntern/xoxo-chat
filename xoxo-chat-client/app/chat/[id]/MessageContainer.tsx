@@ -49,7 +49,7 @@ const MessageContainer = ({ messages, sender, conversationId }: Props) => {
             'self-end': message.sender == sender
           })}
         >
-          <span className="rounded-3xl bg-[var(--prime)] p-2">
+          <span className="rounded-3xl p-2">
             {message.text}
           </span>
           <p className="text-sm text-gray-400">{format(message.updatedAt)}</p>
@@ -64,7 +64,7 @@ const MessageContainer = ({ messages, sender, conversationId }: Props) => {
             'self-end': message.sender == sender
           })}
         >
-          <span className="rounded-3xl bg-[var(--prime)] p-2">
+          <span className="rounded-3xl p-2">
             {message.text}
           </span>
           <p className="text-sm text-gray-400">{format(message.updatedAt)}</p>

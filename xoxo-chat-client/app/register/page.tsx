@@ -64,9 +64,9 @@ export default function Page() {
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Login</h1>
-            <p className="text-balance">
-              Enter your email below to login to your account
+            <h1 className="text-3xl font-bold">Sign Up</h1>
+            <p className="text-balance text-sm text-stone-400">
+              Enter your information to create an account
             </p>
           </div>
 
@@ -125,7 +125,7 @@ export default function Page() {
               />
               <Button
                 type="submit"
-                className="bg-white text-black hover:bg-white hover:text-black"
+                className="w-full bg-white text-black hover:bg-white hover:text-black"
               >
                 Submit
               </Button>
@@ -135,7 +135,7 @@ export default function Page() {
           <div className="mt-4 text-center text-sm text-white">
             Already have an account?{' '}
             <Link href="/login" className="underline">
-              LogIn
+              Sign in
             </Link>
           </div>
         </div>

@@ -9,21 +9,23 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import useMe from '@/hooks/useMe';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 
 import ImageUploadDialog from './ImageUploadDialog';
-import ProfileBio from './ProfileBio';
+import ProfileIntro from './ProfileIntro';
 
 const ProfileEditDialog = () => {
+  const { data: user, isLoading, error } = useMe();
 
   return (
     <Dialog>
-      <DialogTrigger className="inline-flex space-x-2 rounded-md bg-[var(--prime)] p-2 px-4 text-white hover:bg-[var(--prime-hover)]">
+      <DialogTrigger className="inline-flex space-x-2 rounded-md bg-primary p-2 px-4 text-white">
         <Pencil />
         <span>Edit Profile</span>
       </DialogTrigger>
-      <DialogContent className="max-w-screen-md border-none bg-[var(--primary-gray)]">
+      <DialogContent className="max-w-screen-md border-none">
         <ScrollArea type="scroll" style={{ maxHeight: 'calc(100vh - 168px)' }}>
           <DialogHeader>
             <DialogTitle className="text-center text-xl font-semibold text-white">
@@ -33,12 +35,19 @@ const ProfileEditDialog = () => {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-xl font-semibold">Profile picture</span>
-                  <ImageUploadDialog title="Upload cover photo" type="profile" />
+                  <ImageUploadDialog
+                    title="Drop/Upload profile picture"
+                    type="profile"
+                  />
                 </div>
 
                 <div className="relative mx-auto h-44 w-44">
                   <Image
-                    src={'https://picsum.photos/id/40/4106/2806'}
+                    src={
+                      user?.profileImage
+                        ? user.profileImage
+                        : 'https://picsum.photos/id/40/4106/2806'
+                    }
                     alt="profile image"
                     fill
                     style={{ objectFit: 'cover' }}
@@ -48,20 +57,27 @@ const ProfileEditDialog = () => {
               </div>
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-xl font-semibold">Cover photo</span>
-                  <ImageUploadDialog title="Upload cover photo" type="cover" />
+                  <span className="text-xl font-semibold">Cover image</span>
+                  <ImageUploadDialog
+                    title="Drop/Upload cover photo"
+                    type="cover"
+                  />
                 </div>
                 <div className="relative mx-auto h-44 w-3/4">
                   <Image
-                    src={'https://picsum.photos/id/40/4106/2806'}
-                    alt="profile image"
+                    src={
+                      user?.coverImage
+                        ? user.coverImage
+                        : 'https://picsum.photos/id/40/4106/2806'
+                    }
+                    alt="cover photo"
                     fill
                     style={{ objectFit: 'cover' }}
                     className="rounded-md"
                   />
                 </div>
               </div>
-              <ProfileBio />
+              <ProfileIntro />
             </DialogDescription>
           </DialogHeader>
         </ScrollArea>

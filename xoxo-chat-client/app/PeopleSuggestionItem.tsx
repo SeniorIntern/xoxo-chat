@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const PeopleSuggestionItem = () => {
   return (
-    <div className="border border-[var(--secondary-gray)] w-40">
+    <div className="w-40 border rounded-md">
       <div className="relative h-36 w-full">
         <Image
           src={'https://picsum.photos/id/40/4106/2806'}
@@ -16,7 +16,7 @@ const PeopleSuggestionItem = () => {
       </div>
       <div className="flex h-28 flex-col place-content-between space-y-2 p-3">
         <p>John Wick</p>
-        <Button className="space-x-2 bg-[var(--prime)] px-4 hover:bg-[var(--prime-hover)]">
+        <Button className="space-x-2 px-4">
           <UserPlus size="18" fill="white" />
           <span>Add Friend</span>
         </Button>

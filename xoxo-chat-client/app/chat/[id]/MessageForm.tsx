@@ -57,7 +57,7 @@ const MessageForm = ({ conversationId, sender }: Props) => {
     >
       <input
         ref={messageRef}
-        className="w-full rounded-3xl border-none bg-[var(--secondary-gray)] px-4 py-2 text-white focus:outline-none"
+        className="w-full rounded-3xl border-none px-4 py-2 text-white focus:outline-none"
         placeholder="Aa"
       />
       <Button variant="ghost" className="relative h-10 w-10">

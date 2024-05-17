@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 210, 4%, 10%; /* black */
+    --foreground: 360 100% 100%; /* white */
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -13,14 +13,14 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 220 100% 59%; /* blue */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 210 3% 15%; /* mate black */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 2% 23%; /* gray */
+    --muted-foreground: 214 3% 56%; /* white */
 
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
@@ -28,8 +28,8 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 210, 1%, 31%; /* mate */
+    --input: 210, 1%, 31%; /* mate */
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
@@ -77,35 +77,8 @@
 }
 
 :root {
-  --primary-gray: hsl(210, 3%, 15%);
-  --secondary-gray: hsl(210, 2%, 23%);
-  --secondary-gray-hover: hsl(210, 2%, 23%, 0.8);
-  --third-gray: hsl(210, 1%, 31%);
-  --prime: hsl(220, 100%, 59%);
-  /* blue */
-  --prime-hover: hsl(220, 100%, 59%, 0.8);
-  --second: hsl(209, 100%, 50%);
-
   /* measurement*/
   --bar-height: 56px;
-
-  /* user list item */
-  --conversation-active: hsl(214, 24%, 19%);
-
-  /* game */
-  --game-background: hsl(216, 48%, 23%);
-  --game-card: hsl(203, 39%, 44%);
-}
-
-body {
-  background-color: var(--primary-gray);
-}
-
-p,
-span,
-a,
-h1 {
-  color: white;
 }
 
 .scale-up-center {
