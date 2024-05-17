@@ -26,8 +26,11 @@ router.get('/', auth, async (req, res) => {
 });
 
 router.get('/me', auth, async (req, res) => {
+  console.log('recieved at users/me');
+  
   // @ts-ignore
-  const user = await req.user;
+  const userId = req.user._id;
+  const user = await User.findById(userId).select('-password');
   res.status(200).send(user);
 });
 

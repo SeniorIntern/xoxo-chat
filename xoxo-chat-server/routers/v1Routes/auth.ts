@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt";
 import express from "express";
 import _ from "lodash";
+
 import { User } from "../../models";
+
 const router = express.Router();
 
 router.post("/", async (req, res) => {
