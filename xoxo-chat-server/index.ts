@@ -48,7 +48,6 @@ io.on('connection', (socket) => {
   console.log(`node- connected: ${socket.id}`);
 
   socket.on('send', (data: SocketPaylod) => {
-    console.log('incoming payload= ', data);
     // emit to corresponding conversation
     io.emit(data.conversationId, data);
   });

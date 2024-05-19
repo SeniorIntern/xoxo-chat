@@ -1,0 +1,147 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { CACHE_KEY_ME } from '@/constants';
+import apiClient from '@/services/apiClient';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Dispatch, SetStateAction } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+import { Player, PlayerIntro } from '../types';
+
+const formSchema = z.object({
+  shortIntro: z
+    .string()
+    .min(10, { message: 'Introduction must be at least 10 characters.' })
+    .max(60, { message: 'Introduction must not be more than 40 characters' }),
+  study: z
+    .string()
+    .min(2, { message: 'School name must be at least 2 characters.' })
+    .max(20, { message: 'School name must not be more than 40 characters' }),
+  location: z
+    .string()
+    .min(2, { message: 'Location name must be at least 2 characters.' })
+    .max(40, { message: 'Location name must not be more than 40 characters' }),
+  job: z
+    .string()
+    .min(2, { message: 'Workplace name must be at least 2 characters.' })
+    .max(40, { message: 'Workplace name must not be more than 40 characters' })
+});
+
+type Props = {
+  openBioDialog: Dispatch<SetStateAction<boolean>>;
+  userIntro?: PlayerIntro;
+};
+
+const ProfileBioForm = ({ userIntro, openBioDialog }: Props) => {
+  const queryClient = useQueryClient();
+  const endpoint = 'http://localhost:3001/api/v1/users/intro';
+
+  const patchBio = useMutation({
+    //@ts-ignore
+    mutationFn: (formData: z.infer<typeof formSchema>) => {
+      apiClient.patch<Player>(endpoint, formData).then((res) => res.data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: CACHE_KEY_ME
+      });
+      toast.success('Your information is updated', { id: 'announcement' });
+      openBioDialog(false);
+    }
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      shortIntro: userIntro?.shortIntro ? userIntro.shortIntro : '',
+      study: userIntro?.study ? userIntro.study : '',
+      location: userIntro?.location ? userIntro.location : '',
+      job: userIntro?.job ? userIntro.job : ''
+    }
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    patchBio.mutate(values);
+  }
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="shortIntro"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Short Introduction</FormLabel>
+              <FormControl>
+                <Input placeholder="My hobby is..." {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="job"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title of your job</FormLabel>
+              <FormControl>
+                <Input placeholder="Web developer" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Your temporary address</FormLabel>
+              <FormControl>
+                <Input placeholder="Pokhara" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="study"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>School/College Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Abc Secondary School" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          className="w-full"
+        >
+          {form.formState.isSubmitting ? 'Submitting' : 'Submit'}
+        </Button>
+      </form>
+    </Form>
+  );
+};
+
+export default ProfileBioForm;

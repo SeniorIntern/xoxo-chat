@@ -8,13 +8,7 @@ import { auth } from '../../middlewares';
 import { User } from '../../models';
 
 cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
-/*
-cloudinary.config({
-  api_secret: 'vOBPskUBcJaPXsLZfK9kG-QYb90',
-  api_key: '453392965967855',
-  cloud_name: 'dpwaajbmp'
-});
-*/
+
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
@@ -26,8 +20,6 @@ router.get('/', auth, async (req, res) => {
 });
 
 router.get('/me', auth, async (req, res) => {
-  console.log('recieved at users/me');
-  
   // @ts-ignore
   const userId = req.user._id;
   const user = await User.findById(userId).select('-password');
@@ -36,11 +28,7 @@ router.get('/me', auth, async (req, res) => {
 
 router.get('/friends', auth, async (req, res) => {
   // @ts-ignore
-  // console.log('user=', req.user);
-
-  // @ts-ignore
   const userId = req.user._id;
-  // console.log('user id=', userId);
 
   const friends = await User.findById(userId)
     .select('-_id friends')
@@ -102,31 +90,26 @@ router.patch('/profileImage', auth, async (req, res) => {
   }
 
   let file = req.files.profileImage;
-  try {
-    // tempFilePath - A path to the temporary file when useTempFiles(express-fileupload) option is set to true.
-    //@ts-ignore
-    const result = await cloudinary.uploader.upload(file.tempFilePath, {
-      folder: 'users'
-    });
-    const { url } = result;
+  // tempFilePath - A path to the temporary file when useTempFiles(express-fileupload) option is set to true.
+  //@ts-ignore
+  const result = await cloudinary.uploader.upload(file.tempFilePath, {
+    folder: 'users'
+  });
+  const { url } = result;
 
-    // @ts-ignore
-    const decoded = req.user;
+  // @ts-ignore
+  const decoded = req.user;
 
-    const user = await User.findByIdAndUpdate(
-      decoded._id,
-      {
-        profileImage: url
-      },
-      { new: true }
-    );
-    return res
-      .status(200)
-      .send(_.pick(user, ['_id', 'username', 'email', 'profileImage']));
-  } catch (error) {
-    console.log(error);
-    return res.status(400).send('File upload failed');
-  }
+  const user = await User.findByIdAndUpdate(
+    decoded._id,
+    {
+      profileImage: url
+    },
+    { new: true }
+  );
+  return res
+    .status(200)
+    .send(_.pick(user, ['_id', 'username', 'email', 'profileImage']));
 });
 
 router.patch('/coverImage', auth, async (req, res) => {
@@ -135,31 +118,72 @@ router.patch('/coverImage', auth, async (req, res) => {
   }
 
   let file = req.files.coverImage;
-  try {
-    // tempFilePath - A path to the temporary file when useTempFiles(express-fileupload) option is set to true.
-    //@ts-ignore
-    const result = await cloudinary.uploader.upload(file.tempFilePath, {
-      folder: 'users'
-    });
-    const { url } = result;
 
-    // @ts-ignore
-    const decoded = req.user;
+  // tempFilePath - A path to the temporary file when useTempFiles(express-fileupload) option is set to true.
+  //@ts-ignore
+  const result = await cloudinary.uploader.upload(file.tempFilePath, {
+    folder: 'users'
+  });
+  const { url } = result;
 
-    const user = await User.findByIdAndUpdate(
-      decoded._id,
-      {
-        coverImage: url
-      },
-      { new: true }
-    );
-    return res
-      .status(200)
-      .send(_.pick(user, ['_id', 'username', 'email', 'coverImage']));
-  } catch (error) {
-    console.log(error);
-    return res.status(400).send('File upload failed');
-  }
+  // @ts-ignore
+  const decoded = req.user;
+
+  const user = await User.findByIdAndUpdate(
+    decoded._id,
+    {
+      coverImage: url
+    },
+    { new: true }
+  );
+  return res
+    .status(200)
+    .send(_.pick(user, ['_id', 'username', 'email', 'coverImage']));
+});
+
+router.patch('/intro', auth, async (req, res) => {
+  // @ts-ignore
+  const decoded = req.user;
+  const userId = decoded._id;
+
+  const { shortIntro, study, location, job } = req.body;
+
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {
+      intro: {
+        shortIntro,
+        study,
+        location,
+        job
+      }
+    },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .send(_.pick(user, ['_id', 'username', 'email', 'intro']));
+});
+
+router.patch('/about', auth, async (req, res) => {
+  // @ts-ignore
+  const decoded = req.user;
+  const userId = decoded._id;
+
+  const { bio } = req.body;
+
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {
+      about: bio
+    },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .send(_.pick(user, ['_id', 'username', 'email', 'about']));
 });
 
 export default router;

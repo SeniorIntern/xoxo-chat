@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import useMe from '@/hooks/useMe';
+import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 
@@ -21,9 +22,11 @@ const ProfileEditDialog = () => {
 
   return (
     <Dialog>
-      <DialogTrigger className="inline-flex space-x-2 rounded-md bg-primary p-2 px-4 text-white">
-        <Pencil />
-        <span>Edit Profile</span>
+      <DialogTrigger asChild>
+        <Button className="flex items-center gap-2 rounded-md bg-primary p-2 px-4 text-white">
+          <Pencil size={18} />
+          Edit Profile
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-screen-md border-none">
         <ScrollArea type="scroll" style={{ maxHeight: 'calc(100vh - 168px)' }}>
@@ -31,7 +34,7 @@ const ProfileEditDialog = () => {
             <DialogTitle className="text-center text-xl font-semibold text-white">
               Edit Profile
             </DialogTitle>
-            <DialogDescription className="space-y-10">
+            <div className="space-y-10">
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-xl font-semibold">Profile picture</span>
@@ -78,7 +81,7 @@ const ProfileEditDialog = () => {
                 </div>
               </div>
               <ProfileIntro />
-            </DialogDescription>
+            </div>
           </DialogHeader>
         </ScrollArea>
       </DialogContent>

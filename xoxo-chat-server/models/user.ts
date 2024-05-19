@@ -5,6 +5,32 @@ import { serverConfig } from '../config';
 
 const { JWT_SECRET } = serverConfig;
 
+interface Intro {
+  shortIntro: string;
+  study: string;
+  location: string;
+  job: string;
+}
+
+const introSchema = new mongoose.Schema<Intro>({
+  shortIntro: {
+    type: String,
+    maxlength: 60
+  },
+  study: {
+    type: String,
+    maxlength: 20
+  },
+  location: {
+    type: String,
+    maxlength: 20
+  },
+  job: {
+    type: String,
+    maxlength: 20
+  }
+});
+
 interface User {
   username: string;
   email: string;
@@ -13,6 +39,8 @@ interface User {
   coverImage?: string;
   friends: [mongoose.Schema.Types.ObjectId];
   isAdmin?: boolean;
+  intro?: mongoose.Schema<Intro>;
+  about?: string;
 }
 
 const userSchema = new mongoose.Schema<User>({
@@ -48,10 +76,17 @@ const userSchema = new mongoose.Schema<User>({
   isAdmin: {
     type: Boolean,
     default: false
+  },
+  intro: {
+    type: introSchema
+  },
+  about: {
+    type: String,
+    maxlength: 260
   }
 });
 
-userSchema.methods.generateAuthToken = function() {
+userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     {
       _id: this._id,

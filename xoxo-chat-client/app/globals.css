@@ -19,8 +19,11 @@
     --secondary: 210 3% 15%; /* mate black */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 210 2% 23%; /* gray */
+    --muted: 210 2% 23%; /* bg gray */
     --muted-foreground: 214 3% 56%; /* white */
+
+    --mutedtext: 214 5% 74%; /* text gray */
+    --mutedtext-foreground: 214 3% 56%; /* white */
 
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;

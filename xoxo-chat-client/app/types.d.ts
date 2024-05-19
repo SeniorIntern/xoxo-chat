@@ -39,12 +39,21 @@ export type Conversation = {
   members: Member[];
 };
 
+export type PlayerIntro = {
+  shortIntro?: string;
+  study?: string;
+  location?: string;
+  job?: string;
+};
+
 export type Player = {
   _id: string;
   username: string;
   friends: [string];
   profileImage?: string;
   coverImage?: string;
+  intro?: PlayerIntro;
+  about?: string;
 };
 
 type PlayerData = {

@@ -1,24 +1,34 @@
 'use client';
 
+import useMe from '@/hooks/useMe';
 import { useState } from 'react';
 
+import ProfileAboutEditDialog from './ProfileAboutEditDialog';
+
 const ProfileAbout = () => {
+  const { data: user, isLoading, error } = useMe();
   const [showMore, setShowMore] = useState<boolean>(false);
+
   return (
-    <div className="w-[58%] space-y-4 rounded-md bg-secondary p-4">
-      <p className="text-xl font-bold">About</p>
-      <p>
-        {'Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.'.substring(
-          0,
-          showMore ? undefined : 300
-        )}
-        <span
-          className="cursor-pointer text-blue-600"
-          onClick={() => setShowMore((val) => !val)}
-        >
-          {showMore ? 'See less' : '...See more'}
-        </span>
-      </p>
+    <div className="h-fit w-[58%] space-y-4 rounded-md bg-secondary p-4">
+      <div className="flex items-center justify-between">
+        <p className="text-xl font-bold">About</p>
+        <ProfileAboutEditDialog about={user?.about} />
+      </div>
+      {user?.about && (
+        <p>
+          {user?.about?.substring(
+            0,
+            showMore ? undefined : user.about.length / 2
+          )}
+          <span
+            className="cursor-pointer text-blue-600"
+            onClick={() => setShowMore((val) => !val)}
+          >
+            {showMore ? 'See less' : '...See more'}
+          </span>
+        </p>
+      )}
     </div>
   );
 };

@@ -83,11 +83,7 @@ const ImageUploadDialog = ({ title, type }: Props) => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger
-        className="text-blue-600"
-      >
-        Edit
-      </DialogTrigger>
+      <DialogTrigger className="text-blue-600">Edit</DialogTrigger>
       <DialogContent className="border-none">
         <DialogHeader>
           <DialogTitle className="text-white">{title}</DialogTitle>

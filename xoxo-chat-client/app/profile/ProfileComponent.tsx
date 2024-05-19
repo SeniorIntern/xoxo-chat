@@ -16,7 +16,6 @@ type Props = {
 
 const ProfileComponent = ({ userId, paramId }: Props) => {
   const { data: user, isLoading, error } = useMe();
-  console.log('user=', user);
 
   return (
     <section className="grow">
@@ -54,7 +53,10 @@ const ProfileComponent = ({ userId, paramId }: Props) => {
           </div>
           <div className="self-center">
             <p className="text-3xl font-semibold">{user?.username}</p>
-            <p className="text-gray-400">{user?.friends.length} friends</p>
+            <p className="text-gray-400">
+              {user?.friends.length} friend
+              {user?.friends.length && user?.friends.length > 1 && 's'}
+            </p>
           </div>
         </div>
 
