@@ -24,6 +24,8 @@ type Props = {
 };
 
 const ImageUploadDialog = ({ title, type }: Props) => {
+  console.log('mounted');
+
   const resourceName = type === 'profile' ? 'profileImage' : 'coverImage';
   const endpoint = 'http://localhost:3001/api/v1/users/' + resourceName;
 
@@ -95,7 +97,10 @@ const ImageUploadDialog = ({ title, type }: Props) => {
             {isDragActive ? (
               <p>Drop the files here ...</p>
             ) : (
-              <p>Drag 'n' drop some files here, or click to select files</p>
+              <p>
+                Drag &apos;n&apos; drop some files here, or click to select
+                files
+              </p>
             )}
           </div>
 

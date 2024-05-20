@@ -13,6 +13,8 @@ type Props = {
 };
 
 const MessageContainer = ({ messages, sender, conversationId }: Props) => {
+  console.log('mounted');
+
   const { socket } = useSocket();
   const [chats, setChats] = useState<SocketPaylod[]>([]);
 
@@ -35,6 +37,7 @@ const MessageContainer = ({ messages, sender, conversationId }: Props) => {
       socket.off('connect');
       socket.off(conversationId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chats]);
 
   return (
@@ -49,9 +52,7 @@ const MessageContainer = ({ messages, sender, conversationId }: Props) => {
             'self-end': message.sender == sender
           })}
         >
-          <span className="rounded-3xl p-2">
-            {message.text}
-          </span>
+          <span className="rounded-3xl p-2">{message.text}</span>
           <p className="text-sm text-gray-400">{format(message.updatedAt)}</p>
         </div>
       ))}
@@ -64,9 +65,7 @@ const MessageContainer = ({ messages, sender, conversationId }: Props) => {
             'self-end': message.sender == sender
           })}
         >
-          <span className="rounded-3xl p-2">
-            {message.text}
-          </span>
+          <span className="rounded-3xl p-2">{message.text}</span>
           <p className="text-sm text-gray-400">{format(message.updatedAt)}</p>
         </div>
       ))}

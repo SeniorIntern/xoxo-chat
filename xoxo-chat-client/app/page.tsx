@@ -1,5 +1,7 @@
-import CardContainer from './CardContainer';
-import { Gif, GifFetchResponse } from './types';
+import CardContainer from '@/app/CardContainer';
+import { Gif, GifFetchResponse } from '@/app/types';
+
+import GameControls from './GameControls';
 
 export default async function Home() {
   const res = await fetch(
@@ -20,39 +22,8 @@ export default async function Home() {
 
   return (
     <>
+      <GameControls />
       <CardContainer gifs={duplicatedGifs} />
     </>
   );
 }
-
-/*
-'use client';
-
-import CardContainer from '@/app/CardContainer';
-import { Gif } from '@/app/types';
-import useGifs from '@/hooks/useGifs';
-
-export default function Home() {
-  const { gifs, error, isLoading } = useGifs();
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-
-  // create duplicate element of each array's item
-  const duplicatedGifs = [...gifs, ...gifs];
-
-  // Shuffle an array
-  const shuffleArray = (array: Gif[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  };
-  shuffleArray(duplicatedGifs);
-
-  return (
-    <>
-      <CardContainer gifs={duplicatedGifs} />
-    </>
-  );
-}
-*/

@@ -29,6 +29,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { Player } from '../types';
 import { useState } from 'react';
+import { log } from 'console';
 
 const FormSchema = z.object({
   bio: z
@@ -46,6 +47,8 @@ type Props = {
 };
 
 const ProfileAboutEditDialog = ({ about }: Props) => {
+  console.log('mounted');
+
   const [open, setOpen] = useState(false);
 
   const queryClient = useQueryClient();

@@ -18,6 +18,8 @@ type Props = {
 };
 
 const ProfileBioEditDialog = ({ userIntro }: Props) => {
+  console.log('mounted');
+
   const [open, setOpen] = useState(false);
 
   return (

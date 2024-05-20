@@ -39,7 +39,7 @@ export default function Page() {
       toast.success('Login Sucessful', { id: 'auth' });
       router.push('/profile');
     } else {
-      toast.error(result?.data, { id: 'auth' });
+      toast.error(result?.data || 'Request Failed', { id: 'auth' });
     }
   }
 

@@ -6,6 +6,8 @@ import { useState } from 'react';
 import ProfileAboutEditDialog from './ProfileAboutEditDialog';
 
 const ProfileAbout = () => {
+  console.log('mounted');
+
   const { data: user, isLoading, error } = useMe();
   const [showMore, setShowMore] = useState<boolean>(false);
 
