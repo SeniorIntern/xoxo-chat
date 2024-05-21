@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { serverConfig } from '../../config';
 import { auth } from '../../middlewares';
-import { User } from '../../models';
+import { Conversation, User } from '../../models';
 
 cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
 
@@ -28,13 +28,24 @@ router.get('/me', auth, async (req, res) => {
 
 router.get('/friends', auth, async (req, res) => {
   // @ts-ignore
-  const userId = req.user._id;
+  const decoded = req.user;
+  const userId = decoded._id;
 
   const friends = await User.findById(userId)
     .select('-_id friends')
     .populate('friends');
 
   res.status(200).send(friends?.friends);
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).select('-password');
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -63,8 +74,9 @@ router.patch('/', auth, async (req, res) => {
 
   // @ts-ignore
   const decoded = req.user;
+  const userId = decoded._id;
 
-  let user = await User.findById(decoded._id);
+  let user = await User.findById(userId);
   if (!user) return res.status(400).send('Bad request');
 
   if (!user.friends.includes(friendId)) {
@@ -78,7 +90,18 @@ router.patch('/', auth, async (req, res) => {
       },
       { new: true }
     );
-    return res.status(200).send(user);
+
+    // create conversation with friend
+    const newConversation = new Conversation({
+      members: [userId, friendId]
+    });
+
+    try {
+      await newConversation.save();
+      return res.status(200).send(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 
   res.status(400).send('This user is already friend with you');

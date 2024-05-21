@@ -31,7 +31,7 @@ const introSchema = new mongoose.Schema<Intro>({
   }
 });
 
-interface User {
+export interface User {
   username: string;
   email: string;
   password: string;

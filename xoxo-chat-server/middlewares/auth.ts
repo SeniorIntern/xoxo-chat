@@ -23,6 +23,7 @@ export default function (req: Request, res: Response, next: NextFunction) {
 
     // @ts-ignore
     req.user = decoded;
+    
     next();
   } catch (ex) {
     res.status(400).send('Invalid token.');
