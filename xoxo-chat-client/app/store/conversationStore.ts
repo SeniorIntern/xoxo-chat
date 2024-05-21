@@ -1,10 +1,11 @@
+import { Conversation } from '@/app/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Conversation } from '../types';
 
 interface Store {
   conversation: null | Conversation;
   setConversation: (conversation: Conversation) => void;
+  reset: () => void;
 }
 
 export const useConversationStore = create(
@@ -12,7 +13,8 @@ export const useConversationStore = create(
     (set, get) => ({
       conversation: null,
       setConversation: (conversation: Conversation) =>
-        set({ conversation: conversation })
+        set({ conversation: conversation }),
+      reset: () => set({ conversation: null })
     }),
     {
       name: 'conversation-store' // name of the item in the storage

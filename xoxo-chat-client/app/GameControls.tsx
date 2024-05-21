@@ -1,18 +1,18 @@
 'use client';
 
+import useGameStore from '@/app/store/gameStore';
+
 import RestartGame from './RestartGame';
-import useGameStore from './store/gameStore';
 
 const GameControls = () => {
   const totalUniqueCards = 9;
-  const fullScore = 2 * totalUniqueCards;
   const { pairs } = useGameStore();
 
   return (
     <div className="fixed top-20 w-full px-2">
       <div className="flex items-center justify-between">
         <span className="text-xl font-bold">
-          SCORE: {`${pairs.length}/${fullScore}`}
+          SCORE: {`${pairs.length}/${totalUniqueCards}`}
         </span>
         <RestartGame />
       </div>

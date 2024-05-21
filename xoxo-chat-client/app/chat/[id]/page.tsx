@@ -1,6 +1,4 @@
 import { getSession } from '@/action';
-import { Message } from '@/app/types';
-import apiClient from '@/services/apiClient';
 
 import ConversationHeader from './ConversationHeader';
 import MessageContainer from './MessageContainer';
@@ -8,10 +6,6 @@ import MessageForm from './MessageForm';
 import UserInfo from './UserInfo';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const timestamp = new Date().getTime();
-  const { data } = await apiClient.get<Message[]>(
-    '/messages/' + params.id + '?timestamp=' + timestamp
-  );
   const profileObject = await getSession();
 
   return (
@@ -19,7 +13,6 @@ export default async function Page({ params }: { params: { id: string } }) {
       <section className="flex grow flex-col">
         <ConversationHeader userId={profileObject?.payload._id!} />
         <MessageContainer
-          messages={data}
           sender={profileObject?.payload._id!}
           conversationId={params.id}
         />
@@ -32,7 +25,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       </section>
 
       <section className="w-[24%] space-y-4 p-4">
-        <UserInfo />
+        <UserInfo conversationId={params.id} />
       </section>
     </>
   );

@@ -4,6 +4,7 @@ import useGameStore from '@/app/store/gameStore';
 import { Gif } from '@/app/types';
 import { useWindowSize } from '@uidotdev/usehooks';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import { toast } from 'sonner';
@@ -21,13 +22,16 @@ type CardSelection = {
 
 const CardContainer = ({ gifs }: Props) => {
   console.log('mounted');
-  
+
   const totalUniqueCards = 9;
 
   const { width, height } = useWindowSize();
   const { pairs, setPairs } = useGameStore();
   const [confettiTotal, setConfettiTotal] = useState(100);
   const [selections, setSelections] = useState<CardSelection[]>([]);
+
+  const router = useRouter();
+  const { restart } = useGameStore();
 
   useEffect(() => {
     if (selections.length === 2) {
@@ -49,13 +53,15 @@ const CardContainer = ({ gifs }: Props) => {
     return false;
   };
 
-  if (pairs.length === totalUniqueCards) {
+  if (pairs.length === totalUniqueCards && confettiTotal !== 0) {
     toast.success('Congratulations! You have won the game', {
       id: 'announcement'
     });
 
     setTimeout(() => {
       setConfettiTotal(0);
+      restart();
+      router.refresh();
     }, 5000);
   }
 

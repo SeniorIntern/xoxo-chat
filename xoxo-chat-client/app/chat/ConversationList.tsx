@@ -8,6 +8,8 @@ import Link from 'next/link';
 import UserListItem from './UserListItem';
 
 const ConversationList = ({ userId }: { userId: string }) => {
+  console.log('mounted');
+
   const { data: conversations, isLoading, error } = useConversations(userId);
   const { conversation, setConversation } = useConversationStore();
 
@@ -24,7 +26,7 @@ const ConversationList = ({ userId }: { userId: string }) => {
           className={classNames(
             'block',
             {
-              'bg-secondary': conversation?._id === c._id
+              'bg-muted': conversation?._id === c._id
             },
             'cursor-pointer rounded-md p-2'
           )}

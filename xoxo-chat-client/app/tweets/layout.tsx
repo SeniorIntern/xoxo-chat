@@ -1,9 +1,7 @@
 import { getSession } from '@/action';
 import { Input } from '@/components/ui/input';
 
-import ConversationList from './ConversationList';
-
-export default async function ChatLayout({
+export default async function TweetLayout({
   children
 }: {
   children: React.ReactNode;
@@ -13,19 +11,18 @@ export default async function ChatLayout({
 
   return (
     <div className="flex grow divide-x bg-secondary">
+      {children}
       <section className="w-[28%]">
         <div className="space-y-4 p-4">
-          <p className="text-xl font-bold">Chats</p>
+          <p className="text-muted font-semibold">Friends</p>
           <Input
             className="w-full rounded-full border-none bg-muted px-4 py-2 text-white"
             placeholder="Search friend"
           />
         </div>
         <div className="mt-2">
-          <ConversationList userId={userId} />
         </div>
       </section>
-      {children}
     </div>
   );
 }

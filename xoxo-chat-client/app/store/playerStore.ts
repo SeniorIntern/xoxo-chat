@@ -1,5 +1,5 @@
+import { Player } from '@/app/types';
 import { create } from 'zustand';
-import { Player } from '../types';
 
 interface Store {
   player: null | Player;

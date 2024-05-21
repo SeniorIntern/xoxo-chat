@@ -91,8 +91,8 @@ const ImageUploadDialog = ({ title, type }: Props) => {
           <DialogTitle className="text-white">{title}</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="">
-          <div {...getRootProps()}>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div {...getRootProps()} className=''>
             <input {...getInputProps()} />
             {isDragActive ? (
               <p>Drop the files here ...</p>
@@ -105,11 +105,15 @@ const ImageUploadDialog = ({ title, type }: Props) => {
           </div>
 
           <DialogFooter className="sm:justify-end">
-            <Button disabled={isSubmitting} type="submit" variant="secondary">
+            <Button disabled={isSubmitting} type="submit">
               {isSubmitting ? 'Submitting' : 'Save'}
             </Button>
             <DialogClose asChild>
-              <Button disabled={isSubmitting} type="button" variant="secondary">
+              <Button
+                disabled={isSubmitting}
+                type="button"
+                variant="destructive"
+              >
                 Cancel
               </Button>
             </DialogClose>

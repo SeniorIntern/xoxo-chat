@@ -1,21 +1,18 @@
 'use client';
 
 import useSocket from '@/app/store/socketStore';
-import { Message, SocketPaylod } from '@/app/types';
+import { SocketPaylod } from '@/app/types';
+import useMessages from '@/hooks/useMessages';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
 import { format } from 'timeago.js';
 
 type Props = {
-  messages: Message[];
   sender: string;
   conversationId: string;
 };
 
-const MessageContainer = ({ messages, sender, conversationId }: Props) => {
-  console.log('mounted');
-
-  const { socket } = useSocket();
+const MessageContainer = ({ sender, conversationId }: Props) => {
   const [chats, setChats] = useState<SocketPaylod[]>([]);
 
   useEffect(() => {
@@ -40,32 +37,45 @@ const MessageContainer = ({ messages, sender, conversationId }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chats]);
 
+  const { socket } = useSocket();
+
+  const { data: messages, isLoading, error } = useMessages(conversationId);
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
+
+  console.log('mounted');
+
   return (
     <div
       style={{ maxHeight: 'calc(100vh - 168px)' }}
       className="flex grow flex-col overflow-y-auto p-2"
     >
-      {messages.map((message) => (
+      {/* messages from database. used to view old messages */}
+      {messages?.map((message) => (
         <div
           key={message._id}
-          className={classnames('my-4 space-y-2', {
+          className={classnames('my-4 flex flex-col items-end space-y-2', {
             'self-end': message.sender == sender
           })}
         >
-          <span className="rounded-3xl p-2">{message.text}</span>
+          <p className="w-fit rounded-2xl bg-primary px-4 py-1">
+            {message.text}
+          </p>
           <p className="text-sm text-gray-400">{format(message.updatedAt)}</p>
         </div>
       ))}
 
-      {/* messages from socket */}
+      {/* messages from socketIO for real-time communication */}
       {chats.map((message, index) => (
         <div
           key={index}
-          className={classnames('my-4 space-y-2', {
+          className={classnames('my-4 flex flex-col items-end space-y-2', {
             'self-end': message.sender == sender
           })}
         >
-          <span className="rounded-3xl p-2">{message.text}</span>
+          <p className="w-fit rounded-2xl bg-primary px-4 py-1">
+            {message.text}
+          </p>
           <p className="text-sm text-gray-400">{format(message.updatedAt)}</p>
         </div>
       ))}

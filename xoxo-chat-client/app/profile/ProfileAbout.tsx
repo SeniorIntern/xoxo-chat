@@ -6,10 +6,13 @@ import { useState } from 'react';
 import ProfileAboutEditDialog from './ProfileAboutEditDialog';
 
 const ProfileAbout = () => {
-  console.log('mounted');
+  const [showMore, setShowMore] = useState<boolean>(false);
 
   const { data: user, isLoading, error } = useMe();
-  const [showMore, setShowMore] = useState<boolean>(false);
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
+
+  console.log('mounted');
 
   return (
     <div className="h-fit w-[58%] space-y-4 rounded-md bg-secondary p-4">

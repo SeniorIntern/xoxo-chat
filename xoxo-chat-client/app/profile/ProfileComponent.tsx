@@ -1,12 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import useMe from '@/hooks/useMe';
+import usePlayer from '@/hooks/usePlayer';
 import { UserPlus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import PeopleSuggestionItem from '../PeopleSuggestionItem';
+import FriendSuggestions from './FriendSuggestions';
 import ProfileEditDialog from './ProfileEditDialog';
 
 type Props = {
@@ -15,7 +15,9 @@ type Props = {
 };
 
 const ProfileComponent = ({ userId, paramId }: Props) => {
-  const { data: user, isLoading, error } = useMe();
+  const { data: user, isLoading, error } = usePlayer(paramId! || userId!);
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
 
   return (
     <section className="grow">
@@ -51,12 +53,10 @@ const ProfileComponent = ({ userId, paramId }: Props) => {
               className="rounded-full border-4 border-background"
             />
           </div>
+
           <div className="self-center">
             <p className="text-3xl font-semibold">{user?.username}</p>
-            <p className="text-gray-400">
-              {user?.friends.length} friend
-              {user?.friends.length && user?.friends.length > 1 && 's'}
-            </p>
+            <p className="text-gray-400">{user?.friends.length} friends</p>
           </div>
         </div>
 
@@ -72,23 +72,17 @@ const ProfileComponent = ({ userId, paramId }: Props) => {
         </div>
       </div>
 
-      <article className="rounded-md border border-gray-700 p-4">
-        <div className="flex justify-between py-2">
-          <p>People You May know</p>
-          <Link href="/players" className="text-blue-600">
-            See all
-          </Link>
-        </div>
-        <div className="flex gap-4 overflow-scroll">
-          <PeopleSuggestionItem />
-          <PeopleSuggestionItem />
-          <PeopleSuggestionItem />
-          <PeopleSuggestionItem />
-          <PeopleSuggestionItem />
-          <PeopleSuggestionItem />
-          <PeopleSuggestionItem />
-        </div>
-      </article>
+      {userId && (
+        <article className="rounded-md border border-gray-700 p-4">
+          <div className="flex justify-between py-2">
+            <p>People You May know</p>
+            <Link href="/players" className="text-blue-600">
+              See all
+            </Link>
+          </div>
+          <FriendSuggestions />
+        </article>
+      )}
     </section>
   );
 };

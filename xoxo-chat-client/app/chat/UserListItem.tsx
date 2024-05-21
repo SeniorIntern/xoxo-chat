@@ -10,6 +10,8 @@ type Props = {
 };
 
 const UserListItem = ({ userData, children }: Props) => {
+  console.log('mounted');
+  
   return (
     <div className="flex items-center space-x-4">
       <div className="relative h-14 w-14">

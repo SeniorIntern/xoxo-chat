@@ -7,6 +7,8 @@ import ProfileBioEditDialog from './ProfileBioEditDialog';
 
 const ProfileIntro = () => {
   const { data: user, isLoading, error } = useMe();
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
 
   return (
     <div className="grow space-y-4 rounded-md bg-secondary p-4">
