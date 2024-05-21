@@ -19,6 +19,10 @@ class HttpService<T> {
     return apiClient.get<T[]>(this.endpoint + '/' + id).then((res) => res.data);
   };
 
+  getById = (id: string) => {
+    return apiClient.get<T>(this.endpoint + '/' + id).then((res) => res.data);
+  };
+
   post = (data: T) => {
     return apiClient.post<T>(this.endpoint, data).then((res) => res.data);
   };

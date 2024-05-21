@@ -1,32 +1,17 @@
-import { Gif, GifFetchResponse } from '@/app/types';
-import axios, { CanceledError } from 'axios';
-import { useEffect, useState } from 'react';
+import { GifFetchResponse } from '@/app/types';
+import { CACHE_KEY_GIFS } from '@/constants';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 const useGifs = () => {
-  const [gifs, setGifs] = useState<Gif[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const endpont =
-    'https://api.giphy.com/v1/gifs/search?api_key=SCz64Y4TAAXxvnjvV6i8CxzGJ6iHi0zq&q=dog&limit=9&rating=g&lang=en&bundle=messaging_non_clips';
-
-  useEffect(() => {
-    const controller = new AbortController();
-    setIsLoading(true);
-
-    axios
-      .get<GifFetchResponse>(endpont, { signal: controller.signal })
-      .then((res) => setGifs(res.data.data))
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setError(err.message);
-      })
-      .finally(() => setIsLoading(false));
-
-    return () => controller.abort();
-  }, []);
-
-  return { gifs, isLoading, error };
+  return useQuery<GifFetchResponse, Error>({
+    queryKey: CACHE_KEY_GIFS,
+    queryFn: () =>
+      axios.get(
+        'https://api.giphy.com/v1/gifs/search?api_key=SCz64Y4TAAXxvnjvV6i8CxzGJ6iHi0zq&q=dog&limit=9&rating=g&lang=en&bundle=messaging_non_clips'
+      ),
+    staleTime: 1 * 60 * 1000
+  });
 };
 
 export default useGifs;
