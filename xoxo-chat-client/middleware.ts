@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateSession } from './action';
+import { updateSession } from '@/action';
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  const isPublicPath = path === '/login' || path === '/register';
+  const authPath = path === '/login' || path === '/register';
 
   const token = request.cookies.get('session')?.value || '';
 
-  if (isPublicPath && token) {
+  if (authPath && token) {
     return NextResponse.redirect(new URL('/', request.nextUrl));
   }
 
-  if (!isPublicPath && !token) {
+  if (!authPath && !token) {
     return NextResponse.redirect(new URL('/login', request.nextUrl));
   }
   // validate cookie and update expiry on route change
@@ -20,5 +20,13 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile', '/players', '/friends', '/login', '/register', '/chat']
+  matcher: [
+    '/profile',
+    '/players',
+    '/tweets',
+    '/friends',
+    '/login',
+    '/register',
+    '/chat'
+  ]
 };

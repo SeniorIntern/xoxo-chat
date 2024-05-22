@@ -7,16 +7,21 @@ import ProfileBioEditDialog from './ProfileBioEditDialog';
 
 type Props = {
   user: Player;
+  hideDialog?: boolean;
 };
 
-const ProfileIntro = ({ user }: Props) => {
+const ProfileIntro = ({ user, hideDialog = false }: Props) => {
   console.log('mounted');
 
   return (
     <div className="grow space-y-4 rounded-md bg-secondary p-4">
       <p className="text-xl font-bold">Intro</p>
-      <p className="text-center">{user?.intro?.shortIntro}</p>
-      {user.intro && (
+      <p className="text-center">
+        {user?.intro?.shortIntro || (
+          <span className="text-mutedtext">No intro to show</span>
+        )}
+      </p>
+      {user && !hideDialog && (
         <ProfileBioEditDialog userId={user._id} userIntro={user.intro} />
       )}
       <div className="flex flex-col space-y-4">

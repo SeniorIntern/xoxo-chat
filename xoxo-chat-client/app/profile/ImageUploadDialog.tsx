@@ -28,7 +28,6 @@ const ImageUploadDialog = ({ title, type, userId }: Props) => {
   console.log('mounted');
 
   const resourceName = type === 'profile' ? 'profileImage' : 'coverImage';
-  const endpoint = 'http://localhost:3001/api/v1/users/' + resourceName;
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -37,7 +36,9 @@ const ImageUploadDialog = ({ title, type, userId }: Props) => {
 
   const mutation = useMutation({
     mutationFn: (formData: FormData) =>
-      apiClient.patch<Player>(endpoint, formData).then((res) => res.data),
+      apiClient
+        .patch<Player>('/users/' + resourceName, formData)
+        .then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_PLAYER, userId]
@@ -72,7 +73,6 @@ const ImageUploadDialog = ({ title, type, userId }: Props) => {
 
     try {
       mutation.mutate(formData);
-      // await apiClient.patch(endpoint, formData);
       setIsSubmitting(false);
       setIsDialogOpen(false);
       toast.success('Image is updated', { id: 'announcement' });

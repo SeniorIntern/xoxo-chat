@@ -13,8 +13,6 @@ const UserInfo = ({ conversationId }: Props) => {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
 
-  console.log('members=', members);
-
   console.log('mounted');
 
   return (
@@ -34,7 +32,7 @@ const UserInfo = ({ conversationId }: Props) => {
             />
           </div>
           <Link
-            href={`/players/${members[0]._id}`}
+            href={`/friends/${members[0]._id}`}
             className="inline-flex gap-2"
           >
             <span className="text-xl font-semibold hover:underline">

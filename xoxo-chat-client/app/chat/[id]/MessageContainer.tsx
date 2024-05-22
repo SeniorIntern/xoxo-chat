@@ -3,6 +3,7 @@
 import useSocket from '@/app/store/socketStore';
 import { SocketPaylod } from '@/app/types';
 import useMessages from '@/hooks/useMessages';
+import { cn } from '@/lib/utils';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
 import { format } from 'timeago.js';
@@ -34,7 +35,6 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
       socket.off('connect');
       socket.off(conversationId);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chats]);
 
   const { socket } = useSocket();
@@ -50,13 +50,15 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
       style={{ maxHeight: 'calc(100vh - 168px)' }}
       className="flex grow flex-col overflow-y-auto p-2"
     >
-      {/* messages from database. used to view old messages */}
+      {/* messages from (old)database */}
       {messages?.map((message) => (
         <div
           key={message._id}
-          className={classnames('my-4 flex flex-col items-end space-y-2', {
-            'self-end': message.sender == sender
-          })}
+          className={cn(
+            classnames('my-4 flex flex-col items-start space-y-2', {
+              'items-end': message.sender == sender
+            })
+          )}
         >
           <p className="w-fit rounded-2xl bg-primary px-4 py-1">
             {message.text}
@@ -65,7 +67,7 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
         </div>
       ))}
 
-      {/* messages from socketIO for real-time communication */}
+      {/* messages from (real-time)socketIO */}
       {chats.map((message, index) => (
         <div
           key={index}

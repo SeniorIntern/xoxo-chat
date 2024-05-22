@@ -1,10 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { usePlayer } from '@/hooks';
+import { useAddFriend, usePlayer } from '@/hooks';
 import { UserPlus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import FriendSuggestions from './FriendSuggestions';
 import ProfileEditDialog from './ProfileEditDialog';
@@ -12,14 +13,18 @@ import ProfileEditDialog from './ProfileEditDialog';
 type Props = {
   prop: {
     id: string;
-    type: 'param' | 'user';
+    type: 'param' | 'user' | 'friend';
   };
 };
 
 const ProfileComponent = ({ prop }: Props) => {
+  const mutation = useAddFriend();
+
   const { data: user, isLoading, error } = usePlayer(prop.id);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
+
+  const router = useRouter();
 
   return (
     <section className="grow">
@@ -63,14 +68,19 @@ const ProfileComponent = ({ prop }: Props) => {
         </div>
 
         <div className="self-center">
-          {prop.type === 'param' ? (
-            <Button className="inline-flex space-x-2 rounded-md px-4">
+          {prop.type === 'param' && (
+            <Button
+              onClick={() => {
+                mutation.mutate(prop.id);
+                router.push('/players');
+              }}
+              className="inline-flex space-x-2 rounded-md px-4"
+            >
               <UserPlus />
               <span>Add Friend</span>
             </Button>
-          ) : (
-            <ProfileEditDialog />
           )}
+          {prop.type === 'user' && user && <ProfileEditDialog user={user} />}
         </div>
       </div>
 

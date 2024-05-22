@@ -25,13 +25,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={roboto.className}>
       <body>
-        <Toaster position="top-right" richColors />
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex grow flex-col">
-            <QueryProvider>{children}</QueryProvider>
-          </main>
-        </div>
+        <Toaster
+          toastOptions={{ duration: 1000 }}
+          position="top-right"
+          richColors
+        />
+        <QueryProvider>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex grow flex-col">{children}</main>
+          </div>
+        </QueryProvider>
       </body>
     </html>
   );

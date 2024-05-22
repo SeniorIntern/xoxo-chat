@@ -1,5 +1,8 @@
+'use client';
+
 import { Player } from '@/app/types';
 import { Button } from '@/components/ui/button';
+import { useAddFriend } from '@/hooks';
 import { UserPlus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +12,9 @@ type Props = {
 };
 
 const PeopleSuggestionItem = ({ user }: Props) => {
+  console.log('mounted');
+  const mutation = useAddFriend();
+
   return (
     <div className="w-40 rounded-md border">
       <div className="relative h-36 w-full">
@@ -26,7 +32,10 @@ const PeopleSuggestionItem = ({ user }: Props) => {
       </div>
       <div className="flex h-28 flex-col place-content-between space-y-2 p-3">
         <Link href={`/players/${user?._id}`}>{user?.username}</Link>
-        <Button className="space-x-2 px-4">
+        <Button
+          onClick={() => mutation.mutate(user._id)}
+          className="space-x-2 px-4"
+        >
           <UserPlus size="18" fill="white" />
           <span>Add Friend</span>
         </Button>

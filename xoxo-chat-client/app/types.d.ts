@@ -32,6 +32,7 @@ export type Member = {
   _id: string;
   username: string;
   email: string;
+  profileImage: string;
 };
 
 export type Conversation = {
@@ -40,20 +41,20 @@ export type Conversation = {
 };
 
 export type PlayerIntro = {
-  shortIntro?: string;
-  study?: string;
-  location?: string;
-  job?: string;
+  shortIntro: string;
+  study: string;
+  location: string;
+  job: string;
 };
 
 export type Player = {
   _id: string;
   username: string;
   friends: [string];
-  profileImage?: string;
-  coverImage?: string;
-  intro?: PlayerIntro;
-  about?: string;
+  profileImage: string;
+  coverImage: string;
+  intro: PlayerIntro;
+  about: string;
 };
 
 type PlayerData = {

@@ -1,5 +1,6 @@
 'use client';
 
+import { Player } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -9,18 +10,17 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useMe } from '@/hooks';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 
 import ImageUploadDialog from './ImageUploadDialog';
 import ProfileIntro from './ProfileIntro';
 
-const ProfileEditDialog = () => {
-  const { data: user, isLoading, error } = useMe();
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
+type Props = {
+  user: Player;
+};
 
+const ProfileEditDialog = ({ user }: Props) => {
   console.log('mounted');
 
   return (
@@ -53,9 +53,8 @@ const ProfileEditDialog = () => {
                 <div className="relative mx-auto h-44 w-44">
                   <Image
                     src={
-                      user?.profileImage
-                        ? user.profileImage
-                        : 'https://picsum.photos/id/40/4106/2806'
+                      user?.profileImage ||
+                      'https://picsum.photos/id/40/4106/2806'
                     }
                     alt="profile image"
                     fill
@@ -78,9 +77,8 @@ const ProfileEditDialog = () => {
                 <div className="relative mx-auto h-44 w-3/4">
                   <Image
                     src={
-                      user?.coverImage
-                        ? user.coverImage
-                        : 'https://picsum.photos/id/40/4106/2806'
+                      user?.coverImage ||
+                      'https://picsum.photos/id/40/4106/2806'
                     }
                     alt="cover photo"
                     fill

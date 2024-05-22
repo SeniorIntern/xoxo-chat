@@ -1,17 +1,23 @@
+'use client';
+
 import CardContainer from '@/app/CardContainer';
-import { Gif, GifFetchResponse } from '@/app/types';
+import { Gif } from '@/app/types';
+import { useGifs } from '@/hooks';
 
 import GameControls from './GameControls';
 
-export default async function Home() {
-  const res = await fetch(
-    'https://api.giphy.com/v1/gifs/search?api_key=SCz64Y4TAAXxvnjvV6i8CxzGJ6iHi0zq&q=dog&limit=9&rating=g&lang=en&bundle=messaging_non_clips'
-  );
-  const originalGifs: GifFetchResponse = await res.json();
-  // create duplicate element of each array's element
-  const duplicatedGifs = [...originalGifs.data, ...originalGifs.data];
+export default function Home() {
+  const { data: res, isLoading, error } = useGifs();
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
 
-  // Shuffle array
+  const gifs = res?.data;
+  if (!gifs) return <></>;
+
+  // make pair of each element
+  const duplicatedGifs = [...gifs, ...gifs];
+
+  // Shuffle gifs
   const shuffleArray = (array: Gif[]) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));

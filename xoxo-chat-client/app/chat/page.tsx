@@ -14,7 +14,7 @@ export default function Page() {
   console.log('mounted');
 
   return (
-    <section className="flex grow items-center justify-center">
+    <section className="flex grow items-center justify-center bg-background">
       <div className="flex flex-col items-center space-y-4">
         <MessageCircleMore size={140} color="#0084FF" />
         <p className="text-xl font-bold text-gray-400">No chats selected</p>

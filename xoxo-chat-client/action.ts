@@ -1,14 +1,13 @@
 'use server';
 
+import { LoginData } from '@/app/login/page';
+import { RegisterData } from '@/app/register/page';
+import { Session } from '@/app/types';
+import apiClient from '@/services/apiClient';
 import { AxiosError } from 'axios';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-
-import { LoginData } from './app/login/page';
-import { RegisterData } from './app/register/page';
-import { MessageRequest, Session } from './app/types';
-import apiClient from './services/apiClient';
 
 const secretKey = 'cat123';
 const key = new TextEncoder().encode(secretKey);
@@ -121,21 +120,4 @@ export async function updateSession(request: NextRequest) {
     expires: parsed.expires
   });
   return res;
-}
-
-export async function sendMessage(payload: MessageRequest) {
-  try {
-    const res = await apiClient.post('/messages', payload);
-    return {
-      status: true,
-      data: res.data
-    };
-  } catch (err: unknown) {
-    if (err instanceof AxiosError) {
-      return {
-        status: false,
-        data: err.response?.data
-      };
-    }
-  }
 }
