@@ -9,8 +9,6 @@ export default async function Page() {
   const profileObject = await getSession();
   if (!profileObject) redirect('/login');
 
-  const profile = JSON.stringify(profileObject, null, 2);
-
   return (
     <div className="space-y-6 pb-6">
       <div className="space-y-4 bg-secondary px-24 pb-4">

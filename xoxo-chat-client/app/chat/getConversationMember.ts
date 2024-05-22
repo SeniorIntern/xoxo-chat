@@ -1,4 +1,4 @@
-import { Member } from '../types';
+import { Member } from '@/app/types';
 
 function getConversationMember(
   membersArray: Member[],

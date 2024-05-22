@@ -1,5 +1,6 @@
 'use client';
 
+import { Player, PlayerIntro } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -10,7 +11,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { CACHE_KEY_ME } from '@/constants';
+import { CACHE_KEY_PLAYER } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -18,8 +19,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-
-import { Player, PlayerIntro } from '../types';
 
 const FormSchema = z.object({
   shortIntro: z
@@ -42,19 +41,20 @@ const FormSchema = z.object({
 
 type Props = {
   openBioDialog: Dispatch<SetStateAction<boolean>>;
-  userIntro?: PlayerIntro;
+  userIntro: PlayerIntro;
+  userId: string;
 };
 
-const ProfileBioForm = ({ userIntro, openBioDialog }: Props) => {
+const ProfileBioForm = ({ userIntro, openBioDialog, userId }: Props) => {
   const queryClient = useQueryClient();
   const endpoint = 'http://localhost:3001/api/v1/users/intro';
 
-  const patchBio = useMutation({
+  const mutation = useMutation({
     mutationFn: (formData: z.infer<typeof FormSchema>) =>
       apiClient.patch<Player>(endpoint, formData).then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: CACHE_KEY_ME
+        queryKey: [CACHE_KEY_PLAYER, userId]
       });
       toast.success('Your information is updated', { id: 'announcement' });
       openBioDialog(false);
@@ -73,7 +73,7 @@ const ProfileBioForm = ({ userIntro, openBioDialog }: Props) => {
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
     console.log(values);
-    patchBio.mutate(values);
+    mutation.mutate(values);
   }
   return (
     <Form {...form}>

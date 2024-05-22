@@ -1,7 +1,7 @@
+import { ConversationData, PlayerData } from '@/app/types';
 import Image from 'next/image';
 import { ReactNode } from 'react';
 
-import { ConversationData, PlayerData } from '../types';
 import getConversationMember from './getConversationMember';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 
 const UserListItem = ({ userData, children }: Props) => {
   console.log('mounted');
-  
+
   return (
     <div className="flex items-center space-x-4">
       <div className="relative h-14 w-14">

@@ -16,7 +16,9 @@ const ProfileIntro = ({ user }: Props) => {
     <div className="grow space-y-4 rounded-md bg-secondary p-4">
       <p className="text-xl font-bold">Intro</p>
       <p className="text-center">{user?.intro?.shortIntro}</p>
-      <ProfileBioEditDialog userIntro={user?.intro} />
+      {user.intro && (
+        <ProfileBioEditDialog userId={user._id} userIntro={user.intro} />
+      )}
       <div className="flex flex-col space-y-4">
         <p className="inline-flex space-x-2 text-mutedtext">
           <GraduationCap />

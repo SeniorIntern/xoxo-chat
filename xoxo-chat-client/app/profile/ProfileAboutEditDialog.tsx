@@ -1,5 +1,6 @@
 'use client';
 
+import { Player } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -27,7 +28,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { Player } from '../types';
 
 const FormSchema = z.object({
   bio: z

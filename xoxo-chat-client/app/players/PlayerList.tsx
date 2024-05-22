@@ -45,7 +45,7 @@ const PlayerList = () => {
     const players = filterPlayersByFriends(allPlayers, friends);
 
     return (
-      <div className="space-y-4">
+      <aside className="space-y-4">
         {players.map((p) => (
           <div className="block cursor-pointer rounded-md p-2" key={p._id}>
             <UserListItem userData={{ type: 'player', data: p }}>
@@ -63,7 +63,7 @@ const PlayerList = () => {
             </UserListItem>
           </div>
         ))}
-      </div>
+      </aside>
     );
   }
 };

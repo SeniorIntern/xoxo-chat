@@ -1,5 +1,6 @@
 'use client';
 
+import { PlayerIntro } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -10,14 +11,14 @@ import {
 } from '@/components/ui/dialog';
 import { useState } from 'react';
 
-import { PlayerIntro } from '../types';
 import ProfileBioForm from './ProfileBioForm';
 
 type Props = {
-  userIntro?: PlayerIntro;
+  userIntro: PlayerIntro;
+  userId: string;
 };
 
-const ProfileBioEditDialog = ({ userIntro }: Props) => {
+const ProfileBioEditDialog = ({ userIntro, userId }: Props) => {
   console.log('mounted');
 
   const [open, setOpen] = useState(false);
@@ -35,7 +36,11 @@ const ProfileBioEditDialog = ({ userIntro }: Props) => {
             Fill your information
           </DialogTitle>
         </DialogHeader>
-        <ProfileBioForm userIntro={userIntro} openBioDialog={setOpen} />
+        <ProfileBioForm
+          userId={userId}
+          userIntro={userIntro}
+          openBioDialog={setOpen}
+        />
       </DialogContent>
     </Dialog>
   );

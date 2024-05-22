@@ -18,7 +18,7 @@ const ConversationList = ({ userId }: { userId: string }) => {
   if (error) return <p>{error.message}</p>;
 
   return (
-    <div className="p-2">
+    <aside className="p-2">
       {conversations?.map((c) => (
         <Link
           onClick={() => setConversation(c)}
@@ -41,7 +41,7 @@ const ConversationList = ({ userId }: { userId: string }) => {
           />
         </Link>
       ))}
-    </div>
+    </aside>
   );
 };
 
