@@ -81,7 +81,7 @@ const createUser = async () => {
   const user = new User({
     username: username,
     email: faker.internet.email({
-      provider: 'gmail',
+      provider: 'gmail.com',
       firstName,
       lastName
     }),
