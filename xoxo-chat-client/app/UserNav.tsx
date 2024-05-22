@@ -9,10 +9,12 @@ import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { redirect } from 'next/navigation';
 import Logout from './Logout';
 
 const UserNav = async () => {
   const profileObject = await getSession();
+  if (!profileObject) redirect('/login');
 
   return (
     <DropdownMenu dir="ltr">

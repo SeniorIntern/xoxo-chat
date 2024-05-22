@@ -5,8 +5,7 @@ import { Player } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { CACHE_KEY_PLAYERS } from '@/constants';
 import filterPlayersByFriends from '@/helpers/filterPlayersByFriend';
-import useFriends from '@/hooks/useFriends';
-import usePlayers from '@/hooks/usePlayers';
+import { useFriends, usePlayers } from '@/hooks';
 import apiClient from '@/services/apiClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -18,10 +17,8 @@ const PlayerList = () => {
   console.log('mounted');
 
   const patchUser = useMutation({
-    //@ts-ignore
-    mutationFn: (friendId: string) => {
-      apiClient.patch<Player>(endpoint, { friendId }).then((res) => res.data);
-    },
+    mutationFn: (friendId: string) =>
+      apiClient.patch<Player>(endpoint, { friendId }).then((res) => res.data),
     onSuccess: () => {
       toast.success('Friend Added', { id: 'announcement' });
       queryClient.invalidateQueries({

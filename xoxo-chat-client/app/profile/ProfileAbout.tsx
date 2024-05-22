@@ -1,16 +1,16 @@
 'use client';
 
-import useMe from '@/hooks/useMe';
+import { Player } from '@/app/types';
 import { useState } from 'react';
 
 import ProfileAboutEditDialog from './ProfileAboutEditDialog';
 
-const ProfileAbout = () => {
-  const [showMore, setShowMore] = useState<boolean>(false);
+type Props = {
+  user: Player;
+};
 
-  const { data: user, isLoading, error } = useMe();
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
+const ProfileAbout = ({ user }: Props) => {
+  const [showMore, setShowMore] = useState<boolean>(false);
 
   console.log('mounted');
 
@@ -18,7 +18,9 @@ const ProfileAbout = () => {
     <div className="h-fit w-[58%] space-y-4 rounded-md bg-secondary p-4">
       <div className="flex items-center justify-between">
         <p className="text-xl font-bold">About</p>
-        <ProfileAboutEditDialog about={user?.about} />
+        {user?.about && (
+          <ProfileAboutEditDialog about={user?.about} id={user?._id} />
+        )}
       </div>
       {user?.about && (
         <p>

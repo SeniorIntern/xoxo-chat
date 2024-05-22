@@ -1,7 +1,7 @@
 'use client';
 
 import useConversationStore from '@/app/store/conversationStore';
-import useConversations from '@/hooks/useConversations';
+import { useConversations } from '@/hooks';
 import classNames from 'classnames';
 import Link from 'next/link';
 

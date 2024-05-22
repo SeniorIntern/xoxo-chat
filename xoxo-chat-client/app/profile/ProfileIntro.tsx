@@ -1,14 +1,16 @@
 'use client';
 
-import useMe from '@/hooks/useMe';
+import { Player } from '@/app/types';
 import { BriefcaseBusiness, GraduationCap, Home } from 'lucide-react';
 
 import ProfileBioEditDialog from './ProfileBioEditDialog';
 
-const ProfileIntro = () => {
-  const { data: user, isLoading, error } = useMe();
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
+type Props = {
+  user: Player;
+};
+
+const ProfileIntro = ({ user }: Props) => {
+  console.log('mounted');
 
   return (
     <div className="grow space-y-4 rounded-md bg-secondary p-4">

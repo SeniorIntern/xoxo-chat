@@ -8,7 +8,7 @@ export default function page() {
     <>
       <section className="w-[24%] space-y-4 p-4"></section>
 
-      <section className="flex grow flex-col">
+      <section className="flex grow flex-col overflow-y-scroll bg-secondary">
         <form className="flex items-center gap-2 bg-secondary p-2">
           <div className="relative h-10 w-10">
             <Image

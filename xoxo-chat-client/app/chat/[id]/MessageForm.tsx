@@ -16,7 +16,7 @@ import { useRef } from 'react';
 import { toast } from 'sonner';
 
 type Props = {
-  sender: string | undefined;
+  sender: string;
   conversationId: string;
 };
 

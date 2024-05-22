@@ -6,7 +6,7 @@ export default async function PlayerLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex grow divide-x bg-secondary">
+    <div className="flex grow divide-x">
       <section className="w-[28%] space-y-8 p-2">
         <p className="text-center text-xl font-bold">Friend Suggestions</p>
         <p>People you may know</p>

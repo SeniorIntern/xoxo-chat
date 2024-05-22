@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import usePlayer from '@/hooks/usePlayer';
+import { usePlayer } from '@/hooks';
 import { UserPlus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,12 +10,14 @@ import FriendSuggestions from './FriendSuggestions';
 import ProfileEditDialog from './ProfileEditDialog';
 
 type Props = {
-  userId?: string;
-  paramId?: string;
+  prop: {
+    id: string;
+    type: 'param' | 'user';
+  };
 };
 
-const ProfileComponent = ({ userId, paramId }: Props) => {
-  const { data: user, isLoading, error } = usePlayer(paramId! || userId!);
+const ProfileComponent = ({ prop }: Props) => {
+  const { data: user, isLoading, error } = usePlayer(prop.id);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
 
@@ -61,7 +63,7 @@ const ProfileComponent = ({ userId, paramId }: Props) => {
         </div>
 
         <div className="self-center">
-          {paramId ? (
+          {prop.type === 'param' ? (
             <Button className="inline-flex space-x-2 rounded-md px-4">
               <UserPlus />
               <span>Add Friend</span>
@@ -72,7 +74,7 @@ const ProfileComponent = ({ userId, paramId }: Props) => {
         </div>
       </div>
 
-      {userId && (
+      {prop.type === 'user' && (
         <article className="rounded-md border border-gray-700 p-4">
           <div className="flex justify-between py-2">
             <p>People You May know</p>

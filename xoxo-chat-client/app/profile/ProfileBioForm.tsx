@@ -21,7 +21,7 @@ import { z } from 'zod';
 
 import { Player, PlayerIntro } from '../types';
 
-const formSchema = z.object({
+const FormSchema = z.object({
   shortIntro: z
     .string()
     .min(10, { message: 'Introduction must be at least 10 characters.' })
@@ -50,10 +50,8 @@ const ProfileBioForm = ({ userIntro, openBioDialog }: Props) => {
   const endpoint = 'http://localhost:3001/api/v1/users/intro';
 
   const patchBio = useMutation({
-    //@ts-ignore
-    mutationFn: (formData: z.infer<typeof formSchema>) => {
-      apiClient.patch<Player>(endpoint, formData).then((res) => res.data);
-    },
+    mutationFn: (formData: z.infer<typeof FormSchema>) =>
+      apiClient.patch<Player>(endpoint, formData).then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: CACHE_KEY_ME
@@ -63,8 +61,8 @@ const ProfileBioForm = ({ userIntro, openBioDialog }: Props) => {
     }
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
     defaultValues: {
       shortIntro: userIntro?.shortIntro ? userIntro.shortIntro : '',
       study: userIntro?.study ? userIntro.study : '',
@@ -73,7 +71,7 @@ const ProfileBioForm = ({ userIntro, openBioDialog }: Props) => {
     }
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof FormSchema>) {
     console.log(values);
     patchBio.mutate(values);
   }

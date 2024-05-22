@@ -1,5 +1,6 @@
 import { getSession } from '@/action';
 import { Input } from '@/components/ui/input';
+import { redirect } from 'next/navigation';
 
 import ConversationList from './ConversationList';
 
@@ -9,7 +10,9 @@ export default async function ChatLayout({
   children: React.ReactNode;
 }) {
   const profileObject = await getSession();
-  const userId = profileObject?.payload._id!;
+  if (!profileObject) redirect('/login');
+
+  const userId = profileObject?.payload._id;
 
   return (
     <div className="flex grow divide-x bg-secondary">

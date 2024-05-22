@@ -18,18 +18,16 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { CACHE_KEY_ME } from '@/constants';
+import { CACHE_KEY_PLAYER } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogClose } from '@radix-ui/react-dialog';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { Pen } from 'lucide-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Player } from '../types';
-import { useState } from 'react';
-import { log } from 'console';
 
 const FormSchema = z.object({
   bio: z
@@ -43,10 +41,11 @@ const FormSchema = z.object({
 });
 
 type Props = {
-  about?: string;
+  about: string;
+  id: string;
 };
 
-const ProfileAboutEditDialog = ({ about }: Props) => {
+const ProfileAboutEditDialog = ({ about, id }: Props) => {
   console.log('mounted');
 
   const [open, setOpen] = useState(false);
@@ -54,17 +53,18 @@ const ProfileAboutEditDialog = ({ about }: Props) => {
   const queryClient = useQueryClient();
   const endpoint = 'http://localhost:3001/api/v1/users/about';
 
-  const patchBio = useMutation({
-    //@ts-ignore
-    mutationFn: (formData: z.infer<typeof formSchema>) => {
-      apiClient.patch<Player>(endpoint, formData).then((res) => res.data);
-    },
+  const mutation = useMutation({
+    mutationFn: (formData: z.infer<typeof FormSchema>) =>
+      apiClient.patch<Player>(endpoint, formData).then((res) => res.data),
     onSuccess: () => {
-      setOpen(false);
       queryClient.invalidateQueries({
-        queryKey: CACHE_KEY_ME
+        queryKey: [CACHE_KEY_PLAYER, id]
       });
+      setOpen(false);
       toast.success('Your information is updated', { id: 'announcement' });
+    },
+    onError: (err) => {
+      toast.error(err.message, { id: 'announcement' });
     }
   });
 
@@ -78,7 +78,7 @@ const ProfileAboutEditDialog = ({ about }: Props) => {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('values=', data);
     toast.success('Your bio is updated', { id: 'announcement' });
-    patchBio.mutate(data);
+    mutation.mutate(data);
   }
 
   return (

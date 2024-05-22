@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { CACHE_KEY_ME } from '@/constants';
+import { CACHE_KEY_PLAYER } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useCallback, useState } from 'react';
@@ -21,9 +21,10 @@ import { toast } from 'sonner';
 type Props = {
   title: string;
   type: 'profile' | 'cover';
+  userId: string;
 };
 
-const ImageUploadDialog = ({ title, type }: Props) => {
+const ImageUploadDialog = ({ title, type, userId }: Props) => {
   console.log('mounted');
 
   const resourceName = type === 'profile' ? 'profileImage' : 'coverImage';
@@ -34,17 +35,17 @@ const ImageUploadDialog = ({ title, type }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const patchUser = useMutation({
-    //@ts-ignore
-    mutationFn: (formData: FormData) => {
-      apiClient.patch<Player>(endpoint, formData).then((res) => res.data);
-    },
+  const mutation = useMutation({
+    mutationFn: (formData: FormData) =>
+      apiClient.patch<Player>(endpoint, formData).then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: CACHE_KEY_ME
+        queryKey: [CACHE_KEY_PLAYER, userId]
       });
-
-      // queryClient.setQueryData<Player>(CACHE_KEY_ME, (user) => user);
+      toast.success('Image is updated', { id: 'announcement' });
+    },
+    onError: (err) => {
+      toast.error(err.message, { id: 'announcement' });
     }
   });
 
@@ -70,7 +71,7 @@ const ImageUploadDialog = ({ title, type }: Props) => {
     formData.append(resourceName, acceptedFiles[0]);
 
     try {
-      patchUser.mutate(formData);
+      mutation.mutate(formData);
       // await apiClient.patch(endpoint, formData);
       setIsSubmitting(false);
       setIsDialogOpen(false);
@@ -92,7 +93,7 @@ const ImageUploadDialog = ({ title, type }: Props) => {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          <div {...getRootProps()} className=''>
+          <div {...getRootProps()} className="">
             <input {...getInputProps()} />
             {isDragActive ? (
               <p>Drop the files here ...</p>

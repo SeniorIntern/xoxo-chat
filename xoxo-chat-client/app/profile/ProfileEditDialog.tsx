@@ -1,16 +1,15 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import useMe from '@/hooks/useMe';
-import { Button } from '@/components/ui/button';
+import { useMe } from '@/hooks';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 
@@ -19,6 +18,10 @@ import ProfileIntro from './ProfileIntro';
 
 const ProfileEditDialog = () => {
   const { data: user, isLoading, error } = useMe();
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
+
+  console.log('mounted');
 
   return (
     <Dialog>
@@ -38,10 +41,13 @@ const ProfileEditDialog = () => {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-xl font-semibold">Profile picture</span>
-                  <ImageUploadDialog
-                    title="Drop/Upload profile picture"
-                    type="profile"
-                  />
+                  {user && (
+                    <ImageUploadDialog
+                      userId={user._id}
+                      title="Drop/Upload profile picture"
+                      type="profile"
+                    />
+                  )}
                 </div>
 
                 <div className="relative mx-auto h-44 w-44">
@@ -61,10 +67,13 @@ const ProfileEditDialog = () => {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-xl font-semibold">Cover image</span>
-                  <ImageUploadDialog
-                    title="Drop/Upload cover photo"
-                    type="cover"
-                  />
+                  {user && (
+                    <ImageUploadDialog
+                      title="Drop/Upload cover photo"
+                      type="cover"
+                      userId={user._id}
+                    />
+                  )}
                 </div>
                 <div className="relative mx-auto h-44 w-3/4">
                   <Image
@@ -80,7 +89,7 @@ const ProfileEditDialog = () => {
                   />
                 </div>
               </div>
-              <ProfileIntro />
+              {user && <ProfileIntro user={user} />}
             </div>
           </DialogHeader>
         </ScrollArea>
