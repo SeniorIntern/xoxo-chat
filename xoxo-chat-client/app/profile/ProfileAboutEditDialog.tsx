@@ -114,7 +114,7 @@ const ProfileAboutEditDialog = ({ about, id }: Props) => {
               <DialogFooter>
                 <Button type="submit">Submit</Button>
                 <DialogClose asChild>
-                  <Button>Cancel</Button>
+                  <Button variant="destructive">Cancel</Button>
                 </DialogClose>
               </DialogFooter>
             </form>

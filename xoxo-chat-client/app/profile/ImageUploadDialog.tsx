@@ -12,7 +12,7 @@ import {
 import { CACHE_KEY_PLAYER } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, ReactNode, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 
@@ -20,9 +20,10 @@ type Props = {
   title: string;
   type: 'profile' | 'cover';
   userId: string;
+  children?: ReactNode;
 };
 
-const ImageUploadDialog = ({ title, type, userId }: Props) => {
+const ImageUploadDialog = ({ title, children, type, userId }: Props) => {
   console.log('mounted');
 
   const resourceName = type === 'profile' ? 'profileImage' : 'coverImage';
@@ -41,10 +42,13 @@ const ImageUploadDialog = ({ title, type, userId }: Props) => {
       queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_PLAYER, userId]
       });
-      toast.success('Image is updated', { id: 'announcement' });
+      toast.success('Image is updated', {
+        id: 'announcement',
+        duration: 8000
+      });
     },
     onError: (err) => {
-      toast.error(err.message, { id: 'announcement' });
+      toast.error(err.message, { id: 'announcement', duration: 8000 });
     }
   });
 
@@ -84,7 +88,9 @@ const ImageUploadDialog = ({ title, type, userId }: Props) => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger className="text-blue-600">Edit</DialogTrigger>
+      <DialogTrigger className="text-blue-600">
+        {children ? children : 'Edit'}
+      </DialogTrigger>
       <DialogContent className="border-none">
         <DialogHeader>
           <DialogTitle className="text-white">{title}</DialogTitle>

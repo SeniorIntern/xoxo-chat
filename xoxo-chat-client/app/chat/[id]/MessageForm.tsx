@@ -30,8 +30,6 @@ type Props = {
 };
 
 const MessageForm = ({ conversationId, sender }: Props) => {
-  console.log('mounted');
-
   const { socket } = useSocket();
   const messageRef = useRef<HTMLInputElement>(null);
 
@@ -67,16 +65,12 @@ const MessageForm = ({ conversationId, sender }: Props) => {
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     console.dir(acceptedFiles);
-    /*
-    if (acceptedFiles.length > 1) {
-      return toast.error('You cannot select more than 1 file');
-    }
-*/
     console.log('onDrop files=', acceptedFiles);
   }, []);
 
-  const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
-    useDropzone({ onDrop });
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    onDrop
+  });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,6 +83,8 @@ const MessageForm = ({ conversationId, sender }: Props) => {
       acceptedFiles.forEach((file) => {
         formData.append('attachmentUrls', file, file.name);
       });
+      acceptedFiles.length = 0;
+
       formData.append('conversationId', conversationId);
       formData.append('sender', sender);
 
@@ -98,7 +94,6 @@ const MessageForm = ({ conversationId, sender }: Props) => {
 
       try {
         console.log('formdata===', formData);
-
         mutation.mutate(formData);
       } catch (err: unknown) {
         if (err instanceof Error)
@@ -107,55 +102,65 @@ const MessageForm = ({ conversationId, sender }: Props) => {
     }
   };
 
+  console.log('mounted');
+
   return (
-    <form className="flex grow space-x-4" onSubmit={handleSubmit}>
-      <div {...getRootProps()} className="flex items-center">
-        <input
-          {...getInputProps()}
-          type="file"
-          id="attachments"
-          accept="image/*"
-          multiple
-          size={2}
-          className="hidden"
-        />
-        <label htmlFor="attachments">
-          <Image color="#0084FF" />
-        </label>
-      </div>
-
-      <Popover>
-        <PopoverTrigger>
-          <SmilePlus color="#0084FF" />
-        </PopoverTrigger>
-        <PopoverContent className="w-fit p-0" align="start">
-          <EmojiPicker
-            onEmojiClick={(foo) => {
-              if (messageRef.current) messageRef.current.value += foo.emoji;
-            }}
+    <div className='flex grow flex-col'>
+      {acceptedFiles.length != 0 && (
+        <p className="text-xs">{acceptedFiles.length} images</p>
+      )}
+      <form
+        className="flex grow items-center space-x-4"
+        onSubmit={handleSubmit}
+      >
+        <div {...getRootProps()} className="flex items-center">
+          <input
+            {...getInputProps()}
+            type="file"
+            id="attachments"
+            accept="image/*"
+            multiple
+            size={2}
+            className="hidden"
           />
-        </PopoverContent>
-      </Popover>
+          <label htmlFor="attachments">
+            <Image color="#0084FF" />
+          </label>
+        </div>
 
-      <Input
-        ref={messageRef}
-        className="w-full rounded-3xl border-none bg-muted px-4 py-2 text-white"
-        placeholder="Aa"
-      />
+        <Popover>
+          <PopoverTrigger>
+            <SmilePlus color="#0084FF" />
+          </PopoverTrigger>
+          <PopoverContent className="w-fit p-0" align="start">
+            <EmojiPicker
+              onEmojiClick={(foo) => {
+                if (messageRef.current) messageRef.current.value += foo.emoji;
+              }}
+            />
+          </PopoverContent>
+        </Popover>
 
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="ghost" className="-rotate-90 p-0">
-              <SendHorizontal color="#0084FF" className="font-bold" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Send Message</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </form>
+        <Input
+          ref={messageRef}
+          className="w-full rounded-3xl border-none bg-muted px-4 py-2 text-white"
+          placeholder="Aa"
+        />
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" className="-rotate-90 p-0">
+                <SendHorizontal color="#0084FF" className="font-bold" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Send Message</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </form>
+    </div>
   );
 };
 
