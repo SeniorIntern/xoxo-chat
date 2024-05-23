@@ -1,5 +1,3 @@
-'use client';
-
 import { Player } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import {

@@ -5,6 +5,7 @@ import { SocketPaylod } from '@/app/types';
 import useMessages from '@/hooks/useMessages';
 import { cn } from '@/lib/utils';
 import classnames from 'classnames';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { format } from 'timeago.js';
 
@@ -23,9 +24,10 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
       );
     });
 
-    socket.on(conversationId, (data: SocketPaylod) =>
-      setChats([...chats, data])
-    );
+    socket.on(conversationId, (data: SocketPaylod) => {
+      console.log('socket, data recieved=', conversationId, data);
+      setChats([...chats, data]);
+    });
 
     document
       .getElementById('chat-bottom')
@@ -60,9 +62,26 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
             })
           )}
         >
-          <p className="w-fit rounded-2xl bg-primary px-4 py-1">
-            {message.text}
-          </p>
+          {message.attachmentUrls.length !== 0 && (
+            <div className="flex flex-col gap-2">
+              {message.attachmentUrls.map((a, i) => (
+                <div key={i} className="relative h-36 w-36">
+                  <Image
+                    src={a}
+                    alt="message attachment image"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    className="rounded-md"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          {message.text && (
+            <p className="w-fit rounded-2xl bg-primary px-4 py-1">
+              {message.text}
+            </p>
+          )}
           <p className="text-sm text-gray-400">{format(message.updatedAt)}</p>
         </div>
       ))}
@@ -75,9 +94,26 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
             'self-end': message.sender == sender
           })}
         >
-          <p className="w-fit rounded-2xl bg-primary px-4 py-1">
-            {message.text}
-          </p>
+          {message.attachmentUrls.length !== 0 && (
+            <div className="flex flex-col gap-2">
+              {message.attachmentUrls.map((a, i) => (
+                <div key={i} className="relative h-36 w-36">
+                  <Image
+                    src={a}
+                    alt="message attachment image"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    className="rounded-md"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          {message.text && (
+            <p className="w-fit rounded-2xl bg-primary px-4 py-1">
+              {message.text}
+            </p>
+          )}
           <p className="text-sm text-gray-400">{format(message.updatedAt)}</p>
         </div>
       ))}

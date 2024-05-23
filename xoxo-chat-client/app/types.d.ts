@@ -1,22 +1,18 @@
 type SocketPaylod = {
   conversationId: string;
   sender: string;
-  text: string;
+  text?: string;
   updatedAt: Date;
+  attachmentUrls: string[];
 };
 
 type Message = {
   _id: string;
   conversationId: string;
   sender: string;
-  text: string;
+  text?: string;
+  attachmentUrls: string[];
   updatedAt: string;
-};
-
-type MessageRequest = {
-  text: string;
-  sender: string;
-  conversationId: string;
 };
 
 type Session = {

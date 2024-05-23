@@ -1,7 +1,7 @@
 'use client';
 
 import useSocket from '@/app/store/socketStore';
-import { MessageRequest } from '@/app/types';
+import { Message } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -19,8 +19,9 @@ import { CACHE_KEY_CONVERSATIONS } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmojiPicker from 'emoji-picker-react';
-import { SendHorizontal, SmilePlus } from 'lucide-react';
-import { useRef } from 'react';
+import { Image, SendHorizontal, SmilePlus } from 'lucide-react';
+import { FormEvent, useCallback, useRef } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 
 type Props = {
@@ -37,9 +38,9 @@ const MessageForm = ({ conversationId, sender }: Props) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (payload: MessageRequest) =>
-      apiClient.post('/messages', payload).then((res) => res.data),
-    onSuccess: () => {
+    mutationFn: (formData: FormData) =>
+      apiClient.post<Message>('/messages', formData).then((res) => res.data),
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_CONVERSATIONS, conversationId]
       });
@@ -48,7 +49,8 @@ const MessageForm = ({ conversationId, sender }: Props) => {
         ...{
           conversationId,
           sender,
-          text: messageRef.current?.value
+          text: messageRef.current?.value,
+          attachmentUrls: data.attachmentUrls
         },
         updatedAt: Date.now()
       });
@@ -63,24 +65,50 @@ const MessageForm = ({ conversationId, sender }: Props) => {
     }
   });
 
-  return (
-    <form
-      className="flex grow space-x-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (!messageRef.current?.value.trim()) {
-          return;
-        }
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    console.dir(acceptedFiles);
+    /*
+    if (acceptedFiles.length > 1) {
+      return toast.error('You cannot select more than 1 file');
+    }
+*/
+    console.log('onDrop files=', acceptedFiles);
+  }, []);
 
-        const payload = {
-          conversationId,
-          sender,
-          text: messageRef.current?.value
-        };
-        mutation.mutate(payload);
-      }}
-    >
-      {/*
+  const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
+    useDropzone({ onDrop });
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (messageRef.current?.value.trim() || acceptedFiles.length !== 0) {
+      console.log('acceptedFiles=', acceptedFiles);
+
+      const formData = new FormData();
+      // Iterate over the acceptedFiles array and append each file to the FormData object
+      acceptedFiles.forEach((file) => {
+        formData.append('attachmentUrls', file, file.name);
+      });
+      formData.append('conversationId', conversationId);
+      formData.append('sender', sender);
+
+      if (messageRef.current?.value.trim()) {
+        formData.append('text', messageRef.current.value);
+      }
+
+      try {
+        console.log('formdata===', formData);
+
+        mutation.mutate(formData);
+      } catch (err: unknown) {
+        if (err instanceof Error)
+          toast.error(err.message, { id: 'announcement' });
+      }
+    }
+  };
+
+  return (
+    <form className="flex grow space-x-4" onSubmit={handleSubmit}>
       <div {...getRootProps()} className="flex items-center">
         <input
           {...getInputProps()}
@@ -95,7 +123,7 @@ const MessageForm = ({ conversationId, sender }: Props) => {
           <Image color="#0084FF" />
         </label>
       </div>
-*/}
+
       <Popover>
         <PopoverTrigger>
           <SmilePlus color="#0084FF" />
