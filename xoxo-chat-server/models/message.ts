@@ -4,6 +4,7 @@ interface Message {
   conversationId: mongoose.Schema.Types.ObjectId;
   sender: string;
   text: string;
+  attachmentUrls: string[];
 }
 
 const MessageSchema = new mongoose.Schema<Message>(
@@ -17,6 +18,9 @@ const MessageSchema = new mongoose.Schema<Message>(
     },
     text: {
       type: String
+    },
+    attachmentUrls: {
+      type: [String]
     }
   },
   { timestamps: true }

@@ -49,6 +49,8 @@ io.on('connection', (socket) => {
 
   socket.on('send', (data: SocketPaylod) => {
     // emit to corresponding conversation
+    console.log('socket, data recieved=', data);
+
     io.emit(data.conversationId, data);
   });
 });
