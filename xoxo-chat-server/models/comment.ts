@@ -1,32 +1,22 @@
 import mongoose from 'mongoose';
 
-const commentSchema = new mongoose.Schema(
+type Comment = {
+  commentContent: string;
+  userId: mongoose.Schema.Types.ObjectId;
+};
+
+const commentSchema = new mongoose.Schema<Comment>(
   {
-    content: {
-      type: String,
-      required: true,
-      maxLength: 300,
-      minLength: 5
+    commentContent: {
+      type: String
     },
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-    },
-    tweet: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Tweet',
-      required: true
-    },
-    likes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Like'
-      }
-    ]
+      ref: 'User'
+    }
   },
   { timestamps: true }
 );
 
 const Comment = mongoose.model('Comment', commentSchema);
-export default Comment
+export default Comment;
