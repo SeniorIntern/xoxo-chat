@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 type Tweet = {
-  userId: mongoose.Schema.Types.ObjectId;
+  user: mongoose.Schema.Types.ObjectId;
   tweetContent: string;
   attachmentUrls: string[];
   comments: mongoose.Schema.Types.ObjectId[];
@@ -9,7 +9,7 @@ type Tweet = {
 };
 
 const tweetSchema = new mongoose.Schema<Tweet>({
-  userId: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
