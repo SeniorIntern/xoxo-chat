@@ -30,6 +30,10 @@ class HttpService<T> {
   patch = (data: FormData) => {
     apiClient.patch(this.endpoint, data).then((res) => res.data);
   };
+
+  delete = (id: string) => {
+    apiClient.delete(this.endpoint + '/' + id).then((res) => res.data);
+  };
 }
 
 export default HttpService;

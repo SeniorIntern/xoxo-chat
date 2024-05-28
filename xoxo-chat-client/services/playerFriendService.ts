@@ -2,4 +2,4 @@ import { Player } from '@/app/types';
 
 import HttpService from './HttpService';
 
-export default new HttpService<Player>('/users/myFriends');
+export default new HttpService<Player>('/users/friends');
