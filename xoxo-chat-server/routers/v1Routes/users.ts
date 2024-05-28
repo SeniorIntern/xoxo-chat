@@ -26,7 +26,7 @@ router.get('/me', auth, async (req, res) => {
   res.status(200).send(user);
 });
 
-router.get('/friends', auth, async (req, res) => {
+router.get('/myFriends', auth, async (req, res) => {
   // @ts-ignore
   const decoded = req.user;
   const userId = decoded._id;
@@ -38,14 +38,19 @@ router.get('/friends', auth, async (req, res) => {
   res.status(200).send(friends?.friends);
 });
 
+router.get('/friends/:id', auth, async (req, res) => {
+  const userId = req.params.id;
+  const friends = await User.findById(userId)
+    .select('-_id friends')
+    .populate('friends');
+
+  res.status(200).send(friends?.friends);
+});
+
 router.get('/:id', async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const user = await User.findById(userId).select('-password');
-    res.status(200).send(user);
-  } catch (error) {
-    res.status(400).send(error);
-  }
+  const userId = req.params.id;
+  const user = await User.findById(userId).select('-password');
+  res.status(200).send(user);
 });
 
 router.post('/', async (req, res) => {

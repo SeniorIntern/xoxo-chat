@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
 router.get('/user/:id', checkObjId, async (req, res) => {
   const userId = req.params.id;
-  const userTweets = await Tweet.find({ userId });
+  const userTweets = await Tweet.find({ user: userId }).populate('user');
   res.status(200).send(userTweets);
 });
 
