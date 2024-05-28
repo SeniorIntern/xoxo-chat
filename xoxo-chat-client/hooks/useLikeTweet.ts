@@ -1,20 +1,19 @@
-import { Player } from '@/app/types';
-import { CACHE_KEY_FRIENDS } from '@/constants';
+import { Tweet } from '@/app/types';
+import { CACHE_KEY_TWEETS } from '@/constants';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-const useAddFriend = () => {
+const useLikeTweet = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (friendId: string) =>
-      apiClient.patch<Player>(`/Users`, { friendId }).then((res) => res.data),
+    mutationFn: (tweetId: string) =>
+      apiClient.patch<Tweet>(`/tweets/like/${tweetId}`).then((res) => res.data),
     onSuccess: () => {
-      toast.success('Friend Added', { id: 'announcement' });
       queryClient.invalidateQueries({
-        queryKey: CACHE_KEY_FRIENDS
+        queryKey: CACHE_KEY_TWEETS
       });
     },
     onError: (err) => {
@@ -25,4 +24,4 @@ const useAddFriend = () => {
   });
 };
 
-export default useAddFriend;
+export default useLikeTweet;

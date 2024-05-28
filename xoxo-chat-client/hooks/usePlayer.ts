@@ -6,8 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 const usePlayer = (id: string) => {
   return useQuery<Player, Error>({
     queryKey: [CACHE_KEY_PLAYER, id],
-    queryFn: () => playerService.getById(id),
-    staleTime: 1 * 60 * 1000
+    queryFn: () => playerService.getById(id)
   });
 };
 

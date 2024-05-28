@@ -7,7 +7,6 @@ const useMessages = (id: string) => {
   return useQuery<Message[], Error>({
     queryKey: [CACHE_KEY_MESSAGES, id],
     queryFn: () => messageService.getAllWithId(id),
-    staleTime: 1 * 60 * 1000,
     refetchOnMount: 'always'
   });
 };
