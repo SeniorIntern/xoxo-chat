@@ -9,7 +9,9 @@ export default function Page() {
 
   useEffect(() => {
     reset();
-  }, []);
+
+    return () => reset();
+  }, [reset]);
 
   console.log('mounted');
 

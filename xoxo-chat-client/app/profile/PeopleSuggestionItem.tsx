@@ -2,6 +2,7 @@
 
 import { Player } from '@/app/types';
 import { Button } from '@/components/ui/button';
+import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 import { useAddFriend } from '@/hooks';
 import { UserPlus } from 'lucide-react';
 import Image from 'next/image';
@@ -22,7 +23,7 @@ const PeopleSuggestionItem = ({ user }: Props) => {
           src={
             user?.profileImage
               ? user.profileImage
-              : 'https://picsum.photos/id/40/4106/2806'
+              : PLACEHOLDER_PROFILE_IMAGE
           }
           alt="profile image"
           fill

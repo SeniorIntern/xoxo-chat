@@ -1,5 +1,6 @@
 'use client';
 
+import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 import { usePlayer } from '@/hooks';
 import { cn } from '@/lib/utils';
 import classNames from 'classnames';
@@ -25,7 +26,7 @@ export const UserAvatar = ({ userId, hideName = false }: Props) => {
         )}
       >
         <Image
-          src={user?.profileImage || 'https://picsum.photos/id/40/4106/2806'}
+          src={user?.profileImage || PLACEHOLDER_PROFILE_IMAGE}
           alt="profile image"
           fill
           style={{ objectFit: 'cover' }}

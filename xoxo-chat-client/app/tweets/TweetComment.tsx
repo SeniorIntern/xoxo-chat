@@ -10,23 +10,36 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useCommentTweet } from '@/hooks';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, SendHorizontal } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import isLikedAlready from '@/helpers/isLikedAlready';
+import { useAddComment, useLikeTweet } from '@/hooks';
+import {
+  Bookmark,
+  Heart,
+  MessageCircle,
+  Repeat2,
+  SendHorizontal
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { format } from 'timeago.js';
 
+import TweetCommentList from './TweetCommentList';
+
 type Props = {
   tweet: Tweet;
+  userId: string;
 };
 
-const TweetComment = ({ tweet }: Props) => {
+const TweetComment = ({ tweet, userId }: Props) => {
   const [openCommentDialog, setOpenCommentDialog] = useState(false);
   const [comment, setComment] = useState('');
 
-  const commentMutation = useCommentTweet();
+  const commentMutation = useAddComment();
+
+  const likeMutation = useLikeTweet();
 
   const handleSubmit = () => {
     if (comment.trim() === '') return;
@@ -52,8 +65,8 @@ const TweetComment = ({ tweet }: Props) => {
             {tweet.user.username} Post
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
-          <ScrollArea className="h-64 w-full space-y-20 rounded-md p-2">
+        <div>
+          <ScrollArea className="h-80 w-full overflow-y-scroll">
             <div className="flex gap-2">
               <div className="relative h-10 w-10">
                 <Image
@@ -96,20 +109,43 @@ const TweetComment = ({ tweet }: Props) => {
                 ))}
             </div>
 
-            <div>
-              Lorem ipsum dolor sit amet, officia excepteur ex fugiat
-              reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit
-              ex esse exercitation amet. Nisi anim cupidatat excepteur officia.
-              Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet
-              voluptate voluptate dolor minim nulla est proident. Nostrud
-              officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-              occaecat reprehenderit commodo officia dolor Lorem duis laboris
-              cupidatat officia voluptate. Culpa proident adipisicing id nulla
-              nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua
-              reprehenderit commodo ex non excepteur duis sunt velit enim.
-              Voluptate laboris sint cupidatat ullamco ut ea consectetur et est
-              culpa et culpa duis.
+            <Separator className="my-2" />
+
+            <div className="flex items-center justify-between">
+              <span className="flex items-center gap-1 text-mutedtext">
+                <MessageCircle size={20} />
+                <span>{tweet.comments.length}</span>
+              </span>
+
+              <span className="flex items-center gap-1 text-mutedtext">
+                <Repeat2 size={20} />
+                <span>0</span>
+              </span>
+
+              <Button
+                onClick={() => likeMutation.mutate(tweet._id)}
+                disabled={
+                  likeMutation.isPending || isLikedAlready(tweet.likes, userId)
+                }
+                variant={null}
+                className="inline-flex gap-1 text-mutedtext"
+              >
+                {isLikedAlready(tweet.likes, userId) ? (
+                  <Heart size={20} fill="#F9197F" color="#F9197F" />
+                ) : (
+                  <Heart size={20} />
+                )}
+                <span>{tweet.likes.length}</span>
+              </Button>
+
+              <span className="flex items-center gap-1 text-mutedtext">
+                <Bookmark className="text-mutedtext" size={20} />
+              </span>
             </div>
+
+            <Separator className="my-2" />
+
+            <TweetCommentList tweetId={tweet._id} />
           </ScrollArea>
 
           <div className="flex w-full items-center">

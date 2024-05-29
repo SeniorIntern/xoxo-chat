@@ -20,16 +20,16 @@ type Props = {
   title: string;
   type: 'profile' | 'cover';
   userId: string;
-  children?: ReactNode;
+  children: ReactNode;
 };
 
-const ImageUploadDialog = ({ title, children, type, userId }: Props) => {
+const ImageUploadDialog = ({ title, type, userId, children }: Props) => {
   console.log('mounted');
-
-  const resourceName = type === 'profile' ? 'profileImage' : 'coverImage';
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+  const resourceName = type === 'profile' ? 'profileImage' : 'coverImage';
 
   const queryClient = useQueryClient();
 
@@ -88,8 +88,8 @@ const ImageUploadDialog = ({ title, children, type, userId }: Props) => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger className="text-blue-600">
-        {children ? children : 'Edit'}
+      <DialogTrigger asChild className="text-blue-600">
+        {children}
       </DialogTrigger>
       <DialogContent className="border-none">
         <DialogHeader>

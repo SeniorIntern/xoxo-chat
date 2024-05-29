@@ -4,6 +4,7 @@ import useConversationStore from '@/app/store/conversationStore';
 import Image from 'next/image';
 
 import getConversationMember from '../getConversationMember';
+import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 
 const ConversationHeader = ({ userId }: { userId: string }) => {
   const { conversation } = useConversationStore();
@@ -18,7 +19,7 @@ const ConversationHeader = ({ userId }: { userId: string }) => {
             <Image
               src={
                 getConversationMember(conversation?.members, userId)
-                  .profileImage || 'https://picsum.photos/id/40/4106/2806'
+                  .profileImage || PLACEHOLDER_PROFILE_IMAGE
               }
               alt="profile image"
               fill

@@ -10,6 +10,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 
@@ -46,16 +47,15 @@ const ProfileEditDialog = ({ user }: Props) => {
                       userId={user._id}
                       title="Drop/Upload profile picture"
                       type="profile"
-                    />
+                    >
+                      <span>Edit</span>
+                    </ImageUploadDialog>
                   )}
                 </div>
 
                 <div className="relative mx-auto h-44 w-44">
                   <Image
-                    src={
-                      user?.profileImage ||
-                      'https://picsum.photos/id/40/4106/2806'
-                    }
+                    src={user?.profileImage || PLACEHOLDER_PROFILE_IMAGE}
                     alt="profile image"
                     fill
                     style={{ objectFit: 'cover' }}
@@ -71,15 +71,14 @@ const ProfileEditDialog = ({ user }: Props) => {
                       title="Drop/Upload cover photo"
                       type="cover"
                       userId={user._id}
-                    />
+                    >
+                      <span>Edit</span>
+                    </ImageUploadDialog>
                   )}
                 </div>
                 <div className="relative mx-auto h-44 w-3/4">
                   <Image
-                    src={
-                      user?.coverImage ||
-                      'https://picsum.photos/id/40/4106/2806'
-                    }
+                    src={user?.coverImage || PLACEHOLDER_PROFILE_IMAGE}
                     alt="cover photo"
                     fill
                     style={{ objectFit: 'cover' }}

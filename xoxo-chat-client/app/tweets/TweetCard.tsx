@@ -2,6 +2,7 @@
 
 import { Tweet } from '@/app/types';
 import { Button } from '@/components/ui/button';
+import isLikedAlready from '@/helpers/isLikedAlready';
 import { useLikeTweet, useMe } from '@/hooks';
 import { Bookmark, Heart, Repeat2 } from 'lucide-react';
 import Image from 'next/image';
@@ -52,7 +53,7 @@ const TweetCard = ({ tweet }: Props) => {
           {user?._id === tweet.user._id && (
             <TweetDelete
               userId={user._id}
-              tweetId={tweet.user._id}
+              tweetId={tweet._id}
               openDeleteDialog={openDeleteDialog}
               setOpenDeleteDialog={setOpenDeleteDialog}
             />
@@ -75,28 +76,36 @@ const TweetCard = ({ tweet }: Props) => {
             ))}
         </div>
 
-        <div className="mt-2 flex items-center justify-between">
-          <TweetComment tweet={tweet} />
+        {user && (
+          <div className="mt-2 flex items-center justify-between">
+            <TweetComment userId={user._id} tweet={tweet} />
 
-          <Button variant={null} className="inline-flex gap-1 text-mutedtext">
-            <Repeat2 size={20} />
-            <span>0</span>
-          </Button>
+            <Button variant={null} className="inline-flex gap-1 text-mutedtext">
+              <Repeat2 size={20} />
+              <span>0</span>
+            </Button>
 
-          <Button
-            onClick={() => likeMutation.mutate(tweet._id)}
-            disabled={likeMutation.isPending}
-            variant={null}
-            className="inline-flex gap-1 text-mutedtext"
-          >
-            <Heart size={20} />
-            <span>{tweet.likes.length}</span>
-          </Button>
+            <Button
+              onClick={() => likeMutation.mutate(tweet._id)}
+              disabled={
+                likeMutation.isPending || isLikedAlready(tweet.likes, user._id)
+              }
+              variant={null}
+              className="inline-flex gap-1 text-mutedtext"
+            >
+              {isLikedAlready(tweet.likes, user._id) ? (
+                <Heart size={20} fill="#F9197F" color="#F9197F" />
+              ) : (
+                <Heart size={20} />
+              )}
+              <span>{tweet.likes.length}</span>
+            </Button>
 
-          <Button variant={null} className="inline-flex gap-1 text-mutedtext">
-            <Bookmark size={20} />
-          </Button>
-        </div>
+            <Button variant={null} className="inline-flex gap-1 text-mutedtext">
+              <Bookmark size={20} />
+            </Button>
+          </div>
+        )}
       </div>
     </article>
   );

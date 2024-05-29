@@ -1,5 +1,6 @@
 'use client';
 
+import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 import useMembers from '@/hooks/useMembers';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,10 +22,7 @@ const UserInfo = ({ conversationId }: Props) => {
         <>
           <div className="relative h-20 w-20">
             <Image
-              src={
-                members[0].profileImage ||
-                'https://picsum.photos/id/40/4106/2806'
-              }
+              src={members[0].profileImage || PLACEHOLDER_PROFILE_IMAGE}
               alt="profile image"
               fill
               style={{ objectFit: 'cover' }}

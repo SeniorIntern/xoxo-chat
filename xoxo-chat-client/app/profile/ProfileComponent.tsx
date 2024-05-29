@@ -1,44 +1,41 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 import { useAddFriend, usePlayer } from '@/hooks';
 import { Camera, UserPlus } from 'lucide-react';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import FriendSuggestions from './FriendSuggestions';
-import ProfileEditDialog from './ProfileEditDialog';
 import ImageUploadDialog from './ImageUploadDialog';
+import ProfileEditDialog from './ProfileEditDialog';
 
 type Props = {
   prop: {
     id: string;
     type: 'param' | 'user' | 'friend';
   };
+  showImageDialog: boolean;
 };
 
-const ProfileComponent = ({ prop }: Props) => {
+const ProfileComponent = ({ prop, showImageDialog }: Props) => {
+  const router = useRouter();
+
   const mutation = useAddFriend();
-  const pathname = usePathname();
 
   const { data: user, isLoading, error } = usePlayer(prop.id);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
 
-  const router = useRouter();
-
   return (
-    <section className="grow">
+    <section className="grow px-24">
       <div className="relative">
         <div className="relative h-96 w-full">
           <Image
-            src={
-              user?.coverImage
-                ? user.coverImage
-                : 'https://picsum.photos/id/40/4106/2806'
-            }
-            alt="cover photo"
+            src={user?.coverImage ? user.coverImage : PLACEHOLDER_PROFILE_IMAGE}
+            alt="User cover photo"
             sizes="300px"
             fill
             className="rounded-b-md"
@@ -48,18 +45,17 @@ const ProfileComponent = ({ prop }: Props) => {
           />
         </div>
         <div className="absolute bottom-2 right-8">
-          {user && pathname === '/profile' && (
+          {showImageDialog && user && (
             <ImageUploadDialog
-              children={
-                <Button className="inline-flex gap-1 rounded-md bg-white font-semibold text-black shadow-inner hover:bg-white">
-                  <Camera color="white" fill="black" size={24} />
-                  Edit cover photo
-                </Button>
-              }
               title="Drop/Upload cover photo"
               type="cover"
               userId={user._id}
-            />
+            >
+              <Button className="inline-flex gap-1 rounded-md bg-white font-semibold text-black shadow-inner hover:bg-white">
+                <Camera color="white" fill="black" size={24} />
+                Edit cover photo
+              </Button>
+            </ImageUploadDialog>
           )}
         </div>
       </div>
@@ -70,9 +66,9 @@ const ProfileComponent = ({ prop }: Props) => {
               src={
                 user?.profileImage
                   ? user.profileImage
-                  : 'https://picsum.photos/id/40/4106/2806'
+                  : PLACEHOLDER_PROFILE_IMAGE
               }
-              alt="profile image"
+              alt="User profile image"
               fill
               style={{ objectFit: 'cover' }}
               className="rounded-full border-4 border-background"
@@ -84,20 +80,19 @@ const ProfileComponent = ({ prop }: Props) => {
             <p className="text-gray-400">{user?.friends.length} friends</p>
           </div>
           <div className="absolute bottom-2 left-32 border-0">
-            {user && pathname === '/profile' && (
+            {showImageDialog && user && (
               <ImageUploadDialog
-                children={
-                  <Camera
-                    className="rounded-full border bg-gray-600 p-1"
-                    color="gray"
-                    fill="white"
-                    size={34}
-                  />
-                }
                 title="Drop/Upload profile picture"
                 type="profile"
                 userId={user._id}
-              />
+              >
+                <Camera
+                  className="rounded-full border bg-gray-600 p-1"
+                  color="gray"
+                  fill="white"
+                  size={34}
+                />
+              </ImageUploadDialog>
             )}
           </div>
         </div>

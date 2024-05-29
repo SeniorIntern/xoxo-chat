@@ -39,10 +39,10 @@ const TweetDelete = ({
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_TWEETS]
-      }),
-        queryClient.invalidateQueries({
-          queryKey: [CACHE_KEY_TWEETS, userId]
-        });
+      });
+      queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_TWEETS, userId]
+      });
       setOpenDeleteDialog(false);
       toast.success('Tweet is deleted', { id: 'announcement' });
     },

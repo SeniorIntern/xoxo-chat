@@ -15,6 +15,9 @@ type Props = {
 };
 
 const MessageContainer = ({ sender, conversationId }: Props) => {
+  const { socket } = useSocket();
+
+  const { data: messages, isLoading, error } = useMessages(conversationId);
   const [chats, setChats] = useState<SocketPaylod[]>([]);
 
   useEffect(() => {
@@ -39,13 +42,9 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
     };
   }, [chats]);
 
-  const { socket } = useSocket();
-
-  const { data: messages, isLoading, error } = useMessages(conversationId);
+  console.log('mounted');
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
-
-  console.log('mounted');
 
   return (
     <div
@@ -63,7 +62,7 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
           )}
         >
           {message.attachmentUrls.length !== 0 && (
-            <div className="flex flex-col cursor-pointer gap-2">
+            <div className="flex cursor-pointer flex-col gap-2">
               {message.attachmentUrls.map((a, i) => (
                 <div key={i} className="relative h-36 w-36">
                   <Image

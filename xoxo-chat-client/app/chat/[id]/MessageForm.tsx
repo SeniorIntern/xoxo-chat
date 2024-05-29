@@ -19,7 +19,7 @@ import { CACHE_KEY_CONVERSATIONS } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmojiPicker from 'emoji-picker-react';
-import { Image, SendHorizontal, SmilePlus } from 'lucide-react';
+import { Image as Img, SendHorizontal, SmilePlus } from 'lucide-react';
 import { FormEvent, useCallback, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
@@ -105,7 +105,7 @@ const MessageForm = ({ conversationId, sender }: Props) => {
   console.log('mounted');
 
   return (
-    <div className='flex grow flex-col'>
+    <div className="flex grow flex-col">
       {acceptedFiles.length != 0 && (
         <p className="text-xs">{acceptedFiles.length} images</p>
       )}
@@ -124,7 +124,7 @@ const MessageForm = ({ conversationId, sender }: Props) => {
             className="hidden"
           />
           <label htmlFor="attachments">
-            <Image color="#0084FF" />
+            <Img color="#0084FF" className="cursor-pointer" />
           </label>
         </div>
 

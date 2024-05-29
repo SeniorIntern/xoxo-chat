@@ -24,26 +24,26 @@ type Session = {
   expires: number;
 };
 
-export type Member = {
+type Member = {
   _id: string;
   username: string;
   email: string;
   profileImage: string;
 };
 
-export type Conversation = {
+type Conversation = {
   _id: string;
   members: Member[];
 };
 
-export type PlayerIntro = {
+type PlayerIntro = {
   shortIntro: string;
   study: string;
   location: string;
   job: string;
 };
 
-export type Player = {
+type Player = {
   _id: string;
   username: string;
   friends: [string];
@@ -84,16 +84,55 @@ type GifFetchResponse = {
   };
 };
 
+type Like = {
+  _id: string;
+  userId: string;
+};
+
+type Tweet = {
+  _id: string;
+  user: Player;
+  tweetContent: string;
+  attachmentUrls: string[];
+  comments: string[];
+  likes: Like[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+type Comment = {
+  _id: string;
+  commentContent: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type TweetWithComment = {
+  _id: string;
+  user: string;
+  tweetContent: string;
+  attachmentUrls: string[];
+  comments: Comment[];
+  likes: Like[];
+  createdAt: string;
+  updatedAt: string;
+};
+
 export {
-  SocketPaylod,
-  Message,
-  MessageRequest,
-  Session,
-  Member,
   Conversation,
-  Player,
-  PlayerData,
   ConversationData,
   Gif,
-  GifFetchResponse
+  GifFetchResponse,
+  Like,
+  Member,
+  Message,
+  MessageRequest,
+  Player,
+  PlayerData,
+  PlayerIntro,
+  Session,
+  SocketPaylod,
+  Tweet,
+  TweetWithComment
 };
