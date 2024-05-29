@@ -10,7 +10,10 @@ cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const tweets = await Tweet.find().populate('user');
+  const tweets = await Tweet.find()
+    .populate('user')
+    .populate('likes')
+    .sort({ createdAt: -1 });
   res.status(200).send(tweets);
 });
 
@@ -36,7 +39,7 @@ router.get('/like/:id', checkObjId, async (req, res) => {
 // comments of a tweet by tweet's _id
 router.get('/comment/:id', checkObjId, async (req, res) => {
   const tweetId = req.params.id;
-  const tweets = await Tweet.findById(tweetId).populate('comments');
+  const tweets = await Tweet.findById(tweetId).populate('comments')
   res.status(200).send(tweets);
 });
 
