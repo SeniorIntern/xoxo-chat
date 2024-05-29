@@ -1,6 +1,7 @@
+export { default as useAddComment } from './useAddComment';
 export { default as useAddFriend } from './useAddFriend';
 export { default as useChats } from './useChats';
-export { default as useCommentTweet } from './useCommentTweet';
+export { default as useComments } from './useComments';
 export { default as useConversations } from './useConversations';
 export { default as useFriends } from './useFriends';
 export { default as useGifs } from './useGifs';
@@ -12,4 +13,3 @@ export { default as usePlayer } from './usePlayer';
 export { default as usePlayerFriends } from './usePlayerFriends';
 export { default as usePlayers } from './usePlayers';
 export { default as useTweets } from './useTweets';
-
