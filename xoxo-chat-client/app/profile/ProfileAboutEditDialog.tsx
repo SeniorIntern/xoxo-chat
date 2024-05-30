@@ -19,7 +19,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { CACHE_KEY_PLAYER } from '@/constants';
+import { CACHE_KEY_PLAYER, TOAST_KEY_ANNOUNCE } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogClose } from '@radix-ui/react-dialog';
@@ -51,20 +51,19 @@ const ProfileAboutEditDialog = ({ about, id }: Props) => {
   const [open, setOpen] = useState(false);
 
   const queryClient = useQueryClient();
-  const endpoint = 'http://localhost:3001/api/v1/users/about';
 
   const mutation = useMutation({
     mutationFn: (formData: z.infer<typeof FormSchema>) =>
-      apiClient.patch<Player>(endpoint, formData).then((res) => res.data),
+      apiClient.patch<Player>('/users/about', formData).then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_PLAYER, id]
       });
       setOpen(false);
-      toast.success('Your information is updated', { id: 'announcement' });
+      toast.success('Your information is updated', { id: TOAST_KEY_ANNOUNCE });
     },
     onError: (err) => {
-      toast.error(err.message, { id: 'announcement' });
+      toast.error(err.message, { id: TOAST_KEY_ANNOUNCE });
     }
   });
 
@@ -77,7 +76,7 @@ const ProfileAboutEditDialog = ({ about, id }: Props) => {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('values=', data);
-    toast.success('Your bio is updated', { id: 'announcement' });
+    toast.success('Your bio is updated', { id: TOAST_KEY_ANNOUNCE });
     mutation.mutate(data);
   }
 

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/action';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;

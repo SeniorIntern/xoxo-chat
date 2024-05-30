@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { CACHE_KEY_PLAYER } from '@/constants';
+import { CACHE_KEY_PLAYER, TOAST_KEY_ANNOUNCE } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, ReactNode, useCallback, useState } from 'react';
@@ -43,12 +43,12 @@ const ImageUploadDialog = ({ title, type, userId, children }: Props) => {
         queryKey: [CACHE_KEY_PLAYER, userId]
       });
       toast.success('Image is updated', {
-        id: 'announcement',
+        id: TOAST_KEY_ANNOUNCE,
         duration: 8000
       });
     },
     onError: (err) => {
-      toast.error(err.message, { id: 'announcement', duration: 8000 });
+      toast.error(err.message, { id: TOAST_KEY_ANNOUNCE, duration: 8000 });
     }
   });
 
@@ -77,12 +77,12 @@ const ImageUploadDialog = ({ title, type, userId, children }: Props) => {
       mutation.mutate(formData);
       setIsSubmitting(false);
       setIsDialogOpen(false);
-      toast.success('Image is updated', { id: 'announcement' });
+      toast.success('Image is updated', { id: TOAST_KEY_ANNOUNCE });
     } catch (err: unknown) {
       setIsSubmitting(false);
       setIsDialogOpen(false);
       if (err instanceof Error)
-        toast.error(err.message, { id: 'announcement' });
+        toast.error(err.message, { id: TOAST_KEY_ANNOUNCE });
     }
   };
 

@@ -11,6 +11,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { TOAST_KEY_AUTH } from '@/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -39,10 +40,10 @@ export default function Page() {
   async function clientAction(formData: RegisterData) {
     const result = await signup(formData);
     if (result?.status) {
-      toast.success('Signup Sucessful!', { id: 'auth' });
+      toast.success('Signup Sucessful!', { id: TOAST_KEY_AUTH });
       router.push('/');
     } else {
-      toast.error(result?.data || 'Request Failed.', { id: 'auth' });
+      toast.error(result?.data || 'Request Failed.', { id: TOAST_KEY_AUTH });
     }
   }
 

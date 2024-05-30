@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover';
-import { CACHE_KEY_TWEETS, PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
+import { CACHE_KEY_TWEETS, PLACEHOLDER_PROFILE_IMAGE, TOAST_KEY_ANNOUNCE } from '@/constants';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmojiPicker from 'emoji-picker-react';
@@ -42,7 +42,7 @@ export const TweetForm = () => {
       setTweet('');
     },
     onError: (err) => {
-      toast.error(err.message, { id: 'announcement' });
+      toast.error(err.message, { id: TOAST_KEY_ANNOUNCE });
     }
   });
 
@@ -68,7 +68,7 @@ export const TweetForm = () => {
         mutation.mutate(formData);
       } catch (err: unknown) {
         if (err instanceof Error)
-          toast.error(err.message, { id: 'announcement' });
+          toast.error(err.message, { id: TOAST_KEY_ANNOUNCE });
       }
     }
   };

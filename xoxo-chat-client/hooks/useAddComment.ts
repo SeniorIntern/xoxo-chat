@@ -1,5 +1,5 @@
 import { Tweet } from '@/app/types';
-import { CACHE_KEY_COMMENTS } from '@/constants';
+import { CACHE_KEY_COMMENTS, TOAST_KEY_ANNOUNCE } from '@/constants';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -27,7 +27,7 @@ const useAddComment = () => {
     },
     onError: (err) => {
       if (err instanceof AxiosError) {
-        toast.error(err.response?.data, { id: 'announcement' });
+        toast.error(err.response?.data, { id: TOAST_KEY_ANNOUNCE });
       }
     }
   });

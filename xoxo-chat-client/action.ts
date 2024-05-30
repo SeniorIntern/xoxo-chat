@@ -3,6 +3,7 @@
 import { LoginData } from '@/app/login/page';
 import { RegisterData } from '@/app/register/page';
 import { Session } from '@/app/types';
+import { JWT_EXPIRATION_TIME, SESSION_EXPIRATION_TIME } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { AxiosError } from 'axios';
 import { SignJWT, jwtVerify } from 'jose';
@@ -16,7 +17,7 @@ export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('1 hour from now')
+    .setExpirationTime(JWT_EXPIRATION_TIME)
     .sign(key);
 }
 
@@ -111,7 +112,7 @@ export async function updateSession(request: NextRequest) {
 
   // Refresh the session so it doesn't expire
   const parsed = await decrypt(session);
-  parsed.expires = new Date(Date.now() + 3600 * 1000);
+  parsed.expires = new Date(Date.now() + SESSION_EXPIRATION_TIME);
   const res = NextResponse.next();
   res.cookies.set({
     name: 'session',

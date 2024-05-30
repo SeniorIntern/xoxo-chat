@@ -15,7 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip';
-import { CACHE_KEY_CONVERSATIONS } from '@/constants';
+import { CACHE_KEY_CONVERSATIONS, TOAST_KEY_ANNOUNCE } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmojiPicker from 'emoji-picker-react';
@@ -59,7 +59,7 @@ const MessageForm = ({ conversationId, sender }: Props) => {
       messageRef.current.value = '';
     },
     onError: (err) => {
-      toast.error(err.message, { id: 'announcement' });
+      toast.error(err.message, { id: TOAST_KEY_ANNOUNCE });
     }
   });
 
@@ -97,7 +97,7 @@ const MessageForm = ({ conversationId, sender }: Props) => {
         mutation.mutate(formData);
       } catch (err: unknown) {
         if (err instanceof Error)
-          toast.error(err.message, { id: 'announcement' });
+          toast.error(err.message, { id: TOAST_KEY_ANNOUNCE });
       }
     }
   };

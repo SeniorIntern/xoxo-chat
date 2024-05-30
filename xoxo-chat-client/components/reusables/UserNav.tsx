@@ -1,4 +1,6 @@
 import { getSession } from '@/action';
+import Logout from '@/components/reusables/Logout';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,9 +10,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 
-import Logout from './Logout';
 import { UserAvatar } from './UserAvatar';
-import { Button } from '@/components/ui/button';
 
 const UserNav = async () => {
   const profileObject = await getSession();

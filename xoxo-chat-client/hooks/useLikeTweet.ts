@@ -1,5 +1,5 @@
 import { Tweet } from '@/app/types';
-import { CACHE_KEY_TWEETS } from '@/constants';
+import { CACHE_KEY_TWEETS, TOAST_KEY_ANNOUNCE } from '@/constants';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -18,7 +18,7 @@ const useLikeTweet = () => {
     },
     onError: (err) => {
       if (err instanceof AxiosError) {
-        toast.error(err.response?.data, { id: 'announcement' });
+        toast.error(err.response?.data, { id: TOAST_KEY_ANNOUNCE });
       }
     }
   });

@@ -15,15 +15,11 @@ export default function Page() {
 
   console.log('tweets===', tweets);
   return (
-    <>
-      <section className="w-[24%] space-y-4 p-4"></section>
+    <section className="flex grow flex-col overflow-y-scroll">
+      <TweetForm />
+      <Separator />
 
-      <section className="flex grow flex-col overflow-y-scroll">
-        <TweetForm />
-        <Separator />
-
-        {tweets && <TweetsContainer tweets={tweets} />}
-      </section>
-    </>
+      {tweets && <TweetsContainer tweets={tweets} />}
+    </section>
   );
 }

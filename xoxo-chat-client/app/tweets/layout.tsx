@@ -1,3 +1,5 @@
+import TweetAside from './TweetAside';
+
 export default function TweetLayout({
   children
 }: {
@@ -5,8 +7,9 @@ export default function TweetLayout({
 }) {
   return (
     <div className="flex grow divide-x">
+      <TweetAside />
       {children}
-      <div className="w-[28%]"></div>
+      <div className="w-[31%]"></div>
     </div>
   );
 }

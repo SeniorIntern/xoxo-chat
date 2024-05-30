@@ -1,5 +1,5 @@
 import { Player } from '@/app/types';
-import { CACHE_KEY_FRIENDS } from '@/constants';
+import { CACHE_KEY_FRIENDS, TOAST_KEY_ANNOUNCE } from '@/constants';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -12,14 +12,14 @@ const useAddFriend = () => {
     mutationFn: (friendId: string) =>
       apiClient.patch<Player>(`/Users`, { friendId }).then((res) => res.data),
     onSuccess: () => {
-      toast.success('Friend Added', { id: 'announcement' });
+      toast.success('Friend Added', { id: TOAST_KEY_ANNOUNCE });
       queryClient.invalidateQueries({
         queryKey: CACHE_KEY_FRIENDS
       });
     },
     onError: (err) => {
       if (err instanceof AxiosError) {
-        toast.error(err.response?.data, { id: 'announcement' });
+        toast.error(err.response?.data, { id: TOAST_KEY_ANNOUNCE });
       }
     }
   });

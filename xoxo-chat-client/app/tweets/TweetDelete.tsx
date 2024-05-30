@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { CACHE_KEY_TWEETS } from '@/constants';
+import { CACHE_KEY_TWEETS, TOAST_KEY_ANNOUNCE } from '@/constants';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
@@ -44,10 +44,10 @@ const TweetDelete = ({
         queryKey: [CACHE_KEY_TWEETS, userId]
       });
       setOpenDeleteDialog(false);
-      toast.success('Tweet is deleted', { id: 'announcement' });
+      toast.success('Tweet is deleted', { id: TOAST_KEY_ANNOUNCE });
     },
     onError: (err) => {
-      toast.error(err.message, { id: 'announcement' });
+      toast.error(err.message, { id: TOAST_KEY_ANNOUNCE });
     }
   });
 

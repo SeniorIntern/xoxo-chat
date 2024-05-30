@@ -2,6 +2,7 @@
 
 import useGameStore from '@/app/store/gameStore';
 import { Gif } from '@/app/types';
+import { TOAST_KEY_ANNOUNCE } from '@/constants';
 import { useWindowSize } from '@uidotdev/usehooks';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -54,9 +55,14 @@ const CardContainer = ({ gifs }: Props) => {
   };
 
   if (pairs.length === totalUniqueCards && confettiTotal !== 0) {
-    toast.success('Congratulations! You have won the game', {
-      id: 'announcement'
-    });
+    toast.success('Congratulations! You have won the game', { id: TOAST_KEY_ANNOUNCE });
+
+    setTimeout(() => {
+      toast.success('Restarting the game...', {
+        id: TOAST_KEY_ANNOUNCE,
+        duration: 1000
+      });
+    }, 3000);
 
     setTimeout(() => {
       setConfettiTotal(0);

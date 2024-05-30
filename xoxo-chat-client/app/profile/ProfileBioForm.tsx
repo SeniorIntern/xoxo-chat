@@ -11,7 +11,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { CACHE_KEY_PLAYER } from '@/constants';
+import { CACHE_KEY_PLAYER, TOAST_KEY_ANNOUNCE } from '@/constants';
 import apiClient from '@/services/apiClient';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -47,16 +47,15 @@ type Props = {
 
 const ProfileBioForm = ({ userIntro, openBioDialog, userId }: Props) => {
   const queryClient = useQueryClient();
-  const endpoint = 'http://localhost:3001/api/v1/users/intro';
 
   const mutation = useMutation({
     mutationFn: (formData: z.infer<typeof FormSchema>) =>
-      apiClient.patch<Player>(endpoint, formData).then((res) => res.data),
+      apiClient.patch<Player>('/users/intro', formData).then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_PLAYER, userId]
       });
-      toast.success('Your information is updated', { id: 'announcement' });
+      toast.success('Your information is updated', { id: TOAST_KEY_ANNOUNCE });
       openBioDialog(false);
     }
   });

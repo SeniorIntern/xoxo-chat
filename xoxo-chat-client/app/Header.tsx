@@ -1,5 +1,5 @@
 import NavOptions from '@/app/NavOptions';
-import UserNav from '@/app/UserNav';
+import UserNav from '@/components/reusables/UserNav';
 
 const Header = () => {
   return (
