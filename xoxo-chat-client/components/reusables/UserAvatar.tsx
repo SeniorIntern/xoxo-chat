@@ -3,7 +3,6 @@
 import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 import { usePlayer } from '@/hooks';
 import { cn } from '@/lib/utils';
-import classNames from 'classnames';
 import Image from 'next/image';
 
 type Props = {
@@ -18,13 +17,7 @@ export const UserAvatar = ({ userId, hideName = false }: Props) => {
 
   return (
     <>
-      <div
-        className={cn(
-          classNames('relative h-8 w-8', {
-            'h-10 w-10': hideName
-          })
-        )}
-      >
+      <div className={cn('relative h-8 w-8', hideName && 'h-10 w-10')}>
         <Image
           src={user?.profileImage || PLACEHOLDER_PROFILE_IMAGE}
           alt="profile image"

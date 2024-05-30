@@ -86,12 +86,14 @@ const ProfileComponent = ({ prop, showImageDialog }: Props) => {
                 type="profile"
                 userId={user._id}
               >
-                <Camera
-                  className="rounded-full border bg-gray-600 p-1"
-                  color="gray"
-                  fill="white"
-                  size={34}
-                />
+                <Button variant={null}>
+                  <Camera
+                    className="rounded-full border bg-gray-600 p-1"
+                    color="gray"
+                    fill="white"
+                    size={34}
+                  />
+                </Button>
               </ImageUploadDialog>
             )}
           </div>

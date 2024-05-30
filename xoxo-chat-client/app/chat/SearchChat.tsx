@@ -3,7 +3,7 @@
 import useConversationStore from '@/app/store/conversationStore';
 import { Conversation } from '@/app/types';
 import { Input } from '@/components/ui/input';
-import classNames from 'classnames';
+import { cn } from '@/lib/utils';
 import { MoveLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -64,12 +64,9 @@ const SearchChat = ({ userId, conversations, setShowChats }: Prop) => {
           <Link
             onClick={() => setConversation(c)}
             href={`/chat/${c._id}`}
-            className={classNames(
-              'block',
-              {
-                'bg-muted': conversation?._id === c._id
-              },
-              'cursor-pointer rounded-md p-2'
+            className={cn(
+              'block cursor-pointer rounded-md p-2',
+              conversation?._id === c._id && 'bg-muted'
             )}
             key={c._id}
           >

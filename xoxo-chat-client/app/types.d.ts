@@ -15,12 +15,15 @@ type Message = {
   updatedAt: string;
 };
 
+type Payload = {
+  _id: string;
+  username: string;
+  email: string;
+  token: string;
+};
+
 type Session = {
-  payload: {
-    _id: string;
-    email: string;
-    token: string;
-  };
+  payload: Payload;
   expires: number;
 };
 
@@ -128,6 +131,7 @@ export {
   Member,
   Message,
   MessageRequest,
+  Payload,
   Player,
   PlayerData,
   PlayerIntro,

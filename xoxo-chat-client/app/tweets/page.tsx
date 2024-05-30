@@ -1,5 +1,6 @@
 'use client';
 
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { useTweets } from '@/hooks';
 
@@ -15,11 +16,17 @@ export default function Page() {
 
   console.log('tweets===', tweets);
   return (
-    <section className="flex grow flex-col overflow-y-scroll">
+    <ScrollArea
+      style={{
+        maxHeight: 'calc(100vh - 56px)',
+        height: 'calc(100vh - 56px)'
+      }}
+      className="flex grow flex-col overflow-y-scroll"
+    >
       <TweetForm />
       <Separator />
 
       {tweets && <TweetsContainer tweets={tweets} />}
-    </section>
+    </ScrollArea>
   );
 }

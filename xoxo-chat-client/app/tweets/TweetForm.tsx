@@ -8,7 +8,11 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover';
-import { CACHE_KEY_TWEETS, PLACEHOLDER_PROFILE_IMAGE, TOAST_KEY_ANNOUNCE } from '@/constants';
+import {
+  CACHE_KEY_TWEETS,
+  PLACEHOLDER_PROFILE_IMAGE,
+  TOAST_KEY_ANNOUNCE
+} from '@/constants';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmojiPicker from 'emoji-picker-react';
@@ -89,7 +93,7 @@ export const TweetForm = () => {
         <Input
           value={tweet}
           onChange={(e) => setTweet(e.target.value)}
-          className="w-full border-none px-0 py-4 text-xl font-thin text-white"
+          className="w-full border-none bg-transparent px-0 py-4 text-xl text-muted text-white caret-white"
           placeholder="What is happening?!"
         />
         <div className="flex justify-between">
@@ -124,6 +128,7 @@ export const TweetForm = () => {
           </div>
 
           <Button
+            variant="cyan"
             className="rounded-3xl font-semibold"
             disabled={tweet.trim() === '' && acceptedFiles.length == 0}
           >

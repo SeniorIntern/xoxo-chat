@@ -3,7 +3,7 @@
 import useConversationStore from '@/app/store/conversationStore';
 import { Input } from '@/components/ui/input';
 import { useConversations } from '@/hooks';
-import classNames from 'classnames';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -40,12 +40,9 @@ const ConversationList = ({ userId }: { userId: string }) => {
               <Link
                 onClick={() => setConversation(c)}
                 href={`/chat/${c._id}`}
-                className={classNames(
-                  'block',
-                  {
-                    'bg-muted': conversation?._id === c._id
-                  },
-                  'cursor-pointer rounded-md p-2'
+                className={cn(
+                  'block cursor-pointer rounded-md p-2',
+                  conversation?._id === c._id && 'bg-muted'
                 )}
                 key={c._id}
               >

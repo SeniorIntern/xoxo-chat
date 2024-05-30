@@ -6,7 +6,7 @@ import { useGifs } from '@/hooks';
 
 import GameControls from './GameControls';
 
-export default function Home() {
+export default function Page() {
   const { data: res, isLoading, error } = useGifs();
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;

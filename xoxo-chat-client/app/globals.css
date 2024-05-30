@@ -25,6 +25,9 @@
     --mutedtext: 214 5% 74%; /* text gray */
     --mutedtext-foreground: 214 3% 56%; /* white */
 
+    --cyan:204, 80%, 47%; /* cyan */
+    --cyan-foreground: 214 3% 56%; /* white */
+
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
@@ -56,6 +59,9 @@
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
+
+    --cyan:204, 80%, 47%; /* cyan */
+    --cyan-foreground: 214 3% 56%; /* white */
 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;

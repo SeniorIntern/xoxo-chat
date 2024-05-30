@@ -1,6 +1,6 @@
 'use client';
 
-import classNames from 'classnames';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -22,9 +22,7 @@ const NavOptions = () => {
         <Link
           key={index}
           href={o.href}
-          className={classNames({
-            'font-semibold text-primary': path === o.href
-          })}
+          className={cn(path === o.href && 'font-semibold text-primary')}
         >
           {o.option}
         </Link>

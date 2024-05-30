@@ -8,24 +8,36 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { ReactNode } from 'react';
 
 import { UserAvatar } from './UserAvatar';
 
-const UserNav = async () => {
+type Props = {
+  children: ReactNode;
+  triggerClassNames?: string;
+  contentClassNames?: string;
+};
+
+const UserNav = async ({
+  children,
+  triggerClassNames,
+  contentClassNames
+}: Props) => {
   const profileObject = await getSession();
   const userId = profileObject?.payload._id;
 
   if (userId)
     return (
       <DropdownMenu dir="ltr">
-        <DropdownMenuTrigger>
-          <UserAvatar hideName={true} userId={userId} />
+        <DropdownMenuTrigger className={triggerClassNames}>
+          {children}
         </DropdownMenuTrigger>
 
         <DropdownMenuContent
           align="end"
-          className="min-w-80 border-none bg-secondary"
+          className={cn('min-w-80 border-none bg-secondary', contentClassNames)}
         >
           <>
             <Link href="/profile">

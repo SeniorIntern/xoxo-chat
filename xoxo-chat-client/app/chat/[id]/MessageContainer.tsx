@@ -4,7 +4,6 @@ import useSocket from '@/app/store/socketStore';
 import { SocketPaylod } from '@/app/types';
 import useMessages from '@/hooks/useMessages';
 import { cn } from '@/lib/utils';
-import classnames from 'classnames';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { format } from 'timeago.js';
@@ -56,9 +55,8 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
         <div
           key={message._id}
           className={cn(
-            classnames('my-4 flex flex-col items-start space-y-2', {
-              'items-end': message.sender == sender
-            })
+            'my-4 flex flex-col items-start space-y-2',
+            message.sender == sender && 'items-end'
           )}
         >
           {message.attachmentUrls.length !== 0 && (
@@ -89,9 +87,10 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
       {chats.map((message, index) => (
         <div
           key={index}
-          className={classnames('my-4 flex flex-col items-end space-y-2', {
-            'self-end': message.sender == sender
-          })}
+          className={cn(
+            'my-4 flex flex-col items-end space-y-2',
+            message.sender == sender && 'self-end'
+          )}
         >
           {message.attachmentUrls.length !== 0 && (
             <div className="flex flex-col gap-2">
