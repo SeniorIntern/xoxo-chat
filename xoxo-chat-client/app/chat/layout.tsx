@@ -1,5 +1,4 @@
 import { getSession } from '@/action';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 import ConversationList from './ConversationList';
 
@@ -13,16 +12,8 @@ export default async function ChatLayout({
 
   if (profileObject)
     return (
-      <div className="flex grow divide-x bg-secondary">
-        <ScrollArea
-          style={{
-            maxHeight: 'calc(100vh - 56px)',
-            height: 'calc(100vh - 56px)'
-          }}
-          className="w-[28%] bg-secondary p-2"
-        >
-          {userId && <ConversationList userId={userId} />}
-        </ScrollArea>
+      <div className="flex divide-x bg-secondary">
+        {userId && <ConversationList userId={userId} />}
         {children}
       </div>
     );

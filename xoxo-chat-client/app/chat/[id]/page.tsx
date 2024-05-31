@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             conversationId={params.id}
           />
 
-          <div className="flex h-[var(--bar-height)] items-center space-x-2 px-2 py-4">
+          <div className="mt-auto flex h-[var(--bar-height)] items-center space-x-2 px-2 py-4">
             <MessageForm
               sender={profileObject?.payload._id}
               conversationId={params.id}
