@@ -22,7 +22,11 @@ import { FormEvent, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 
-export const TweetForm = () => {
+type Props = {
+  closeDialog?: () => void;
+};
+
+const TweetForm = ({ closeDialog }: Props) => {
   const [tweet, setTweet] = useState('');
 
   const queryClient = useQueryClient();
@@ -70,6 +74,7 @@ export const TweetForm = () => {
       try {
         console.log('formdata===', formData);
         mutation.mutate(formData);
+        closeDialog && closeDialog();
       } catch (err: unknown) {
         if (err instanceof Error)
           toast.error(err.message, { id: TOAST_KEY_ANNOUNCE });
@@ -144,3 +149,5 @@ export const TweetForm = () => {
     </form>
   );
 };
+
+export default TweetForm;

@@ -4,7 +4,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { useTweets } from '@/hooks';
 
-import { TweetForm } from './TweetForm';
+import TweetForm from './TweetForm';
 import { TweetsContainer } from './TweetsContainer';
 
 export default function Page() {

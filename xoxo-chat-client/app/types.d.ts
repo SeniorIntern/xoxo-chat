@@ -107,6 +107,8 @@ type Comment = {
   _id: string;
   commentContent: string;
   userId: string;
+  profileImage: string;
+  username: string;
   createdAt: string;
   updatedAt: string;
 };

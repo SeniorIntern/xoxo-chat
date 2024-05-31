@@ -38,7 +38,7 @@ const TweetDelete = ({
       apiClient.delete('/tweets/' + tweetId).then((res) => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [CACHE_KEY_TWEETS]
+        queryKey: CACHE_KEY_TWEETS
       });
       queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_TWEETS, userId]

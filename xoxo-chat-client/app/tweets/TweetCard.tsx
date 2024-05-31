@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { format } from 'timeago.js';
 
-import TweetComment from './TweetComment';
+import TweetCommentDialog from './TweetCommentDialog';
 import TweetDelete from './TweetDelete';
 
 type Props = {
@@ -38,13 +38,14 @@ const TweetCard = ({ tweet }: Props) => {
 
       <div className="grow px-2">
         <div className="flex justify-between">
-          <div className="space-x-2">
+          <div className="space-x-1">
             <Link href={`players/${tweet.user._id}`} className="font-extrabold">
               {tweet.user.username}
             </Link>
             <span className="text-sm text-gray-400">
               {`@${tweet.user.username.toLowerCase()}`}
             </span>
+            <span className="text-mutedtext">.</span>
             <span className="text-sm text-gray-400">
               {format(tweet.createdAt)}
             </span>
@@ -78,7 +79,7 @@ const TweetCard = ({ tweet }: Props) => {
 
         {user && (
           <div className="mt-2 flex items-center justify-between">
-            <TweetComment userId={user._id} tweet={tweet} />
+            <TweetCommentDialog userId={user._id} tweet={tweet} />
 
             <Button variant={null} className="inline-flex gap-1 text-mutedtext">
               <Repeat2 size={20} />

@@ -1,11 +1,4 @@
 import { Payload } from '@/app/types';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger
-} from '@/components/ui/dialog';
 import {
   Bell,
   Bookmark,
@@ -20,7 +13,7 @@ import {
 import Link from 'next/link';
 
 import TweetAsideControl from './TweetAsideControl';
-import { TweetForm } from './TweetForm';
+import TweetDialogForm from './TweetDialogForm';
 
 type Props = {
   user: Payload;
@@ -40,7 +33,7 @@ const TweetAside = ({ user }: Props) => {
   ];
 
   return (
-    <aside className="flex flex-col px-3 pt-1">
+    <aside className="flex  w-[22%] flex-col justify-between px-3 py-2">
       <div className="space-y-2">
         <nav className="flex flex-col px-2">
           {tweetAsideOptions.map((o, index) => (
@@ -54,21 +47,7 @@ const TweetAside = ({ user }: Props) => {
             </Link>
           ))}
         </nav>
-
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant="cyan"
-              className="w-[96%] rounded-full py-6 font-bold"
-            >
-              Post
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="top-[20%] bg-black p-0">
-            <DialogHeader className="p-0"></DialogHeader>
-            <TweetForm />
-          </DialogContent>
-        </Dialog>
+        <TweetDialogForm />
       </div>
 
       <TweetAsideControl user={user} />

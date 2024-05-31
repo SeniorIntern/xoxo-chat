@@ -91,7 +91,7 @@ const ImageUploadDialog = ({ title, type, userId, children }: Props) => {
       <DialogTrigger asChild className="text-blue-600">
         {children}
       </DialogTrigger>
-      <DialogContent className="border-none">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-white">{title}</DialogTitle>
         </DialogHeader>

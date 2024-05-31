@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { format } from 'timeago.js';
 
 import TweetCommentList from './TweetCommentList';
@@ -33,15 +33,16 @@ type Props = {
   userId: string;
 };
 
-const TweetComment = ({ tweet, userId }: Props) => {
-  const [openCommentDialog, setOpenCommentDialog] = useState(false);
+const TweetCommentDialog = ({ tweet, userId }: Props) => {
   const [comment, setComment] = useState('');
+  const [openCommentDialog, setOpenCommentDialog] = useState(false);
 
   const commentMutation = useAddComment();
 
   const likeMutation = useLikeTweet();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (comment.trim() === '') return;
     const payload = {
       tweetId: tweet._id,
@@ -77,19 +78,17 @@ const TweetComment = ({ tweet, userId }: Props) => {
                   className="rounded-full"
                 />
               </div>
-              <div className="">
-                <Link
-                  href={`players/${tweet.user._id}`}
-                  className="font-extrabold"
-                >
+              <div className="space-x-1">
+                <Link href={`players/${tweet.user._id}`} className="font-bold">
                   {tweet.user.username}
                 </Link>
                 <span className="text-sm text-gray-400">
-                  {`@${tweet.user.username.toLowerCase()}`}
+                  {` @${tweet.user.username.toLowerCase()}`}
                 </span>
-                <p className="text-sm text-gray-400">
+                <span className="text-mutedtext">.</span>
+                <span className="text-xs text-mutedtext">
                   {format(tweet.createdAt)}
-                </p>
+                </span>
               </div>
             </div>
 
@@ -148,7 +147,7 @@ const TweetComment = ({ tweet, userId }: Props) => {
             <TweetCommentList tweetId={tweet._id} />
           </ScrollArea>
 
-          <div className="flex w-full items-center">
+          <form onSubmit={handleSubmit} className="flex w-full items-center">
             <Input
               value={comment}
               onChange={(e) => setComment(e.target.value)}
@@ -157,16 +156,15 @@ const TweetComment = ({ tweet, userId }: Props) => {
             <Button
               disabled={commentMutation.isPending}
               type="submit"
-              onClick={handleSubmit}
               variant={null}
             >
               <SendHorizontal size={24} />
             </Button>
-          </div>
+          </form>
         </div>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default TweetComment;
+export default TweetCommentDialog;
