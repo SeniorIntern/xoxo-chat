@@ -3,7 +3,7 @@ import express from 'express';
 
 import { serverConfig } from '../../config';
 import { auth, checkObjId } from '../../middlewares';
-import { Comment, Like, Tweet } from '../../models';
+import { Comment, Like, Tweet, User } from '../../models';
 
 cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
 
@@ -39,7 +39,7 @@ router.get('/like/:id', checkObjId, async (req, res) => {
 // comments of a tweet by tweet's _id
 router.get('/comment/:id', checkObjId, async (req, res) => {
   const tweetId = req.params.id;
-  const tweets = await Tweet.findById(tweetId).populate('comments')
+  const tweets = await Tweet.findById(tweetId).populate('comments');
   res.status(200).send(tweets);
 });
 
@@ -96,9 +96,16 @@ router.patch('/comment/:id', checkObjId, auth, async (req, res) => {
 
   const { commentContent } = req.body;
 
+  const user = await User.findById(userId);
+  if (!user) return res.status(200).send("User with this id doesn't exist");
+
+  const { profileImage, username } = user;
+
   const comment = new Comment({
     commentContent,
-    userId
+    userId,
+    profileImage,
+    username
   });
   await comment.save();
 

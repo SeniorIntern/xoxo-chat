@@ -1,5 +1,9 @@
 import { Tweet } from '@/app/types';
-import { CACHE_KEY_COMMENTS, TOAST_KEY_ANNOUNCE } from '@/constants';
+import {
+  CACHE_KEY_COMMENTS,
+  CACHE_KEY_TWEETS,
+  TOAST_KEY_ANNOUNCE
+} from '@/constants';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -23,6 +27,9 @@ const useAddComment = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: CACHE_KEY_COMMENTS
+      });
+      queryClient.invalidateQueries({
+        queryKey: CACHE_KEY_TWEETS
       });
     },
     onError: (err) => {

@@ -6,7 +6,8 @@ import { useQuery } from '@tanstack/react-query';
 const useComments = (tweetId: string) => {
   return useQuery<TweetWithComment, Error>({
     queryKey: [CACHE_KEY_COMMENTS, tweetId],
-    queryFn: () => tweetCommentService.getById(tweetId)
+    queryFn: () => tweetCommentService.getById(tweetId),
+    refetchOnMount: 'always'
   });
 };
 
