@@ -37,6 +37,8 @@ type Member = {
 type Conversation = {
   _id: string;
   members: Member[];
+  lastMessage: string;
+  lastSender: string;
 };
 
 type PlayerIntro = {

@@ -8,11 +8,10 @@ import getConversationMember from './getConversationMember';
 
 type Props = {
   userData: PlayerData | ConversationData;
-  isOnline?: boolean;
   children?: ReactNode;
 };
 
-const UserListItem = ({ userData, children, isOnline = false }: Props) => {
+const UserListItem = ({ userData, children = false }: Props) => {
   console.log('mounted');
 
   const profileImage = getProfileImage(userData);

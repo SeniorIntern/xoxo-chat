@@ -41,6 +41,7 @@ const ConversationList = ({ userId }: { userId: string }) => {
             />
           )}
         </div>
+
         <div className="mt-2">
           {showChats ? (
             <aside>
@@ -55,13 +56,17 @@ const ConversationList = ({ userId }: { userId: string }) => {
                   key={c._id}
                 >
                   <UserListItem
-                    isOnline={true}
                     userData={{
                       type: 'conversation',
                       data: c,
                       userId: userId
                     }}
-                  />
+                  >
+                    <p className="text-sm text-mutedtext">
+                      <span>{c.lastSender == userId && 'You: '}</span>
+                      {c.lastMessage}
+                    </p>
+                  </UserListItem>
                 </Link>
               ))}
             </aside>

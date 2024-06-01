@@ -6,6 +6,13 @@ const ConversationSchema = new mongoose.Schema<Conversation>(
     members: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'User'
+    },
+    lastMessage: {
+      type: String
+    },
+    lastSender: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'User'
     }
   },
   { timestamps: true }

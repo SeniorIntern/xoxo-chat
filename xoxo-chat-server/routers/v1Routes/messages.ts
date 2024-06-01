@@ -2,7 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import express from 'express';
 
 import { serverConfig } from '../../config';
-import { Message } from '../../models';
+import { Conversation, Message } from '../../models';
 
 cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
 
@@ -46,6 +46,15 @@ router.post('/', async (req, res) => {
     text,
     attachmentUrls: attachmentUrls
   });
+
+  await Conversation.findByIdAndUpdate(
+    conversationId,
+    {
+      lastMessage: text,
+      lastSender: sender
+    },
+    { timestamps: true }
+  );
 
   try {
     const savedMessage = await newMessage.save();

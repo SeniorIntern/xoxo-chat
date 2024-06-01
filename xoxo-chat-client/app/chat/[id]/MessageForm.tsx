@@ -43,6 +43,10 @@ const MessageForm = ({ conversationId, sender }: Props) => {
         queryKey: [CACHE_KEY_CONVERSATIONS, conversationId]
       });
 
+      queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_CONVERSATIONS, sender]
+      });
+
       socket.emit('send', {
         ...{
           conversationId,

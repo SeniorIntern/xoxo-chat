@@ -13,6 +13,7 @@ import {
   PLACEHOLDER_PROFILE_IMAGE,
   TOAST_KEY_ANNOUNCE
 } from '@/constants';
+import { useMe } from '@/hooks';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmojiPicker from 'emoji-picker-react';
@@ -27,6 +28,7 @@ type Props = {
 };
 
 const TweetForm = ({ closeDialog }: Props) => {
+  const { data: user } = useMe();
   const [tweet, setTweet] = useState('');
 
   const queryClient = useQueryClient();
@@ -86,7 +88,7 @@ const TweetForm = ({ closeDialog }: Props) => {
     <form onSubmit={handleSubmit} className="flex gap-2 p-4">
       <div className="relative h-10 w-10">
         <Image
-          src={PLACEHOLDER_PROFILE_IMAGE}
+          src={user?.profileImage || PLACEHOLDER_PROFILE_IMAGE}
           alt="profile image"
           fill
           style={{ objectFit: 'cover' }}
