@@ -1,5 +1,9 @@
 import { Player } from '@/app/types';
-import { CACHE_KEY_FRIENDS, TOAST_KEY_ANNOUNCE } from '@/constants';
+import {
+  CACHE_KEY_FRIENDS,
+  CACHE_KEY_PLAYER_FRIENDS,
+  TOAST_KEY_ANNOUNCE
+} from '@/constants';
 import { apiClient } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -15,6 +19,9 @@ const useAddFriend = () => {
       toast.success('Friend Added', { id: TOAST_KEY_ANNOUNCE });
       queryClient.invalidateQueries({
         queryKey: CACHE_KEY_FRIENDS
+      });
+      queryClient.invalidateQueries({
+        queryKey: CACHE_KEY_PLAYER_FRIENDS
       });
     },
     onError: (err) => {

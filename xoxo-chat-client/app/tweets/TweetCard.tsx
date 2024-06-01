@@ -3,7 +3,7 @@
 import { Tweet } from '@/app/types';
 import { Button } from '@/components/ui/button';
 import isLikedAlready from '@/helpers/isLikedAlready';
-import { useLikeTweet, useMe } from '@/hooks';
+import { useAddBookmark, useLikeTweet, useMe } from '@/hooks';
 import { Bookmark, Heart, Repeat2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,7 +15,6 @@ import TweetDelete from './TweetDelete';
 
 type Props = {
   tweet: Tweet;
-  userId: string;
 };
 
 const TweetCard = ({ tweet }: Props) => {
@@ -23,12 +22,16 @@ const TweetCard = ({ tweet }: Props) => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const likeMutation = useLikeTweet();
+  const bookmarkMutation = useAddBookmark();
+
+  // @ts-ignore
+  const userId = tweet.userId._id || tweet.userId;
 
   return (
     <article className="flex p-4">
       <div className="relative h-10 w-10">
         <Image
-          src={tweet.user.profileImage}
+          src={tweet.userProfileImage}
           alt="User Profile picture"
           fill
           style={{ objectFit: 'cover' }}
@@ -39,11 +42,11 @@ const TweetCard = ({ tweet }: Props) => {
       <div className="grow px-2">
         <div className="flex justify-between">
           <div className="space-x-1">
-            <Link href={`players/${tweet.user._id}`} className="font-extrabold">
-              {tweet.user.username}
+            <Link href={`players/${userId}`} className="font-extrabold">
+              {tweet.username}
             </Link>
             <span className="text-sm text-gray-400">
-              {`@${tweet.user.username.toLowerCase()}`}
+              {`@${tweet.username.toLowerCase()}`}
             </span>
             <span className="text-mutedtext">.</span>
             <span className="text-sm text-gray-400">
@@ -51,9 +54,9 @@ const TweetCard = ({ tweet }: Props) => {
             </span>
           </div>
 
-          {user?._id === tweet.user._id && (
+          {user?._id === tweet.userId && (
             <TweetDelete
-              userId={user._id}
+              userId={tweet.userId}
               tweetId={tweet._id}
               openDeleteDialog={openDeleteDialog}
               setOpenDeleteDialog={setOpenDeleteDialog}
@@ -102,7 +105,11 @@ const TweetCard = ({ tweet }: Props) => {
               <span>{tweet.likes.length}</span>
             </Button>
 
-            <Button variant={null} className="inline-flex gap-1 text-mutedtext">
+            <Button
+              onClick={() => bookmarkMutation.mutate(tweet._id)}
+              variant={null}
+              className="inline-flex gap-1 text-mutedtext"
+            >
               <Bookmark size={20} />
             </Button>
           </div>

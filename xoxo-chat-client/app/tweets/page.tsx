@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { useTweets } from '@/hooks';
 
 import TweetForm from './TweetForm';
-import { TweetsContainer } from './TweetsContainer';
+import TweetsContainer from './TweetsContainer';
 
 export default function Page() {
   console.log('mounted');

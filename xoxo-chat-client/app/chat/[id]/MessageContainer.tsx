@@ -51,9 +51,9 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
       className="flex grow flex-col overflow-y-auto p-2"
     >
       {/* messages from (old)database */}
-      {messages?.map((message) => (
+      {messages?.map((message, i) => (
         <div
-          key={message._id}
+          key={i}
           className={cn(
             'my-4 flex flex-col items-start space-y-2',
             message.sender == sender && 'items-end'

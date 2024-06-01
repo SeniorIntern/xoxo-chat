@@ -32,18 +32,22 @@ const ProfileComponent = ({ prop, showImageDialog }: Props) => {
   return (
     <section className="grow px-24">
       <div className="relative">
-        <div className="relative h-96 w-full">
-          <Image
-            src={user?.coverImage ? user.coverImage : PLACEHOLDER_PROFILE_IMAGE}
-            alt="User cover photo"
-            sizes="300px"
-            fill
-            className="rounded-b-md"
-            style={{
-              objectFit: 'cover'
-            }}
-          />
-        </div>
+        {user && (
+          <div className="relative h-96 w-full">
+            <Image
+              src={
+                user?.coverImage ? user.coverImage : PLACEHOLDER_PROFILE_IMAGE
+              }
+              alt="User cover photo"
+              sizes="300px"
+              fill
+              className="rounded-b-md"
+              style={{
+                objectFit: 'cover'
+              }}
+            />
+          </div>
+        )}
         <div className="absolute bottom-2 right-8">
           {showImageDialog && user && (
             <ImageUploadDialog
@@ -75,10 +79,10 @@ const ProfileComponent = ({ prop, showImageDialog }: Props) => {
             />
           </div>
 
-          <div className="self-center">
-            <p className="text-3xl font-semibold">{user?.username}</p>
-            <p className="text-gray-400">{user?.friends.length} friends</p>
-          </div>
+            <div className="self-center">
+              <p className="text-3xl font-semibold">{user?.username}</p>
+              <p className="text-gray-400">{user?.friends?.length} friends</p>
+            </div>
           <div className="absolute bottom-2 left-32 border-0">
             {showImageDialog && user && (
               <ImageUploadDialog

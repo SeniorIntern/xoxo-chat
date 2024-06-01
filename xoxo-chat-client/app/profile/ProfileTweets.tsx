@@ -2,7 +2,7 @@
 
 import useUserTweets from '@/hooks/useUserTweets';
 
-import { TweetsContainer } from '../tweets/TweetsContainer';
+import TweetsContainer from '../tweets/TweetsContainer';
 
 type Props = {
   userId: string;

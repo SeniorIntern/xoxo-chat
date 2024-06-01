@@ -6,18 +6,12 @@ type Props = {
   tweets: Tweet[];
 };
 
-export const TweetsContainer = ({ tweets }: Props) => {
-  const userId = 'asafkdjas';
-
+const TweetsContainer = ({ tweets }: Props) => {
   return (
-    <>
-      {userId && (
-        <section className="flex flex-col divide-y">
-          {tweets?.map((tweet) => (
-            <TweetCard userId={userId} key={tweet._id} tweet={tweet} />
-          ))}
-        </section>
-      )}
-    </>
+    <section className="flex flex-col divide-y">
+      {tweets?.map((tweet) => <TweetCard key={tweet._id} tweet={tweet} />)}
+    </section>
   );
 };
+
+export default TweetsContainer;

@@ -63,7 +63,7 @@ const TweetCommentDialog = ({ tweet, userId }: Props) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-center font-extrabold">
-            {tweet.user.username} Post
+            {tweet.username} Post
           </DialogTitle>
         </DialogHeader>
         <div>
@@ -71,7 +71,7 @@ const TweetCommentDialog = ({ tweet, userId }: Props) => {
             <div className="flex gap-2">
               <div className="relative h-10 w-10">
                 <Image
-                  src={tweet.user.profileImage}
+                  src={tweet.userProfileImage}
                   alt="profile image"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -79,11 +79,11 @@ const TweetCommentDialog = ({ tweet, userId }: Props) => {
                 />
               </div>
               <div className="space-x-1">
-                <Link href={`players/${tweet.user._id}`} className="font-bold">
-                  {tweet.user.username}
+                <Link href={`players/${tweet.userId}`} className="font-bold">
+                  {tweet.username}
                 </Link>
                 <span className="text-sm text-gray-400">
-                  {` @${tweet.user.username.toLowerCase()}`}
+                  {` @${tweet.username.toLowerCase()}`}
                 </span>
                 <span className="text-mutedtext">.</span>
                 <span className="text-xs text-mutedtext">
