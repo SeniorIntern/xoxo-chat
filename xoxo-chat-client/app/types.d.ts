@@ -94,11 +94,14 @@ type Like = {
 
 type Tweet = {
   _id: string;
-  user: Player;
+  userId: string;
+  userProfileImage: string;
+  username: string;
+  userEmail: string;
   tweetContent: string;
   attachmentUrls: string[];
   comments: string[];
-  likes: Like[];
+  likes: string[];
   createdAt: string;
   updatedAt: string;
 };
@@ -124,7 +127,16 @@ type TweetWithComment = {
   updatedAt: string;
 };
 
+type Bookmark = {
+  _id: string;
+  userId: string;
+  tweetIds: Tweet[];
+  createdAt: string;
+  updatedAt: string;
+};
+
 export {
+  Bookmark,
   Conversation,
   ConversationData,
   Gif,
