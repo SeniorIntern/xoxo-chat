@@ -1,4 +1,5 @@
 export { default as apiClient } from './apiClient';
+export { default as bookmarkService } from './bookmarkService';
 export { default as chatService } from './chatService';
 export { default as conversationService } from './conversationService';
 export { default as friendService } from './friendService';

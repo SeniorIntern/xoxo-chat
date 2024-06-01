@@ -10,6 +10,7 @@ const CACHE_KEY_PLAYERS = ['players'];
 const CACHE_KEY_CONVERSATIONS = ['conversations'];
 const CACHE_KEY_MEMBERS = ['members'];
 const CACHE_KEY_MESSAGES = ['messages'];
+const CACHE_KEY_BOOKMARKS = ['bookmarks'];
 const CACHE_KEY_CHATS = ['chats'];
 const CACHE_KEY_ME = ['me'];
 const PLACEHOLDER_PROFILE_IMAGE = 'https://picsum.photos/id/40/4106/2806';
@@ -19,6 +20,7 @@ const TOAST_KEY_ANNOUNCE = 'announcement';
 const TOAST_KEY_AUTH = 'auth';
 
 export {
+  CACHE_KEY_BOOKMARKS,
   CACHE_KEY_CHATS,
   CACHE_KEY_COMMENTS,
   CACHE_KEY_CONVERSATIONS,
