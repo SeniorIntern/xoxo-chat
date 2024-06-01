@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { serverConfig } from '../../config';
 import { auth } from '../../middlewares';
-import { Conversation, User } from '../../models';
+import { Conversation, User, Intro } from '../../models';
 
 cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
 
@@ -61,7 +61,9 @@ router.post('/', async (req, res) => {
       .status(400)
       .send('You already have an account connected with this email address');
 
-  user = new User({ username, email, password });
+  const intro = new Intro();
+
+  user = new User({ username, email, password, intro });
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
   await user.save();

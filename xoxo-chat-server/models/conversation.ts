@@ -1,8 +1,5 @@
+import { Conversation } from '../types';
 import mongoose from 'mongoose';
-
-interface Conversation {
-  members: [mongoose.Schema.Types.ObjectId];
-}
 
 const ConversationSchema = new mongoose.Schema<Conversation>(
   {

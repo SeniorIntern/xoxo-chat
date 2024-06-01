@@ -1,18 +1,21 @@
 import mongoose from 'mongoose';
 
-type Tweet = {
-  user: mongoose.Schema.Types.ObjectId;
-  tweetContent: string;
-  attachmentUrls: string[];
-  comments: mongoose.Schema.Types.ObjectId[];
-  likes: mongoose.Schema.Types.ObjectId[];
-};
+import { Tweet } from '../types';
 
 const tweetSchema = new mongoose.Schema<Tweet>(
   {
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
+    },
+    userProfileImage: {
+      type: String
+    },
+    username: {
+      type: String
+    },
+    userEmail: {
+      type: String
     },
     tweetContent: {
       type: String
@@ -26,7 +29,7 @@ const tweetSchema = new mongoose.Schema<Tweet>(
     },
     likes: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'Like'
+      ref: 'User'
     }
   },
   { timestamps: true }

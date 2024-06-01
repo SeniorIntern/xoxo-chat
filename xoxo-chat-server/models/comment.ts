@@ -1,11 +1,6 @@
 import mongoose from 'mongoose';
 
-type Comment = {
-  commentContent: string;
-  userId: mongoose.Schema.Types.ObjectId;
-  profileImage: string;
-  username: string;
-};
+import { Comment} from '../types';
 
 const commentSchema = new mongoose.Schema<Comment>(
   {

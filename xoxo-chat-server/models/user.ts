@@ -2,50 +2,10 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
 import { serverConfig } from '../config';
+import { User } from '../types';
+import { introSchema } from './intro';
 
 const { JWT_SECRET } = serverConfig;
-
-interface Intro {
-  shortIntro?: string;
-  study?: string;
-  location?: string;
-  job?: string;
-}
-
-const introSchema = new mongoose.Schema<Intro>({
-  shortIntro: {
-    type: String,
-    maxlength: 60,
-    default: ''
-  },
-  study: {
-    type: String,
-    maxlength: 20,
-    default: ''
-  },
-  location: {
-    type: String,
-    maxlength: 20,
-    default: ''
-  },
-  job: {
-    type: String,
-    maxlength: 20,
-    default: ''
-  }
-});
-
-export interface User {
-  username: string;
-  email: string;
-  password: string;
-  profileImage?: string;
-  coverImage?: string;
-  friends: [mongoose.Schema.Types.ObjectId];
-  isAdmin?: boolean;
-  intro?: mongoose.Schema<Intro>;
-  about?: string;
-}
 
 const userSchema = new mongoose.Schema<User>({
   username: {
@@ -68,10 +28,12 @@ const userSchema = new mongoose.Schema<User>({
     maxlength: 1024
   },
   profileImage: {
-    type: String
+    type: String,
+    default: 'https://picsum.photos/id/40/4106/2806'
   },
   coverImage: {
-    type: String
+    type: String,
+    default: 'https://picsum.photos/id/40/4106/2806'
   },
   friends: {
     type: [mongoose.Schema.Types.ObjectId],
@@ -82,13 +44,7 @@ const userSchema = new mongoose.Schema<User>({
     default: false
   },
   intro: {
-    type: introSchema,
-    default: {
-      shortIntro: '',
-      study: '',
-      location: '',
-      job: ''
-    }
+    type: introSchema
   },
   about: {
     type: String,

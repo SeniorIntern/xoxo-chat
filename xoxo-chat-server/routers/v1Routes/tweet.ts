@@ -3,23 +3,21 @@ import express from 'express';
 
 import { serverConfig } from '../../config';
 import { auth, checkObjId } from '../../middlewares';
-import { Comment, Like, Tweet, User } from '../../models';
+import { Comment, Tweet, User } from '../../models';
 
 cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const tweets = await Tweet.find()
-    .populate('user')
-    .populate('likes')
-    .sort({ createdAt: -1 });
+  // const tweets = await Tweet.find().populate('likes').sort({ createdAt: -1 });
+  const tweets = await Tweet.find().sort({ createdAt: -1 });
   res.status(200).send(tweets);
 });
 
 router.get('/user/:id', checkObjId, async (req, res) => {
   const userId = req.params.id;
-  const userTweets = await Tweet.find({ user: userId }).populate('user');
+  const userTweets = await Tweet.find({ userId }).populate('userId');
   res.status(200).send(userTweets);
 });
 
@@ -32,7 +30,9 @@ router.get('/:id', checkObjId, async (req, res) => {
 // likes of a tweet by tweet's _id
 router.get('/like/:id', checkObjId, async (req, res) => {
   const tweetId = req.params.id;
+
   const tweets = await Tweet.findById(tweetId).populate('likes');
+
   res.status(200).send(tweets);
 });
 
@@ -75,10 +75,16 @@ router.post('/', auth, async (req, res) => {
   const decoded = req.user;
   const userId = decoded._id;
 
+  const user = await User.findById(userId);
+  if (!user) return res.status(400).send('User not found');
+
   const tweetContent = req.body.tweetContent;
 
   const tweets = new Tweet({
-    user: userId,
+    userId,
+    userProfileImage: user.profileImage,
+    username: user.username,
+    userEmail: user.email,
     tweetContent,
     attachmentUrls
   });
@@ -132,23 +138,17 @@ router.patch('/like/:id', checkObjId, auth, async (req, res) => {
 
   const tweetId = req.params.id;
 
-  const like = new Like({
-    userId
-  });
-  await like.save();
-
   const staleTweet = await Tweet.findById(tweetId);
+  if (!staleTweet) return res.status(400).send('No tweet found');
 
   const newTweet = await Tweet.findByIdAndUpdate(
     tweetId,
     {
-      likes:
-        staleTweet?.likes && staleTweet.likes.length > 0
-          ? [...staleTweet.likes, like._id]
-          : [like._id]
+      likes: [...staleTweet?.likes, userId]
     },
     { new: true }
   );
+
   res.status(200).send(newTweet);
 });
 

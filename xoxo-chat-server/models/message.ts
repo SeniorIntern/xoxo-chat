@@ -1,13 +1,8 @@
 import mongoose from 'mongoose';
 
-interface Message {
-  conversationId: mongoose.Schema.Types.ObjectId;
-  sender: string;
-  text: string;
-  attachmentUrls: string[];
-}
+import {Message} from '../types'
 
-const MessageSchema = new mongoose.Schema<Message>(
+const messageSchema = new mongoose.Schema<Message>(
   {
     conversationId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -26,5 +21,5 @@ const MessageSchema = new mongoose.Schema<Message>(
   { timestamps: true }
 );
 
-const Message = mongoose.model<Message>('Message', MessageSchema);
+const Message = mongoose.model<Message>('Message', messageSchema);
 export default Message;
