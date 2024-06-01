@@ -1,5 +1,6 @@
-import { Conversation } from '../types';
 import mongoose from 'mongoose';
+
+import { Conversation } from '../types';
 
 const ConversationSchema = new mongoose.Schema<Conversation>(
   {
@@ -13,6 +14,10 @@ const ConversationSchema = new mongoose.Schema<Conversation>(
     lastSender: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'User'
+    },
+    isGroup: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }

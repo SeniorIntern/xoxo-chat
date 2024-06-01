@@ -7,6 +7,7 @@ type Conversation = {
   members: [mongoose.Schema.Types.ObjectId];
   lastMessage: string;
   lastSender: mongoose.Schema.Types.ObjectId;
+  isGroup: boolean;
 };
 
 type Comment = {

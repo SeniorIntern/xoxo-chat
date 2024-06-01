@@ -5,7 +5,7 @@ import { Conversation } from '../../models';
 
 const router = express.Router();
 
-//get conv[] of a user
+// get conv[] of a user
 router.get('/:userId', async (req, res) => {
   try {
     const conversation = await Conversation.find({
@@ -37,10 +37,13 @@ router.get('/members/:id', auth, async (req, res) => {
   res.status(200).send(otherMembers);
 });
 
-//new conversation with a user
+// new conversation with a user
 router.post('/', async (req, res) => {
+  const { senderId, receiverId, groupIds } = req.body;
+  const members = groupIds || [senderId, receiverId];
+
   const newConversation = new Conversation({
-    members: [req.body.senderId, req.body.receiverId]
+    members
   });
 
   try {
