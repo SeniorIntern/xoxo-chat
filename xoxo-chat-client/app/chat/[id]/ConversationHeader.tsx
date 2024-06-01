@@ -1,19 +1,23 @@
 'use client';
 
 import useConversationStore from '@/app/store/conversationStore';
-import Image from 'next/image';
-
-import getConversationMember from '../getConversationMember';
 import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
+import Image from 'next/image';
 import Link from 'next/link';
 
-const ConversationHeader = ({ userId }: { userId: string }) => {
-  const { conversation } = useConversationStore();
+import getConversationMember from '../getConversationMember';
+
+type Props = {
+  userId: string;
+};
+
+const ConversationHeader = ({ userId }: Props) => {
+  const conversation = useConversationStore((s) => s.conversation);
 
   console.log('mounted');
 
   return (
-    <>
+    <div>
       {conversation && (
         <Link
           href={
@@ -25,8 +29,10 @@ const ConversationHeader = ({ userId }: { userId: string }) => {
             <div className="relative h-10 w-10">
               <Image
                 src={
-                  getConversationMember(conversation?.members, userId)
-                    .profileImage || PLACEHOLDER_PROFILE_IMAGE
+                  conversation.members.length > 2
+                    ? PLACEHOLDER_PROFILE_IMAGE
+                    : getConversationMember(conversation?.members, userId)
+                        .profileImage
                 }
                 alt="profile image"
                 fill
@@ -35,12 +41,14 @@ const ConversationHeader = ({ userId }: { userId: string }) => {
               />
             </div>
             <p className="font-semibold">
-              {getConversationMember(conversation?.members, userId).username}
+              {conversation.members.length > 2
+                ? 'Group Chat'
+                : getConversationMember(conversation?.members, userId).username}
             </p>
           </div>
         </Link>
       )}
-    </>
+    </div>
   );
 };
 

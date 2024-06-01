@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 
 export default function Page({ params }: { params: { id: string } }) {
   const router = useRouter();
+
   const { data: friends, isLoading, error } = useFriends();
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;

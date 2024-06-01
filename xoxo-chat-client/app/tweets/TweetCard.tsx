@@ -42,7 +42,10 @@ const TweetCard = ({ tweet }: Props) => {
       <div className="grow px-2">
         <div className="flex justify-between">
           <div className="space-x-1">
-            <Link href={`players/${userId}`} className="font-extrabold">
+            <Link
+              href={userId === user?._id ? '/profile' : `players/${userId}`}
+              className="font-extrabold"
+            >
               {tweet.username}
             </Link>
             <span className="text-sm text-gray-400">

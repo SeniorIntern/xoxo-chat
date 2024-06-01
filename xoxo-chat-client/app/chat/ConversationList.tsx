@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useState } from 'react';
 
+import ChatCreateGroupDialog from './ChatCreateGroupDialog';
 import SearchChat from './SearchChat';
 import UserListItem from './UserListItem';
 
@@ -32,7 +33,10 @@ const ConversationList = ({ userId }: { userId: string }) => {
     >
       <aside>
         <div className="space-y-4 p-4">
-          <p className="text-xl font-bold">Chats</p>
+          <div className="flex items-center justify-between">
+            <p className="text-xl font-bold">Chats</p>
+            {userId && <ChatCreateGroupDialog userId={userId} />}
+          </div>
           {showChats && (
             <Input
               className="w-full rounded-full border-none bg-muted px-4 py-2 text-white"
@@ -44,7 +48,7 @@ const ConversationList = ({ userId }: { userId: string }) => {
 
         <div className="mt-2">
           {showChats ? (
-            <aside>
+            <div>
               {conversations?.map((c) => (
                 <Link
                   onClick={() => setConversation(c)}
@@ -69,7 +73,7 @@ const ConversationList = ({ userId }: { userId: string }) => {
                   </UserListItem>
                 </Link>
               ))}
-            </aside>
+            </div>
           ) : (
             <>
               {conversations && (
