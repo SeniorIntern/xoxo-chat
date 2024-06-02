@@ -2,6 +2,7 @@ import express from 'express';
 
 import { auth } from '../../middlewares';
 import { Conversation } from '../../models';
+import { Conversation as TConversation } from '../../types';
 
 const router = express.Router();
 
@@ -39,16 +40,33 @@ router.get('/members/:id', auth, async (req, res) => {
 
 // new conversation with a user
 router.post('/', async (req, res) => {
-  const { senderId, receiverId, groupIds } = req.body;
-  const members = groupIds || [senderId, receiverId];
-
-  const newConversation = new Conversation({
-    members
-  });
+  const { members, isGroup } = req.body as TConversation;
 
   try {
-    const savedConversation = await newConversation.save();
-    res.status(200).json(savedConversation);
+    // isGroup is either true(if exists in req.body) or undefined
+    if (isGroup) {
+      const {
+        groupInfo: { groupName, groupAdmin }
+      } = req.body;
+
+      const conversation = new Conversation<TConversation>({
+        members,
+        isGroup,
+        groupInfo: {
+          groupName,
+          groupAdmin,
+          groupImage: 'https://picsum.photos/id/40/4106/2806'
+        }
+      });
+      const conv = await conversation.save();
+      res.status(200).json(conv);
+    } else {
+      const conversation = new Conversation({
+        members
+      });
+      const conv = await conversation.save();
+      res.status(200).json(conv);
+    }
   } catch (err) {
     res.status(500).json(err);
   }

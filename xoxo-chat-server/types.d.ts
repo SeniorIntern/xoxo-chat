@@ -5,9 +5,14 @@ type Bookmark = {
 
 type Conversation = {
   members: [mongoose.Schema.Types.ObjectId];
-  lastMessage: string;
-  lastSender: mongoose.Schema.Types.ObjectId;
+  lastMessage?: string;
+  lastSender?: mongoose.Schema.Types.ObjectId;
   isGroup: boolean;
+  groupInfo: {
+    groupName: string;
+    groupAdmin: string;
+    groupImage: string;
+  };
 };
 
 type Comment = {
@@ -54,4 +59,4 @@ type User = {
   about: string;
 };
 
-export { Bookmark, Conversation, Comment, Message, Tweet, Intro, User };
+export { Bookmark, Comment, Conversation, Intro, Message, Tweet, User };

@@ -18,6 +18,18 @@ const ConversationSchema = new mongoose.Schema<Conversation>(
     isGroup: {
       type: Boolean,
       default: false
+    },
+    groupInfo: {
+      groupName: {
+        type: String
+      },
+      groupAdmin: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      },
+      groupImage: {
+        type: String
+      }
     }
   },
   { timestamps: true }
