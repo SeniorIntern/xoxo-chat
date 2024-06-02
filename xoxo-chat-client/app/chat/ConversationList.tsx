@@ -71,9 +71,7 @@ const ConversationList = ({ userId }: { userId: string }) => {
                       {c.lastMessage}
                     </p>
                   </UserListItem>
-                </Link>
-              ))}
-            </div>
+                </Link>))} </div>
           ) : (
             <>
               {conversations && (

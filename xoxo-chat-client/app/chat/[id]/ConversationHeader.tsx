@@ -32,7 +32,7 @@ const ConversationHeader = ({ userId }: Props) => {
                   conversation.members.length > 2
                     ? PLACEHOLDER_PROFILE_IMAGE
                     : getConversationMember(conversation?.members, userId)
-                        .profileImage
+                      .profileImage
                 }
                 alt="profile image"
                 fill
@@ -41,8 +41,8 @@ const ConversationHeader = ({ userId }: Props) => {
               />
             </div>
             <p className="font-semibold">
-              {conversation.members.length > 2
-                ? 'Group Chat'
+              {conversation.isGroup
+                ? conversation.groupInfo?.groupName
                 : getConversationMember(conversation?.members, userId).username}
             </p>
           </div>

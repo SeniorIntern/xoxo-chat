@@ -1,5 +1,6 @@
 'use client';
 
+import useConversationStore from '@/app/store/conversationStore';
 import { Separator } from '@/components/ui/separator';
 import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 import useMembers from '@/hooks/useMembers';
@@ -12,6 +13,8 @@ type Props = {
 
 const UserInfo = ({ conversationId }: Props) => {
   const { data: members, isLoading, error } = useMembers(conversationId);
+  const conversation = useConversationStore((s) => s.conversation);
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
 
@@ -37,11 +40,11 @@ const UserInfo = ({ conversationId }: Props) => {
           {members.length > 2 ? (
             <div className="flex w-full flex-col gap-4">
               <p className="text-center text-xl font-semibold hover:underline">
-                Group Chat
+                {conversation?.groupInfo?.groupName}
               </p>
 
               <div>
-                <span className="font-bold text-mutedtext">Members</span>
+                <span className="font-bold text-mutedtext">Other Members</span>
                 <Separator />
               </div>
 

@@ -71,7 +71,6 @@ const SearchChat = ({ userId, conversations, setShowChats }: Prop) => {
             key={c._id}
           >
             <UserListItem
-              isOnline={true}
               userData={{
                 type: 'conversation',
                 data: c,

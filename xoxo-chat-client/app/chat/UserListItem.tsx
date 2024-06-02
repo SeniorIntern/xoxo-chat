@@ -14,7 +14,6 @@ const UserListItem = ({ userData, children }: Props) => {
   console.log('mounted');
 
   const profileImage = getProfileImage(userData);
-  console.log('userData===', userData);
 
   return (
     <div className="flex items-center space-x-4">
@@ -30,10 +29,11 @@ const UserListItem = ({ userData, children }: Props) => {
       <div className="space-y-2">
         {userData.type === 'conversation' && (
           <p>
-            {userData.data.members.length === 2
-              ? getConversationMember(userData.data.members, userData.userId)
-                  .username
-              : 'Group Chat'}
+            {userData.data.isGroup
+              ? userData.data.groupInfo?.groupName
+            : getConversationMember(userData.data.members, userData.userId)
+            .username
+            }
           </p>
         )}
 

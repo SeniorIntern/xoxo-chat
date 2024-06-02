@@ -88,8 +88,8 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
         <div
           key={index}
           className={cn(
-            'my-4 flex flex-col items-end space-y-2',
-            message.sender == sender && 'self-end'
+            'my-4 flex flex-col items-start space-y-2',
+            message.sender == sender && 'items-end'
           )}
         >
           {message.attachmentUrls.length !== 0 && (

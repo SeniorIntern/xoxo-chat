@@ -8,6 +8,8 @@ type Props = {
 };
 
 const TweetAsideControl = ({ user }: Props) => {
+  console.log('user=== ', user);
+  
   return (
     <div className="rounded-full p-2 hover:bg-secondary/70">
       <UserNav triggerClassNames={'w-full'} contentClassNames={'min-w-60'}>

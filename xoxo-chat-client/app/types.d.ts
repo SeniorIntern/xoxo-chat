@@ -37,8 +37,14 @@ type Member = {
 type Conversation = {
   _id: string;
   members: Member[];
-  lastMessage: string;
+  lastMessage?: string;
   lastSender: string;
+  isGroup: boolean;
+  groupInfo?: {
+    groupName: string;
+    groupAdmin: string;
+    groupImage: string;
+  };
 };
 
 type PlayerIntro = {
