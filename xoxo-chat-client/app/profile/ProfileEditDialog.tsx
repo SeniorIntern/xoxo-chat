@@ -48,7 +48,7 @@ const ProfileEditDialog = ({ user }: Props) => {
                       title="Drop/Upload profile picture"
                       type="profile"
                     >
-                      <span>Edit</span>
+                      <span className="cursor-pointer">Edit</span>
                     </ImageUploadDialog>
                   )}
                 </div>
@@ -72,7 +72,7 @@ const ProfileEditDialog = ({ user }: Props) => {
                       type="cover"
                       userId={user._id}
                     >
-                      <span>Edit</span>
+                      <span className="cursor-pointer">Edit</span>
                     </ImageUploadDialog>
                   )}
                 </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import useConversationStore from '@/app/store/conversationStore';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 import useMembers from '@/hooks/useMembers';
@@ -48,26 +49,28 @@ const UserInfo = ({ conversationId }: Props) => {
                 <Separator />
               </div>
 
-              <div className="flex flex-col gap-2">
-                {members.map((member) => (
-                  <Link
-                    href={'/friends/' + member._id}
-                    key={member._id}
-                    className="flex items-center gap-2"
-                  >
-                    <div className="relative h-10 w-10">
-                      <Image
-                        src={member.profileImage}
-                        alt="profile image"
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        className="rounded-full"
-                      />
-                    </div>
-                    <span>{member.username}</span>
-                  </Link>
-                ))}
-              </div>
+              <ScrollArea className="h-60 w-full">
+                <div className="flex flex-col gap-2">
+                  {members.map((member) => (
+                    <Link
+                      href={'/friends/' + member._id}
+                      key={member._id}
+                      className="flex items-center gap-2"
+                    >
+                      <div className="relative h-10 w-10">
+                        <Image
+                          src={member.profileImage}
+                          alt="profile image"
+                          fill
+                          style={{ objectFit: 'cover' }}
+                          className="rounded-full"
+                        />
+                      </div>
+                      <span>{member.username}</span>
+                    </Link>
+                  ))}
+                </div>
+              </ScrollArea>
             </div>
           ) : (
             <Link

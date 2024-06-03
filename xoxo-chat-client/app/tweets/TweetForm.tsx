@@ -142,10 +142,9 @@ const TweetForm = ({ closeDialog }: Props) => {
             Post
           </Button>
         </div>
-        <span>acceptedFiles = {acceptedFiles.length}</span>
 
         {acceptedFiles.length != 0 && (
-          <p className="text-xs">{acceptedFiles.length} images</p>
+          <p className="text-xs">{acceptedFiles.length} image(s)</p>
         )}
       </div>
     </form>

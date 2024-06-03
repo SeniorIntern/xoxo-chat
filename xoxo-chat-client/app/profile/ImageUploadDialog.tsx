@@ -96,16 +96,21 @@ const ImageUploadDialog = ({ title, type, userId, children }: Props) => {
           <DialogTitle className="text-white">{title}</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div {...getRootProps()} className="">
             <input {...getInputProps()} />
             {isDragActive ? (
               <p>Drop the files here ...</p>
             ) : (
-              <p>
-                Drag &apos;n&apos; drop some files here, or click to select
-                files
-              </p>
+              <div className="cursor-pointer rounded-md border-2 border-dashed border-muted px-4 py-8">
+                <p className="border-mutedtext">
+                  {type === 'profile'
+                    ? 'Drag & drop profile picture here, or click to select image'
+                    : type === 'cover'
+                      ? 'Drag & drop cover photo here, or click to select image'
+                      : 'Drag &apos;n&apos; drop some files here, or click to select files'}
+                </p>
+              </div>
             )}
           </div>
 

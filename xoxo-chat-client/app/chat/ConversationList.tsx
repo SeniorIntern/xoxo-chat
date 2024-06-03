@@ -19,7 +19,6 @@ const ConversationList = ({ userId }: { userId: string }) => {
   const { data: conversations, isLoading, error } = useConversations(userId);
 
   const { conversation, setConversation } = useConversationStore();
-
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
 
@@ -51,8 +50,10 @@ const ConversationList = ({ userId }: { userId: string }) => {
             <div>
               {conversations?.map((c) => (
                 <Link
-                  onClick={() => setConversation(c)}
                   href={`/chat/${c._id}`}
+                  onClick={() => {
+                    setConversation(c);
+                  }}
                   className={cn(
                     'block cursor-pointer rounded-md p-2',
                     conversation?._id === c._id && 'bg-muted'
@@ -71,7 +72,9 @@ const ConversationList = ({ userId }: { userId: string }) => {
                       {c.lastMessage}
                     </p>
                   </UserListItem>
-                </Link>))} </div>
+                </Link>
+              ))}
+            </div>
           ) : (
             <>
               {conversations && (

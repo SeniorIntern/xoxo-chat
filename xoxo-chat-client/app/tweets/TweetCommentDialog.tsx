@@ -50,6 +50,7 @@ const TweetCommentDialog = ({ tweet, userId }: Props) => {
     };
     commentMutation.mutate(payload);
     setOpenCommentDialog(false);
+    setComment('');
   };
 
   return (
@@ -161,7 +162,7 @@ const TweetCommentDialog = ({ tweet, userId }: Props) => {
               placeholder="Write a comment..."
             />
             <Button
-              disabled={commentMutation.isPending}
+              disabled={commentMutation.isPending || comment.trim() === ''}
               type="submit"
               variant={null}
             >

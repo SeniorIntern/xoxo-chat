@@ -110,13 +110,13 @@ const MessageForm = ({ conversationId, sender }: Props) => {
 
   return (
     <div className="flex grow flex-col">
-      {acceptedFiles.length != 0 && (
-        <p className="text-xs">{acceptedFiles.length} images</p>
-      )}
       <form
         className="flex grow items-center space-x-4"
         onSubmit={handleSubmit}
       >
+        {acceptedFiles.length != 0 && (
+          <span className="text-xs">{acceptedFiles.length} image(s)</span>
+        )}
         <div {...getRootProps()} className="flex items-center">
           <input
             {...getInputProps()}
