@@ -21,7 +21,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EmojiPicker from 'emoji-picker-react';
 import { Image as Img, SendHorizontal, SmilePlus } from 'lucide-react';
 import { FormEvent, useCallback, useRef } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { Accept, useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 
 type Props = {
@@ -72,8 +72,14 @@ const MessageForm = ({ conversationId, sender }: Props) => {
     console.log('onDrop files=', acceptedFiles);
   }, []);
 
+  const accept: Accept = {
+    'image/png': [],
+    'image/jpeg': []
+  };
+
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    onDrop
+    onDrop,
+    accept
   });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

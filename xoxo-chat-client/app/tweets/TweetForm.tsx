@@ -20,7 +20,7 @@ import EmojiPicker from 'emoji-picker-react';
 import { Image as Img, SmilePlus } from 'lucide-react';
 import Image from 'next/image';
 import { FormEvent, useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { Accept, useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 
 type Props = {
@@ -38,8 +38,14 @@ const TweetForm = ({ closeDialog }: Props) => {
     console.log('onDrop files=', acceptedFiles);
   }, []);
 
+  const accept: Accept = {
+    'image/png': [],
+    'image/jpeg': []
+  };
+
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    onDrop
+    onDrop,
+    accept
   });
 
   const mutation = useMutation({
@@ -144,7 +150,7 @@ const TweetForm = ({ closeDialog }: Props) => {
         </div>
 
         {acceptedFiles.length != 0 && (
-          <p className="text-xs">{acceptedFiles.length} image(s)</p>
+          <p className="text-xs">{acceptedFiles.length} image(s) selected</p>
         )}
       </div>
     </form>
