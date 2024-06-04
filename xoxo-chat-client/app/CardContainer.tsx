@@ -36,6 +36,11 @@ const CardContainer = ({ gifs }: Props) => {
 
   useEffect(() => {
     if (selections.length === 2) {
+      if (selections[0].mapId === selections[1].mapId) {
+        setSelections([]);
+        return;
+      }
+
       if (selections[0].gifId === selections[1].gifId) {
         setPairs(selections[0].gifId);
       }
@@ -55,7 +60,9 @@ const CardContainer = ({ gifs }: Props) => {
   };
 
   if (pairs.length === totalUniqueCards && confettiTotal !== 0) {
-    toast.success('Congratulations! You have won the game', { id: TOAST_KEY_ANNOUNCE });
+    toast.success('Congratulations! You have won the game', {
+      id: TOAST_KEY_ANNOUNCE
+    });
 
     setTimeout(() => {
       toast.success('Restarting the game...', {
@@ -95,7 +102,7 @@ const CardContainer = ({ gifs }: Props) => {
               fill
               unoptimized
               style={{
-                objectFit: 'cover',
+                objectFit: 'contain',
                 display:
                   pairs.includes(gif.id) || isSelected(index) ? 'block' : 'none'
               }}
