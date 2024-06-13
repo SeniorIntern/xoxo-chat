@@ -9,7 +9,7 @@ export default async function Page() {
 
   if (profileObject)
     return (
-      <div className="space-y-6  pb-6">
+      <div className="grow space-y-6 pb-6">
         <div className="space-y-4 bg-secondary pb-4">
           <ProfileComponent
             showImageDialog={true}

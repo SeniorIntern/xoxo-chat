@@ -31,7 +31,7 @@ export default function RootLayout({
           richColors
         />
         <QueryProvider>
-          <div className="flex min-h-screen flex-col">
+          <div className="container flex min-h-screen flex-col">
             <Header />
             <main className="flex grow flex-col">{children}</main>
           </div>

@@ -65,7 +65,7 @@ const ProfileComponent = ({ prop, showImageDialog }: Props) => {
       </div>
       <div className="flex h-36 justify-between p-4">
         <div className="relative flex items-center gap-4">
-          <div className="relative h-44 w-44 self-end">
+          <div className="relative hidden self-end md:block lg:h-44 lg:w-44">
             <Image
               src={
                 user?.profileImage
@@ -79,10 +79,10 @@ const ProfileComponent = ({ prop, showImageDialog }: Props) => {
             />
           </div>
 
-            <div className="self-center">
-              <p className="text-3xl font-semibold">{user?.username}</p>
-              <p className="text-gray-400">{user?.friends?.length} friends</p>
-            </div>
+          <div className="self-center">
+            <p className="text-3xl font-semibold">{user?.username}</p>
+            <p className="text-gray-400">{user?.friends?.length} friends</p>
+          </div>
           <div className="absolute bottom-2 left-32 border-0">
             {showImageDialog && user && (
               <ImageUploadDialog
@@ -113,7 +113,7 @@ const ProfileComponent = ({ prop, showImageDialog }: Props) => {
               className="inline-flex space-x-2 rounded-md px-4"
             >
               <UserPlus />
-              <span>Add Friend</span>
+              <span className="hidden md:block">Add Friend</span>
             </Button>
           )}
           {prop.type === 'user' && user && <ProfileEditDialog user={user} />}
