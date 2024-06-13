@@ -25,7 +25,7 @@ export const ProfileFriends = ({ hideDialog, userId }: Props) => {
       </div>
       <span className="text-mutedtext">{friends?.length} friends</span>
 
-      <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-8">
         {friends?.map((friend) => (
           <div key={friend._id}>
             <div key={friend._id} className="relative h-32 w-32">

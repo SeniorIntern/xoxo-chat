@@ -14,7 +14,7 @@ export default async function TweetLayout({
     <div className="flex divide-x bg-black">
       {user && <TweetAside user={user} />}
       {children}
-      <div className="w-[31%]"></div>
+      <div className="hidden w-[31%] md:block"></div>
     </div>
   );
 }

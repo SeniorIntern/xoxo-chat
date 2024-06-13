@@ -80,16 +80,7 @@ const TweetCommentDialog = ({ tweet, userId }: Props) => {
                 />
               </div>
               <div className="space-x-1">
-                <Link
-                  href={
-                    tweet.userId === userId
-                      ? '/profile'
-                      : `players/${tweet.userId}`
-                  }
-                  className="font-bold"
-                >
-                  {tweet.username}
-                </Link>
+                {tweet.username}
                 <span className="text-sm text-gray-400">
                   {` @${tweet.username.toLowerCase()}`}
                 </span>

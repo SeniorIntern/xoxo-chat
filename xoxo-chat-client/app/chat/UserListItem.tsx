@@ -26,14 +26,13 @@ const UserListItem = ({ userData, children }: Props) => {
           className="rounded-full"
         />
       </div>
-      <div className="space-y-2">
+      <div className="hidden space-y-2 md:block">
         {userData.type === 'conversation' && (
           <p>
             {userData.data.isGroup
               ? userData.data.groupInfo?.groupName
-            : getConversationMember(userData.data.members, userData.userId)
-            .username
-            }
+              : getConversationMember(userData.data.members, userData.userId)
+                .username}
           </p>
         )}
 

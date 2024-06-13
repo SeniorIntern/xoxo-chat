@@ -33,9 +33,9 @@ const TweetAside = ({ user }: Props) => {
   ];
 
   return (
-    <aside className="flex  w-[22%] flex-col justify-between px-3 py-2">
+    <aside className="flex w-[22%] flex-col justify-between px-3 py-2">
       <div className="space-y-2">
-        <nav className="flex flex-col px-2">
+        <nav className="flex flex-col px-2 items-end lg:items-start">
           {tweetAsideOptions.map((o, index) => (
             <Link
               key={index}
@@ -43,7 +43,7 @@ const TweetAside = ({ user }: Props) => {
               className="flex w-fit items-center gap-4 rounded-full p-3 pr-8 text-xl hover:bg-secondary/70"
             >
               {o.icon}
-              <span>{o.option}</span>
+              <span className="hidden lg:block">{o.option}</span>
             </Link>
           ))}
         </nav>

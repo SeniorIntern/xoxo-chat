@@ -11,6 +11,7 @@ import { useState } from 'react';
 import ChatCreateGroupDialog from './ChatCreateGroupDialog';
 import SearchChat from './SearchChat';
 import UserListItem from './UserListItem';
+import { Search } from 'lucide-react';
 
 const ConversationList = ({ userId }: { userId: string }) => {
   console.log('mounted');
@@ -32,17 +33,20 @@ const ConversationList = ({ userId }: { userId: string }) => {
     >
       <aside>
         <div className="space-y-4 p-4">
-          <div className="flex items-center justify-between">
+          <div className="hidden items-center justify-between md:flex">
             <p className="text-xl font-bold">Chats</p>
             {userId && <ChatCreateGroupDialog userId={userId} />}
           </div>
+
           {showChats && (
             <Input
-              className="w-full rounded-full border-none bg-muted px-4 py-2 text-white"
+              className="hidden w-full rounded-full border-none bg-muted px-4 py-2 text-white md:block"
               placeholder="Search chat"
               onFocus={() => setShowChats(false)}
             />
           )}
+
+          <Search onClick={() => setShowChats(false)} className="text-mutedtext md:hidden" />
         </div>
 
         <div className="mt-2">
@@ -67,7 +71,7 @@ const ConversationList = ({ userId }: { userId: string }) => {
                       userId: userId
                     }}
                   >
-                    <p className="text-sm text-mutedtext">
+                    <p className="hidden text-sm text-mutedtext lg:block">
                       <span>{c.lastSender == userId && 'You: '}</span>
                       {c.lastMessage}
                     </p>

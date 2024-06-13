@@ -25,7 +25,7 @@ const PlayerList = () => {
         {players.map((player) => (
           <div className="block cursor-pointer rounded-md p-2" key={player._id}>
             <UserListItem userData={{ type: 'player', data: player }}>
-              <div className="flex space-x-2">
+              <div className="flex flex-col items-center gap-2 xl:flex-row">
                 <Button
                   onClick={() => mutation.mutate(player._id)}
                   className="px-6"

@@ -87,7 +87,7 @@ const CardContainer = ({ gifs }: Props) => {
           height={height || 200}
         />
       )}
-      <div className="scale-up-center grid grid-cols-6 gap-10">
+      <div className="scale-up-center grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-10 lg:grid-cols-6">
         {gifs.map((gif, index) => (
           <div
             className="relative h-32 w-32 transform cursor-pointer overflow-hidden rounded-2xl border-2 border-black transition-transform duration-300 hover:scale-110 hover:border-white"

@@ -16,12 +16,12 @@ export default async function PlayerLayout({
         }}
         className="w-[28%] bg-secondary p-2"
       >
-        <div className="my-4">
+        <div className="my-4 hidden md:block">
           <span className="text-sm text-mutedtext">Friends</span>
           <p className="text-xl font-extrabold">Suggestions</p>
         </div>
 
-        <p>People you may know</p>
+        <p className='hidden md:block'>People you may know</p>
         <PlayerList />
       </ScrollArea>
 

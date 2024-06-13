@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
       </section>
 
-      <section className="w-[24%] space-y-4 p-4">
+      <section className="w-[24%] hidden md:block space-y-4 p-4">
         <UserInfo conversationId={params.id} />
       </section>
     </>
