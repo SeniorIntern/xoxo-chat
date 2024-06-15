@@ -3,6 +3,7 @@
 import { usePlayer } from '@/hooks';
 
 import ProfileAbout from './ProfileAbout';
+import { ProfileInformationSkeleton } from './ProfileInformationSkeleton';
 import ProfileIntro from './ProfileIntro';
 
 type Props = {
@@ -12,7 +13,7 @@ type Props = {
 
 const ProfileInformation = ({ userId, hideDialog = false }: Props) => {
   const { data: user, isLoading, error } = usePlayer(userId);
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <ProfileInformationSkeleton />;
   if (error) return <p>{error.message}</p>;
 
   return (

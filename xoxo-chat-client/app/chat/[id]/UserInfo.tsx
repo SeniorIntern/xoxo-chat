@@ -8,6 +8,8 @@ import useMembers from '@/hooks/useMembers';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import UserInfoSkeleton from './UserInfoSkeleton';
+
 type Props = {
   conversationId: string;
 };
@@ -16,7 +18,7 @@ const UserInfo = ({ conversationId }: Props) => {
   const { data: members, isLoading, error } = useMembers(conversationId);
   const conversation = useConversationStore((s) => s.conversation);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <UserInfoSkeleton />;
   if (error) return <p>{error.message}</p>;
 
   console.log('mounted');

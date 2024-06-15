@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import filterPlayersByFriends from '@/helpers/filterPlayersByFriend';
 import { useAddFriend, useFriends, usePlayers } from '@/hooks';
 import Link from 'next/link';
+import PlayerListSkeleton from './PlayerListSkeleton';
 
 const PlayerList = () => {
   console.log('mounted');
@@ -13,7 +14,7 @@ const PlayerList = () => {
   const { data: friends, isLoading: isFriendsLoading } = useFriends();
   const mutation = useAddFriend();
 
-  if (isPlayersLoading || isFriendsLoading) return <p>Loading...</p>;
+  if (isPlayersLoading || isFriendsLoading) return <PlayerListSkeleton/>
 
   if (error) return <p>{error.message}</p>;
 

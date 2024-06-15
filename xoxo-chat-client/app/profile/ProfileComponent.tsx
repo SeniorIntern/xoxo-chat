@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import FriendSuggestions from './FriendSuggestions';
 import ImageUploadDialog from './ImageUploadDialog';
 import ProfileEditDialog from './ProfileEditDialog';
+import ProfileComponentSkeleton from './ProfileComponentSkeleton';
 
 type Props = {
   prop: {
@@ -26,7 +27,7 @@ const ProfileComponent = ({ prop, showImageDialog }: Props) => {
   const mutation = useAddFriend();
 
   const { data: user, isLoading, error } = usePlayer(prop.id);
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <ProfileComponentSkeleton />;
   if (error) return <p>{error.message}</p>;
 
   return (

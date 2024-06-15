@@ -11,6 +11,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { format } from 'timeago.js';
 
 import { RealtimeMessages } from './RealtimeMessages';
+import MessageContainerSkeleton from './MessageContainerSkeleton';
 
 type Props = {
   sender: string;
@@ -21,13 +22,10 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
   const { socket } = useSocket();
 
   const limit = 6;
-  const {
-    data,
-    error,
-    isLoading,
-    hasNextPage,
-    fetchNextPage,
-  } = useMessages(conversationId, limit);
+  const { data, error, isLoading, hasNextPage, fetchNextPage } = useMessages(
+    conversationId,
+    limit
+  );
 
   const fetchedMessages =
     data?.pages.reduce((total, page) => total + page.messages.length, 0) || 0;
@@ -54,7 +52,7 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
 
   console.log('mounted');
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <MessageContainerSkeleton />;
   if (error) return <p>{error.message}</p>;
   if (!data) return <p>Fetching...</p>;
 

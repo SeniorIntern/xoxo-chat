@@ -6,11 +6,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useFriends } from '@/hooks';
 import { useRouter } from 'next/navigation';
 
+import PlayerPageSkeleton from './PlayerPageSkeleton';
+
 export default function Page({ params }: { params: { id: string } }) {
   const router = useRouter();
 
   const { data: friends, isLoading, error } = useFriends();
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <PlayerPageSkeleton />;
   if (error) return <p>{error.message}</p>;
 
   let isPlayerAlsoFriend = false;

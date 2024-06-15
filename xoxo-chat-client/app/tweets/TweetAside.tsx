@@ -43,7 +43,7 @@ const TweetAside = ({ user }: Props) => {
               className="flex w-fit items-center gap-4 rounded-full p-3 pr-8 text-xl hover:bg-secondary/70"
             >
               {o.icon}
-              <span className="hidden lg:block">{o.option}</span>
+              <span className="hidden md:block">{o.option}</span>
             </Link>
           ))}
         </nav>

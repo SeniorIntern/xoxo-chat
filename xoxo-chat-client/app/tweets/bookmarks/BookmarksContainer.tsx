@@ -2,6 +2,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useBookmarks } from '@/hooks';
 
 import TweetsContainer from '../TweetsContainer';
+import BookmarkContainerSkeleton from './BookmarkContainerSkeleton';
 
 type Props = {
   userId: string;
@@ -9,7 +10,7 @@ type Props = {
 
 const BookmarksContainer = ({ userId }: Props) => {
   const { data: bookmark, isLoading, error } = useBookmarks(userId);
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <BookmarkContainerSkeleton />;
   if (error) return <p>{error.message}</p>;
 
   return (

@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import { PLACEHOLDER_PROFILE_IMAGE } from '@/constants';
 import { usePlayer } from '@/hooks';
 import { cn } from '@/lib/utils';
@@ -12,7 +13,7 @@ type Props = {
 
 export const UserAvatar = ({ userId, hideName = false }: Props) => {
   const { data: user, isLoading, error } = usePlayer(userId);
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Skeleton className="h-12 w-12 rounded-full" />;
   if (error) return <p>{error.message}</p>;
 
   return (

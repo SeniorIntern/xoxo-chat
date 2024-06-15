@@ -5,13 +5,14 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useConversations } from '@/hooks';
 import { cn } from '@/lib/utils';
+import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
 import ChatCreateGroupDialog from './ChatCreateGroupDialog';
+import ConversationListSkeleton from './ConversationListSkeleton';
 import SearchChat from './SearchChat';
 import UserListItem from './UserListItem';
-import { Search } from 'lucide-react';
 
 const ConversationList = ({ userId }: { userId: string }) => {
   console.log('mounted');
@@ -20,7 +21,9 @@ const ConversationList = ({ userId }: { userId: string }) => {
   const { data: conversations, isLoading, error } = useConversations(userId);
 
   const { conversation, setConversation } = useConversationStore();
-  if (isLoading) return <p>Loading...</p>;
+
+  if (isLoading) return <ConversationListSkeleton />
+
   if (error) return <p>{error.message}</p>;
 
   return (
@@ -46,7 +49,10 @@ const ConversationList = ({ userId }: { userId: string }) => {
             />
           )}
 
-          <Search onClick={() => setShowChats(false)} className="text-mutedtext md:hidden" />
+          <Search
+            onClick={() => setShowChats(false)}
+            className="text-mutedtext md:hidden"
+          />
         </div>
 
         <div className="mt-2">
