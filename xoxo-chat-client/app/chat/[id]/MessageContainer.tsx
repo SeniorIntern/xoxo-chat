@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { format } from 'timeago.js';
+
 import { RealtimeMessages } from './RealtimeMessages';
 
 type Props = {
@@ -26,10 +27,9 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
     isLoading,
     hasNextPage,
     fetchNextPage,
-    isFetchingNextPage
   } = useMessages(conversationId, limit);
 
-  const fetchedTodos =
+  const fetchedMessages =
     data?.pages.reduce((total, page) => total + page.messages.length, 0) || 0;
 
   const [chats, setChats] = useState<SocketPaylod[]>([]);
@@ -68,7 +68,7 @@ const MessageContainer = ({ sender, conversationId }: Props) => {
       <RealtimeMessages sender={sender} chats={chats} />
 
       <InfiniteScroll
-        dataLength={fetchedTodos}
+        dataLength={fetchedMessages}
         hasMore={!!hasNextPage}
         next={() => fetchNextPage()}
         loader={<Spinner />}

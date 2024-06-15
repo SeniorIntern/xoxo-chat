@@ -10,9 +10,23 @@ cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  // const tweets = await Tweet.find().populate('likes').sort({ createdAt: -1 });
-  const tweets = await Tweet.find().sort({ createdAt: -1 });
-  res.status(200).send(tweets);
+  try {
+    // @ts-ignore
+    const limit = parseInt(req.query.limit) || 10;
+
+    const tweets = await Tweet.find().sort({ createdAt: -1 }).limit(limit);
+
+    // Count the total number of documents for the given conversationId
+    const totalDocuments = await Tweet.countDocuments();
+
+    res.json({
+      tweets,
+      totalPages: Math.ceil(totalDocuments / tweets.length),
+      totalDocuments
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.get('/user/:id', checkObjId, async (req, res) => {

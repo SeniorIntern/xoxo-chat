@@ -124,6 +124,12 @@ type Tweet = {
   updatedAt: string;
 };
 
+type PaginatedTweets = {
+  tweets: Tweet[];
+  totalPages: number;
+  totalDocuments: number;
+};
+
 type Comment = {
   _id: string;
   commentContent: string;
@@ -172,5 +178,6 @@ export {
   Session,
   SocketPaylod,
   Tweet,
+  PaginatedTweets,
   TweetWithComment
 };
