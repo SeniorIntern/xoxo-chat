@@ -1,14 +1,15 @@
-## Getting Started
+## Install dependencies
+```shell
+npm install
+```
 
-First, run the development server:
+## Setup environment variables
+```shell
+NEXT_PUBLIC_BASE_URL=http://localhost:3001/api/v1
+```
 
-```bash
+## Run the application
+```shell
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
