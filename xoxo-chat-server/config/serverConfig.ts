@@ -8,9 +8,15 @@ const cloudinaryConfigOptions: ConfigOptions = {
   api_secret: process.env.API_SECRET
 };
 
+const CORS_OPTIONS = {
+  origin: 'http://localhost:3000', // client's origin
+  credentials: true // allow credentials
+};
+
 export = {
   PORT: process.env.PORT,
   URI: process.env.URI!,
   JWT_SECRET: process.env.JWT_SECRET!,
-  CLOUDINARY_CONFIG: cloudinaryConfigOptions
+  CLOUDINARY_CONFIG: cloudinaryConfigOptions,
+  CORS_OPTIONS
 };

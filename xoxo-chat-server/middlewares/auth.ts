@@ -4,6 +4,16 @@ import jwt from 'jsonwebtoken';
 import { serverConfig } from '../config';
 
 export default function (req: Request, res: Response, next: NextFunction) {
+  const path = req.path;
+  const method = req.method;
+  console.log('info===', path, method);
+
+  // Skip authorization for POST requests to /auth and /users
+  if ((path === '/auth' || path === '/users') && method === 'POST') {
+    return next(); // Skip the authorization and proceed to the next middleware/route handler
+  }
+
+  // authorization. check for token
   let rawToken = req.headers.cookie;
 
   // filter prefix(cookie name)
@@ -23,7 +33,7 @@ export default function (req: Request, res: Response, next: NextFunction) {
 
     // @ts-ignore
     req.user = decoded;
-    
+
     next();
   } catch (ex) {
     res.status(400).send('Invalid token.');

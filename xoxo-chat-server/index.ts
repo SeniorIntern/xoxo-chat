@@ -1,41 +1,29 @@
-import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import fileUpload from 'express-fileupload';
 import { createServer } from 'http';
-import mongoose from 'mongoose';
 import { Server } from 'socket.io';
+import winston from 'winston';
 
 import { serverConfig } from './config';
-import v1Routes from './routers/v1Routes';
+import { config, db, logging, prod, routes } from './startup';
 
 dotenv.config();
+
+const { PORT, CORS_OPTIONS } = serverConfig;
 const app = express();
-
-const corsOption = {
-  origin: 'http://localhost:3000', // client's origin
-  credentials: true // allow credentials
-};
-
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: corsOption
+  cors: CORS_OPTIONS
 });
 
-app.use(cors(corsOption));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: '/tmp/'
-  })
-);
-
+logging();
+config();
+db();
 app.get('/status', (req, res) => {
   res.status(200).json('API is live');
 });
-app.use('/api/v1', v1Routes);
+routes(app);
+prod(app);
 
 type SocketPaylod = {
   conversationId: string;
@@ -55,11 +43,6 @@ io.on('connection', (socket) => {
   });
 });
 
-const { PORT, URI } = serverConfig;
-mongoose
-  .connect(URI)
-  .then(() =>
-    httpServer.listen(PORT, () =>
-      console.log(`Server started on port ${PORT}...`)
-    )
-  );
+httpServer.listen(PORT, () =>
+  winston.info(`Server started on port ${PORT}...`)
+);

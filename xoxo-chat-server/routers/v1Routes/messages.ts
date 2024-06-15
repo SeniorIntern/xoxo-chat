@@ -56,39 +56,31 @@ router.post('/', async (req, res) => {
     { timestamps: true }
   );
 
-  try {
-    const savedMessage = await newMessage.save();
-    res.status(200).json(savedMessage);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  const savedMessage = await newMessage.save();
+  res.status(200).json(savedMessage);
 });
 
 // all messages in a conversation
 router.get('/:conversationId', async (req, res) => {
-  try {
-    // @ts-ignore
-    const limit = parseInt(req.query.limit) || 10;
+  // @ts-ignore
+  const limit = parseInt(req.query.limit) || 10;
 
-    const messages = await Message.find({
-      conversationId: req.params.conversationId
-    })
-      .sort({ createdAt: -1 })
-      .limit(limit);
+  const messages = await Message.find({
+    conversationId: req.params.conversationId
+  })
+    .sort({ createdAt: -1 })
+    .limit(limit);
 
-    // Count the total number of documents for the given conversationId
-    const totalDocuments = await Message.countDocuments({
-      conversationId: req.params.conversationId
-    });
+  // Count the total number of documents for the given conversationId
+  const totalDocuments = await Message.countDocuments({
+    conversationId: req.params.conversationId
+  });
 
-    res.json({
-      messages,
-      totalPages: Math.ceil(totalDocuments / messages.length),
-      totalDocuments
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  res.json({
+    messages,
+    totalPages: Math.ceil(totalDocuments / messages.length),
+    totalDocuments
+  });
 });
 
 /*

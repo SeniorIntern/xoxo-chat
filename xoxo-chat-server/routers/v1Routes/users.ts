@@ -4,14 +4,13 @@ import express from 'express';
 import _ from 'lodash';
 
 import { serverConfig } from '../../config';
-import { auth } from '../../middlewares';
 import { Conversation, User, Intro } from '../../models';
 
 cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
 
 const router = express.Router();
 
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   // exclude the logged user
   // @ts-ignore
   const decoded = await req.user;
@@ -19,14 +18,14 @@ router.get('/', auth, async (req, res) => {
   res.status(200).send(users);
 });
 
-router.get('/me', auth, async (req, res) => {
+router.get('/me', async (req, res) => {
   // @ts-ignore
   const userId = req.user._id;
   const user = await User.findById(userId).select('-password');
   res.status(200).send(user);
 });
 
-router.get('/myFriends', auth, async (req, res) => {
+router.get('/myFriends', async (req, res) => {
   // @ts-ignore
   const decoded = req.user;
   const userId = decoded._id;
@@ -38,7 +37,7 @@ router.get('/myFriends', auth, async (req, res) => {
   res.status(200).send(friends?.friends);
 });
 
-router.get('/friends/:id', auth, async (req, res) => {
+router.get('/friends/:id', async (req, res) => {
   const userId = req.params.id;
   const friends = await User.findById(userId)
     .select('-_id friends')
@@ -53,6 +52,7 @@ router.get('/:id', async (req, res) => {
   res.status(200).send(user);
 });
 
+// register
 router.post('/', async (req, res) => {
   const { username, email, password } = req.body;
   let user = await User.findOne({ email });
@@ -75,7 +75,7 @@ router.post('/', async (req, res) => {
     .send(_.pick(user, ['_id', 'username', 'email']));
 });
 
-router.patch('/', auth, async (req, res) => {
+router.patch('/', async (req, res) => {
   const { friendId } = req.body;
   if (!friendId) return res.status(400).send('No friend Id provided');
 
@@ -103,18 +103,14 @@ router.patch('/', auth, async (req, res) => {
       members: [userId, friendId]
     });
 
-    try {
-      await newConversation.save();
-      return res.status(200).send(user);
-    } catch (err) {
-      res.status(500).json(err);
-    }
+    await newConversation.save();
+    return res.status(200).send(user);
   }
 
   res.status(400).send('This user is already friend with you');
 });
 
-router.patch('/profileImage', auth, async (req, res) => {
+router.patch('/profileImage', async (req, res) => {
   if (!req.files) {
     return res.status(400).send('No files attached');
   }
@@ -142,7 +138,7 @@ router.patch('/profileImage', auth, async (req, res) => {
     .send(_.pick(user, ['_id', 'username', 'email', 'profileImage']));
 });
 
-router.patch('/coverImage', auth, async (req, res) => {
+router.patch('/coverImage', async (req, res) => {
   if (!req.files) {
     return res.status(400).send('No files attached');
   }
@@ -171,7 +167,7 @@ router.patch('/coverImage', auth, async (req, res) => {
     .send(_.pick(user, ['_id', 'username', 'email', 'coverImage']));
 });
 
-router.patch('/intro', auth, async (req, res) => {
+router.patch('/intro', async (req, res) => {
   // @ts-ignore
   const decoded = req.user;
   const userId = decoded._id;
@@ -196,7 +192,7 @@ router.patch('/intro', auth, async (req, res) => {
     .send(_.pick(user, ['_id', 'username', 'email', 'intro']));
 });
 
-router.patch('/about', auth, async (req, res) => {
+router.patch('/about', async (req, res) => {
   // @ts-ignore
   const decoded = req.user;
   const userId = decoded._id;

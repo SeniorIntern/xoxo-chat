@@ -2,7 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import express from 'express';
 
 import { serverConfig } from '../../config';
-import { auth, checkObjId } from '../../middlewares';
+import { checkObjId } from '../../middlewares';
 import { Comment, Tweet, User } from '../../models';
 
 cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
@@ -10,23 +10,19 @@ cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  try {
-    // @ts-ignore
-    const limit = parseInt(req.query.limit) || 10;
+  // @ts-ignore
+  const limit = parseInt(req.query.limit) || 10;
 
-    const tweets = await Tweet.find().sort({ createdAt: -1 }).limit(limit);
+  const tweets = await Tweet.find().sort({ createdAt: -1 }).limit(limit);
 
-    // Count the total number of documents for the given conversationId
-    const totalDocuments = await Tweet.countDocuments();
+  // Count the total number of documents for the given conversationId
+  const totalDocuments = await Tweet.countDocuments();
 
-    res.json({
-      tweets,
-      totalPages: Math.ceil(totalDocuments / tweets.length),
-      totalDocuments
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  res.json({
+    tweets,
+    totalPages: Math.ceil(totalDocuments / tweets.length),
+    totalDocuments
+  });
 });
 
 router.get('/user/:id', checkObjId, async (req, res) => {
@@ -57,7 +53,7 @@ router.get('/comment/:id', checkObjId, async (req, res) => {
   res.status(200).send(tweets);
 });
 
-router.post('/', auth, async (req, res) => {
+router.post('/', async (req, res) => {
   const attachmentUrls: String[] = [];
 
   if (req.files) {
@@ -107,7 +103,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 // add comment to a tweet
-router.patch('/comment/:id', checkObjId, auth, async (req, res) => {
+router.patch('/comment/:id', checkObjId, async (req, res) => {
   // @ts-ignore
   const decoded = req.user;
   const userId = decoded._id;
@@ -145,7 +141,7 @@ router.patch('/comment/:id', checkObjId, auth, async (req, res) => {
 });
 
 // add like to a tweet
-router.patch('/like/:id', checkObjId, auth, async (req, res) => {
+router.patch('/like/:id', checkObjId, async (req, res) => {
   // @ts-ignore
   const decoded = req.user;
   const userId = decoded._id;
@@ -166,7 +162,7 @@ router.patch('/like/:id', checkObjId, auth, async (req, res) => {
   res.status(200).send(newTweet);
 });
 
-router.delete('/:id', checkObjId, auth, async (req, res) => {
+router.delete('/:id', checkObjId, async (req, res) => {
   const tweetId = req.params.id;
   const tweet = await Tweet.findByIdAndDelete(tweetId);
   res.status(200).send(tweet);

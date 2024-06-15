@@ -2,7 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import express from 'express';
 
 import { serverConfig } from '../../config';
-import { auth, checkObjId } from '../../middlewares';
+import { checkObjId } from '../../middlewares';
 import { Bookmark } from '../../models';
 
 cloudinary.config(serverConfig.CLOUDINARY_CONFIG);
@@ -18,11 +18,11 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const userId = req.params.id;
 
-  const bookmarks = await Bookmark.findOne({ userId }).populate('tweetIds')
+  const bookmarks = await Bookmark.findOne({ userId }).populate('tweetIds');
   res.status(200).send(bookmarks);
 });
 
-router.patch('/:id', checkObjId, auth, async (req, res) => {
+router.patch('/:id', checkObjId, async (req, res) => {
   // @ts-ignore
   const decoded = req.user;
   const userId = decoded._id;
@@ -49,7 +49,7 @@ router.patch('/:id', checkObjId, auth, async (req, res) => {
 });
 
 // delete by bookmark _id
-router.delete('/:id', checkObjId, auth, async (req, res) => {
+router.delete('/:id', checkObjId, async (req, res) => {
   const bookmarkId = req.params.id;
   const bookmark = await Bookmark.findByIdAndDelete(bookmarkId);
   res.status(200).send(bookmark);
