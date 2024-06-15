@@ -15,6 +15,16 @@ type Message = {
   updatedAt: string;
 };
 
+type PaginatedMessage = {
+  messages: Message[];
+  totalPages: number;
+  totalDocuments: number;
+};
+
+type PaginationQuery = {
+  limit: number;
+};
+
 type Payload = {
   _id: string;
   username: string;
@@ -153,6 +163,8 @@ export {
   Member,
   Message,
   MessageRequest,
+  PaginatedMessage,
+  PaginationQuery,
   Payload,
   Player,
   PlayerData,

@@ -67,6 +67,33 @@ router.post('/', async (req, res) => {
 // all messages in a conversation
 router.get('/:conversationId', async (req, res) => {
   try {
+    // @ts-ignore
+    const limit = parseInt(req.query.limit) || 10;
+
+    const messages = await Message.find({
+      conversationId: req.params.conversationId
+    })
+      .sort({ createdAt: -1 })
+      .limit(limit);
+
+    // Count the total number of documents for the given conversationId
+    const totalDocuments = await Message.countDocuments({
+      conversationId: req.params.conversationId
+    });
+
+    res.json({
+      messages,
+      totalPages: Math.ceil(totalDocuments / messages.length),
+      totalDocuments
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+/*
+router.get('/:conversationId', async (req, res) => {
+  try {
     const messages = await Message.find({
       conversationId: req.params.conversationId
     });
@@ -75,5 +102,6 @@ router.get('/:conversationId', async (req, res) => {
     res.status(500).json(err);
   }
 });
+*/
 
 export default router;

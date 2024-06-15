@@ -1,3 +1,4 @@
+import { PaginationQuery } from '@/app/types';
 import apiClient from './apiClient';
 
 class HttpService<T> {
@@ -17,6 +18,16 @@ class HttpService<T> {
 
   getAllWithId = (id: string) => {
     return apiClient.get<T[]>(this.endpoint + '/' + id).then((res) => res.data);
+  };
+
+  getByIdAndQuery = (id: string, query: PaginationQuery) => {
+    return apiClient
+      .get<T[]>(this.endpoint + '/' + id, {
+        params: {
+          limit: query.limit
+        }
+      })
+      .then((res) => res.data);
   };
 
   getById = (id: string) => {

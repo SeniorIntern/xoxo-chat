@@ -1,13 +1,26 @@
-import { Message } from '@/app/types';
-import { CACHE_KEY_MESSAGES } from '@/constants';
-import messageService from '@/services/messageService';
-import { useQuery } from '@tanstack/react-query';
+import { PaginatedMessage } from '@/app/types';
+import { apiClient } from '@/services';
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 
-const useMessages = (id: string) => {
-  return useQuery<Message[], Error>({
-    queryKey: [CACHE_KEY_MESSAGES, id],
-    queryFn: () => messageService.getAllWithId(id),
-    refetchOnMount: 'always'
+const useMessages = (id: string, limit: number) => {
+  return useInfiniteQuery<PaginatedMessage, Error>({
+    queryKey: ['messages', id],
+    queryFn: ({ pageParam }) =>
+      apiClient
+        .get<PaginatedMessage>('/messages/' + id, {
+          params: {
+            limit: typeof pageParam === 'number' ? pageParam : limit
+          }
+        })
+        .then((res) => res.data),
+    refetchOnMount: 'always',
+    placeholderData: keepPreviousData,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.totalPages > 1
+        ? limit * (allPages.length + 1)
+        : undefined;
+    },
+    initialPageParam: limit
   });
 };
 
