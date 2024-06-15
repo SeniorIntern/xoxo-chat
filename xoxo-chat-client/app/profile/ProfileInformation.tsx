@@ -19,7 +19,7 @@ const ProfileInformation = ({ userId, hideDialog = false }: Props) => {
   return (
     <>
       {user && (
-        <section className="flex gap-4 px-6">
+        <section className="flex flex-col gap-4 px-6 lg:flex-row">
           <ProfileIntro user={user} hideDialog={hideDialog} />
           <ProfileAbout user={user} hideDialog={hideDialog} />
         </section>

@@ -17,7 +17,7 @@ const ProfileAbout = ({ user, hideDialog = false }: Props) => {
   console.log('mounted');
 
   return (
-    <div className="w-[58%] space-y-4">
+    <div className="w-full space-y-4 lg:w-[58%]">
       <div className="h-fit space-y-4 rounded-md bg-secondary p-4">
         <div className="flex items-center justify-between">
           <p className="text-xl font-bold">About</p>

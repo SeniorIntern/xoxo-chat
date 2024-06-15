@@ -29,7 +29,7 @@ const TweetCard = ({ tweet }: Props) => {
 
   return (
     <article className="flex p-4">
-      <div className="relative h-10 w-10 hidden lg:block">
+      <div className="relative hidden h-10 w-10 lg:block">
         <Image
           src={tweet.userProfileImage}
           alt="User Profile picture"
