@@ -1,10 +1,14 @@
 import axios from 'axios';
+import { getCookie } from 'cookies-next';
 
-const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+const token = getCookie('session');
 
 const apiClient = axios.create({
-  baseURL: baseURL,
-  withCredentials: true // enable sending cookies with the request
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  withCredentials: true,
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
 });
 
 export default apiClient;

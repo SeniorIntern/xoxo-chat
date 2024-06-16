@@ -1,5 +1,7 @@
 import { ConfigOptions } from 'cloudinary';
+import { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const cloudinaryConfigOptions: ConfigOptions = {
@@ -8,9 +10,17 @@ const cloudinaryConfigOptions: ConfigOptions = {
   api_secret: process.env.API_SECRET
 };
 
-const CORS_OPTIONS = {
-  origin: 'http://localhost:3000', // client's origin
-  credentials: true // allow credentials
+let whitelist = [
+  'http://twit-match-play-client.vercel.app',
+  'https://twit-match-play-client.vercel.app',
+  'http://localhost:3000',
+  'https://localhost:3000'
+];
+
+const CORS_OPTIONS: CorsOptions = {
+  origin: whitelist,
+  optionsSuccessStatus: 200,
+  credentials: true
 };
 
 export = {
