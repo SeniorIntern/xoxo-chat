@@ -48,7 +48,7 @@ export default function Page() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: 'nik@gmail.com',
-      password: 'Nikhil123'
+      password: 'nikhil123'
     }
   });
 
